@@ -1,0 +1,15 @@
+{
+	"description": "A Banking business into parts distribution system",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wx32c2321c734ac81f",
+	"projectname": "bankshopsys",
+	"miniprogramRoot": "./dist",
+	"condition": {}
+}
