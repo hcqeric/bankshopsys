@@ -13,4 +13,13 @@ dist
 #ignore-file
 package-lock.json
 
+# idea ignore
+.idea/
+*.ipr
+*.iml
+*.iws
+.idea/workspace.xml
+
+*.wepycache
+
 

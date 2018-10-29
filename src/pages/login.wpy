@@ -1,0 +1,121 @@
+<style lang="less">
+  .m-page{
+    .page-logo{
+      padding: 80rpx 0;
+      image{
+        width: 240rpx;
+        height: 240rpx;
+      }
+    }
+    .login-info{
+      padding: 16rpx;
+      .info-item{
+        padding: 16rpx 0;
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        span{
+          height: 50rpx;
+          width: 50rpx;
+          padding: 20rpx;
+        }
+        .mobile{
+          background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAmCAYAAABDClKtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjM1NDhDOUYxRDFFMTExRTg5MjRDOTMwMTEzNTZEM0QzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjM1NDhDOUYyRDFFMTExRTg5MjRDOTMwMTEzNTZEM0QzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzU0OEM5RUZEMUUxMTFFODkyNEM5MzAxMTM1NkQzRDMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzU0OEM5RjBEMUUxMTFFODkyNEM5MzAxMTM1NkQzRDMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4oy5MnAAADUUlEQVR42sSYW0hUURSGZ6YLZfeCrIwQpCgtCoakoOhmREUXiigcQV+CKARnaFK6kNEFnExfynqqLH0YiIqiK/SQBb3UQzpZUhCRdL+p4ZM1/Sv+Awubmc5tnAUfs8+Zffb+z95r77X28QbD1R6bNgisAZtBIZgChoN3oBXcAk3gZ6pG6iIH/7nnsyloFXgOroFSMAuMAUNBLlgPToNOUGG1H6uivOAwuA2mq/svOTJXwGPwm/dFaD3rj0qXqCNgP8tx0Ahmghmcyk1gPshmvW7WXQnucCRdFbUO7GW5h9dloCNB3S/gKJjHaRZbCE64KUre8CTLMjVbwA0Tz70GK+j8YjvBHLdEyQqbxvIpToVZew92qP5CbonapkbpmI3Veh08VS84xA1Ri/j7CHywuY1c5q+swnynorLAeJafeexbuyrnOhU1QpW7HYjqStKmLVHfVTnbgahJqvzVqag+tRctdiBKP/vCDUe/p3zBjrCR3O2NkPTGDVFnVTnCDMGKSSSYkKAtR6KeqB18AYOsWdsIKlX4OeNm7NsFvrFczlxp7H/alrTlkupnO/jhpijxgw2gl9cB8IqZQyH3sizmVuXcwevVVFeBq2Y6GmzRNx4yDRHHH0Y/2UeSWS9H+Xw68qm54By4S0FWbImZ7MDKSE0FtWBrko1V9pxP9BXxsYlM/MapMFVGoiAM3joRVQIa+qWy7cw4b4JYirS5gNloqQrA8mKrOZ1NVqfPRye9qAS1spPZ3KtiKV4mzv8jrL+Wz4uNZrt1FG9KlJcPVagwIyvHz8NB3KI/xTmqfi6IX7wfBBdCew55zYgS/ylWkV3S2RqKc2J9TBCXq2yjhP2lFBVQ6WoX41yLx11rYdJopDIhjFZxMlE5zL+Nt5LTSpsnPdbGjdiYygYIy0kkqpaHR7ED4IEnvXaf/RiH1pr+ovLV4aA10TynyY6rVRnAaBVoUbtVxUoXnNqK81ep6+Df5R8MV0u+/JF5c8xKOHDJvPSxAn6hyZaRKlKJfOMAC5JPQXHVr2SoRSJqWb9DYyZM97vUx53WwynsyIQijJYE9c+89IuoPDMnjAEw4+tMnk+dxzozLMrof7JPReqeDIsyvo36RFQz5zOaYVFRnnaa/wgwAOcttTfLf4xJAAAAAElFTkSuQmCC') no-repeat center center;
+          background-size: auto 50rpx;
+        }
+        .pwd{
+          background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAAoCAYAAABjPNNTAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjgxOEYyQzk5RDFFMTExRTg4MDA4RUUxNUFBOTdCNkRGIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjgxOEYyQzlBRDFFMTExRTg4MDA4RUUxNUFBOTdCNkRGIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6ODE4RjJDOTdEMUUxMTFFODgwMDhFRTE1QUE5N0I2REYiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6ODE4RjJDOThEMUUxMTFFODgwMDhFRTE1QUE5N0I2REYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4qR9i+AAABzklEQVR42uyYPUvDQBjHL22QNqIOzhbFxUURQUx9G/Q7OPgRfBkcHAXxGyjqJxBx6ujq4KJSoYKKiwouWsniC6KVGv8HT+AQae+Si95wD/y4DHme/JJenrvGWVpeZYoxC7ZBBjgKeSH4AnNgV+WCLlOPKdDB4sd02pL8yRXpeBEcKN7cBvCpTpiWZA/oowvsgUAh9xGsUz6vcyObmFGUHKOcc/CsmPtEeTx/XCVRVdKn8RDUFHNrlMdjJE3JYRrLMV+a8o862iW7QD8dn8WUjPJ4nUIakgMgB27BZUzJC8rPCTesVXKIxlPwHlPyg/LFetokeV8bpeNjliyOaCzKrliyklkwQf2xlFCyRHUmZfu0S8012+S8QdBKvbET5BNIRnX40joDKk3Or7v0xrVIXqAdnDB9sSPTX7nkJ0m+0S6l0Q6GSTx1magL081pMBU97ifOCT7nrpk50Rt1AlGySuurKVH97e32mFnhxV27/yWspKmS3WATrJkuOQ9WTJaMdkd3dk5aSStpJf9eMkdjQWdRV7PkFVgAryZLPoAtOyetpCbJwDC3QHxxos/Cvu7dS8KI2ljoCl8j9g39tfNc8h60afrTrzv4R4SXbwEGAAdjTkRvNSngAAAAAElFTkSuQmCC') no-repeat center center;
+          background-size: auto 50rpx;
+        }
+        input{
+          flex: 1;
+        }
+        p{
+          color: #4a93db;
+          padding-right: 16rpx;
+        }
+        &:after{
+          position: absolute;
+          height: 1px;
+          width: 100%;
+          bottom: 0;
+          left: 0;
+          content: '';
+          background: #eee;
+        }
+      }
+    }
+    .forget-pass{
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 40rpx;
+      span{
+        color: #4a93db;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="m-page">
+      <view class="page-logo tc">
+        <image src="../images/logo.png"></image>
+      </view>
+      <view class="login-info">
+        <view class="info-item">
+          <span class="mobile"></span><input type="number" placeholder="手机号码" maxlength="11" />
+        </view>
+        <view class="info-item">
+          <span class="pwd"></span><input type="number" placeholder="请输入验证码" maxlength="6" /><p>获取验证码</p>
+        </view>
+      </view>
+      <view class="confirm-btn">
+        <button>登录</button>
+      </view>
+      <view class="forget-pass">
+        <span  @tap="toReg">用户注册</span>
+      </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class Login extends wepy.page {
+    config = {
+      navigationBarTitleText: '登录'
+    }
+
+    data = {
+      files: []
+    }
+
+    methods = {
+      toReg(){
+        wepy.navigateTo({
+          url: 'register'
+        })
+      },
+      chooseImage: function (e) {
+        var that = this;
+        console.log(wepy)
+        wepy.chooseImage({
+          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
+        }).then(res => {
+          console.log(res)
+          // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+          this.files = that.data.files.concat(res.tempFilePaths)
+          console.log(this.files)
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+      previewImage: function(e){
+        wepy.previewImage({
+          current: e.currentTarget.id, // 当前显示图片的http链接
+          urls: this.data.files // 需要预览的图片http链接列表
+        })
+      }
+    }
+  }
+</script>

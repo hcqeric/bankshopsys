@@ -6,8 +6,8 @@
   }
 
   .userinfo-avatar {
-    width: 80rpx;
-    height: 80rpx;
+    width: ~'80rpx';
+    height: ~'80rpx';
     border-radius: 50%;
   }
 
@@ -92,7 +92,8 @@
 
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: 'test'
+      navigationBarTitleText: 'test',
+      navigationBarBackgroundColor: 'black'
     }
     components = {
       panel: Panel,

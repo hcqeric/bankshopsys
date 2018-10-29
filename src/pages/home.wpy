@@ -1,0 +1,211 @@
+<style lang="less">
+  .home-container{
+    background: #f7f7f7;
+    min-height: 100vh;
+    swiper{
+      height: 320rpx;
+    }
+  }
+  .slide-image{
+    width: 750rpx;
+    height: 320rpx;
+  }
+  .msg-tips{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100rpx;
+    padding: 0 20rpx;
+    background: #fefcec;
+    .msg-tip-info{
+      display: flex;
+      align-items: center;
+      text{
+        font-size: 16px;
+        margin-left: 10rpx;
+      }
+    }
+    image{
+      height: 30rpx;
+      width: 30rpx;
+    }
+  }
+  .today-bonus{
+    display: flex;
+    background: #fff;
+    padding: 30rpx 0;
+    align-items: center;
+    justify-content: center;
+    .today-figure{
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      view{
+        display: flex;
+        flex-direction: column;
+        font-size: 24rpx;
+        text{
+          padding: 4rpx 0;
+        }
+        .amount{
+          font-size: 56rpx;
+          color: #fe5e48;
+        }
+      }
+    }
+    .today-figure:first-of-type{
+      border-right: 1px solid #e1e1e1;
+    }
+  }
+  .home-func-blocks{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10rpx 20rpx;
+    width: 100vw;
+    .func-block{
+      box-sizing: border-box;
+      padding: 20rpx 10rpx 10rpx 10rpx;
+      width: 50%;
+      view{
+        box-sizing: border-box;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 30rpx;
+        padding: 30rpx 0;
+        border-radius: 20rpx;
+        image{
+          width: 130rpx;
+          height: 130rpx;
+        }
+        text{
+          margin-top: 16rpx;
+          color: #333;
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="home-container">
+    <swiper indicator-dots="{{indicatorDots}}"
+            autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="#fff" circular="true">
+      <block wx:for="{{imgUrls}}" wx:key="$index">
+        <swiper-item>
+          <image src="{{item}}" class="slide-image"/>
+        </swiper-item>
+      </block>
+    </swiper>
+    <!--<view class="msg-tips">-->
+      <!--<view class="msg-tip-info">-->
+        <!--<icon type="waiting" size="30"></icon>-->
+        <!--<text>你有新的消息你有新的消息</text>-->
+      <!--</view>-->
+      <!--<image src="../images/arrow-right.png"></image>-->
+    <!--</view>-->
+    <view class="today-bonus">
+      <view class="today-figure">
+        <view>
+        <text>今日交易金额(元)</text>
+        <text class="amount">10000.00</text>
+        </view>
+      </view>
+      <view class="today-figure">
+        <view>
+        <text>今日分润金额(元)</text>
+        <text class="amount">13.00</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="home-func-blocks">
+      <view class="func-block">
+        <view @tap="toDetail(1)">
+          <image src="../images/recmd-ins.png"></image>
+          <text>推荐装机</text>
+        </view>
+      </view>
+      <view class="func-block">
+        <view>
+          <image src="../images/merc-mgr.png"></image>
+          <text>商户管理</text>
+        </view>
+      </view>
+      <view class="func-block">
+        <view>
+          <image src="../images/personal-qrcode.png"></image>
+        <text>专属二维码</text>
+        </view>
+      </view>
+      <view class="func-block">
+        <view @tap="toDetail(4)">
+          <image src="../images/other-services.png"></image>
+        <text>其他服务</text>
+        </view>
+      </view>
+    </view>
+
+    <!--<button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">快捷登录</button>-->
+    <!--<button open-type="getUserInfo" @getuserinfo="getUserInfo">获取用户信息</button>-->
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class Home extends wepy.page {
+    config = {
+      navigationBarTitleText: '首页'
+    }
+
+    data = {
+      imgUrls: [
+        'http://120.79.17.7:85/china_ums/u32.jpg',
+        'http://120.79.17.7:85/china_ums/u251.jpg',
+        'http://120.79.17.7:85/china_ums/u253.jpg'
+      ],
+      indicatorDots: true,
+      autoplay: false,
+      interval: 5000,
+      duration: 1000,
+      userInfo:{}
+    }
+    methods ={
+      async getPhoneNumber (e) {
+        console.log(e.detail.errMsg)
+        console.log(e.detail.iv)
+        console.log(e.detail.encryptedData)
+        let res = await wepy.login()
+        console.log(res)
+        this.userInfo = await wepy.getUserInfo();
+        console.log(this.userInfo)
+      },
+      getUserInfo(res){
+        console.log(res)
+      },
+      toDetail(id){
+        if (id == 1) {
+          wepy.navigateTo({
+            url: 'recommendins'
+          })
+        }
+      }
+    }
+
+    onShow(){
+      console.log("TOUTER")
+      console.log(this)
+      console.log("TOUTER")
+    }
+    async onLoad() {
+      let res = await wepy.login()
+      console.log("AAAAAAA")
+      console.log(res)
+      console.log("AAAAAAA")
+      // this.userInfo = await wepy.getUserInfo();
+      // console.log(this.userInfo)
+    }
+  }
+</script>

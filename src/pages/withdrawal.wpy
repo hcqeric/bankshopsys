@@ -1,0 +1,122 @@
+<style lang="less">
+  .mm-page{
+    .withdrawal{
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      padding: 16rpx 32rpx;
+      .withdrawal-account{
+        display: flex;
+        flex-direction: column;
+        padding: 0 32rpx;
+        justify-content: center;
+        height: 215rpx;
+        background: url("http://120.79.17.7:85/china_ums/withdrawal-bg.png") no-repeat center center;
+        background-size: cover;
+        color: #fff;
+        text{
+          &:last-of-type{
+            font-size: 46rpx;
+          }
+        }
+      }
+      .withdrawal-amount-content{
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30rpx 0 16rpx;
+        .withdrawal-amount{
+          display: flex;
+          flex-direction: column;
+
+          .input-amount{
+            display: flex;
+            flex-direction: row;
+            margin-top: 16rpx;
+            align-items: center;
+            text{
+              font-size: 48rpx;
+            }
+            input{
+              font-size: 50rpx;
+              width: 440rpx;
+            }
+          }
+        }
+        .all-withdrawal{
+
+          color: red;
+        }
+        &:after{
+          position: absolute;
+          height: 1px;
+          width: 100%;
+          bottom: 0;
+          left: 0;
+          content: '';
+          background: #999;
+        }
+      }
+      .withdrawal-amount-total{
+        padding-top: 16rpx;
+        text{
+          color: #666;
+        }
+      }
+    }
+    .withdrawal-intro{
+      margin-top: 16rpx;
+      padding:0 32rpx ;
+      color: #666;
+      text-indent: 48rpx;
+    }
+  }
+</style>
+<template>
+  <view class="mm-page">
+    <view class="withdrawal">
+      <view class="withdrawal-account">
+        <text>结算账号：</text>
+        <text>621************2717</text>
+      </view>
+      <view class="withdrawal-amount-content">
+        <view class="withdrawal-amount">
+          <text>提现金额(元)：</text>
+          <view class="input-amount">
+            <text>￥</text>
+            <input type="number" placeholder="请输入金额" placeholder-style="font-size: 40rpx"/>
+          </view>
+        </view>
+        <text class="all-withdrawal">全部提现</text>
+      </view>
+      <view class="withdrawal-amount-total">
+        <text>可提现金额：￥6000</text>
+      </view>
+    </view>
+    <view class="withdrawal-intro">
+    <text class="str">说明：单笔提现最低100元/笔(含100元)，最高限2万/笔。服务费：2元/笔。</text>
+    </view>
+    <view class="confirm-btn">
+      <button @tap="withdrawalNow">立即提现</button>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class Withdrawal extends wepy.page {
+    config = {
+      navigationBarTitleText: '我要提现'
+    }
+
+    methods={
+      withdrawalNow(){
+        wepy.navigateTo({
+          url: 'withdrawalsucc'
+        })
+      }
+    }
+  }
+</script>

@@ -1,0 +1,214 @@
+<style lang="less">
+  //头部
+  .earning-header{
+    height: 326rpx;
+    box-sizing: border-box;
+    background: url("http://120.79.17.7:85/china_ums/earning-bg.png") no-repeat center center;
+    background-size: cover;
+    .today-bonus{
+      display: flex;
+      /*padding: 30rpx 0;*/
+      padding: 10rpx 0 0rpx;
+      align-items: center;
+      justify-content: center;
+      .today-figure{
+        position: relative;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        view{
+          display: flex;
+          flex-direction: column;
+          font-size: 24rpx;
+          color: #fff;
+          text{
+            padding: 4rpx 0;
+          }
+          .amount{
+            font-size: 56rpx;
+          }
+        }
+      }
+      .today-figure:first-of-type:after{
+        /*border-right: 1px solid #7fd6ff;*/
+        position: absolute;
+        width: 1rpx;
+        background: #7fd6ff;
+        content: '';
+        top: 20rpx;
+        bottom: 20rpx;
+        right: 0;
+
+      }
+    }
+  }
+  //内容区
+  .earnings-content{
+
+    background: #fff;
+    padding:0 16rpx;
+    .earnings-item{
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8rpx 0;
+      .earnings-info{
+        display: flex;
+        flex-direction: column;
+        text{
+          font-size: 26rpx;
+          color: #333;
+        }
+        .earnings-amount{
+          font-size: 36rpx;
+          color: #fe5e48;
+        }
+      }
+      image{
+        width: 30rpx;
+        height: 30rpx;
+      }
+      &:after{
+        position: absolute;
+        height: 1px;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        content: '';
+        background: #eee;
+      }
+    }
+
+  }
+  //底部
+  .earnings-account{
+    /*padding: 0 32rpx;*/
+    /*margin-top: 8rpx;*/
+    .earnings-total{
+      position: relative;
+      height: 255rpx;
+      background: url("http://120.79.17.7:85/china_ums/earning-record-bg.png") no-repeat center center;
+      background-size: cover;
+      .earnings-total-amount{
+        padding: 16rpx;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text{
+          font-size: 26rpx;
+        }
+        .ftb{
+          font-size: 38rpx;
+        }
+      }
+      .earnings-record{
+        position: absolute;
+        top: 8rpx;
+        padding: 8rpx;
+        right: 32rpx;
+        background: #fe5e48;
+        color: #fff;
+        border-radius: 0 0 16rpx 16rpx;
+      }
+    }
+  }
+
+  .confirm-btn{
+    margin-top: 20rpx;
+    padding: 0 16rpx 20rpx;
+  }
+</style>
+<template>
+<view class="mm-page">
+  <view class="earning-header">
+    <view class="today-bonus">
+      <view class="today-figure">
+        <view>
+          <text>总收益(元)</text>
+          <text class="amount">10000.00</text>
+        </view>
+      </view>
+      <view class="today-figure">
+        <view>
+          <text>昨日收益(元)</text>
+          <text class="amount">13.00</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="earnings-content">
+    <view class="earnings-item">
+      <view class="earnings-info">
+        <text>pocs收款收益</text>
+        <text class="earnings-amount">3000.00</text>
+      </view>
+      <image src="../images/arrow-right.png"></image>
+    </view>
+    <view class="earnings-item">
+      <view class="earnings-info">
+        <text>扫码收款收益</text>
+        <text class="earnings-amount">3000.00</text>
+      </view>
+      <image src="../images/arrow-right.png"></image>
+    </view>
+    <view class="earnings-item">
+      <view class="earnings-info">
+        <text>信用卡推荐收益</text>
+        <text class="earnings-amount">3000.00</text>
+      </view>
+      <image src="../images/arrow-right.png"></image>
+    </view>
+    <view class="earnings-item">
+      <view class="earnings-info">
+        <text>贷款推荐收益</text>
+        <text class="earnings-amount">3000.00</text>
+      </view>
+      <image src="../images/arrow-right.png"></image>
+    </view>
+  </view>
+
+  <view class="earnings-account">
+    <view class="earnings-total">
+      <view class="earnings-total-amount">
+        <text>账户总金额：</text>
+        <text class="ftb">10000.00</text>
+      </view>
+      <view class="earnings-record">
+        <text>提现记录</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="confirm-btn">
+    <button @tap="toWithdrawal">我要提现</button>
+  </view>
+</view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class Earnings extends wepy.page {
+    config = {
+      navigationBarTitleText: '收益',
+      navigationBarBackgroundColor: "#1bb6ff",
+      navigationBarTextStyle: "white"
+    };
+
+    methods = {
+      toWithdrawal() {
+        wepy.navigateTo({
+          url: 'withdrawal'
+        })
+      }
+    };
+
+    onLoad() {
+      // getUserInfo({
+      //   userId: "1040518988993433601"
+      // }).then(response=>{
+      //   console.log(response)
+      // })
+    }
+  }
+</script>

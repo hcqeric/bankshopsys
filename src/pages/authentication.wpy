@@ -1,0 +1,45 @@
+<style lang="less">
+  .mm-page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    image {
+      width: 60rpx;
+      height: 60rpx;
+    }
+  }
+</style>
+<template>
+  <view class="mm-page">
+    <view>银商</view>
+    <image src="../images/loadding.gif"></image>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class Authentication extends wepy.page {
+
+      config = {
+        // navigationBarTitleText: '银商小程序'
+      }
+
+      data = {
+
+      }
+
+      onLoad(){
+
+        console.log(this.$parent.globalData.login)
+        if (this.$parent.globalData.login) {
+          wepy.switchTab({
+            url: 'home'
+          })
+        }else{
+          wepy.redirectTo({
+            url: 'login'
+          })
+        }
+      }
+  }
+</script>

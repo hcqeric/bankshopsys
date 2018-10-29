@@ -1,0 +1,123 @@
+<style lang="less">
+  .mm-page{
+    box-sizing: border-box;
+    padding-top: 16rpx;
+    display: flex;
+    .changecard-info{
+      width: 100vw;
+    }
+  }
+</style>
+<template>
+  <view class="mm-page">
+  <view class="changecard-info">
+    <view class="change-info-item">
+      <view class="change-info-item-label">
+        <i>*</i><text>商户名称</text>
+      </view>
+      <view class="change-info-input">
+        <input type="text" placeholder="请输入商户名称" />
+      </view>
+    </view>
+    <view class="change-info-item">
+      <view class="change-info-item-label">
+        <i>*</i><text>商户地址</text>
+      </view>
+      <view class="change-info-input">
+        <input @tap="openAddressPicker" type="text" placeholder="请选择商户地址" disabled="true" value="{{fullArea}}" />
+        <image src="../images/arrow-down.png"></image>
+        <areaPicker @areaArray.user="areaPickerArray"></areaPicker>
+      </view>
+    </view>
+    <view class="change-info-item">
+      <view class="change-info-item-label">
+        <i>*</i><text>联系人</text>
+      </view>
+      <view class="change-info-input">
+        <input type="text" placeholder="请输入银行卡号" />
+      </view>
+    </view>
+    <view class="change-info-item">
+      <view class="change-info-item-label">
+        <i>*</i><text>联系电话</text>
+      </view>
+      <view class="change-info-input">
+        <input type="text" placeholder="请输入联系电话" />
+      </view>
+    </view>
+    <view class="change-info-item">
+    <view class="change-info-item-label">
+      <i>*</i><text>手续费</text>
+    </view>
+    <view class="change-info-input">
+      <input type="text" placeholder="请输入商户费率" />
+    </view>
+  </view>
+    <view class="change-info-item">
+      <view class="change-info-item-label">
+        <i class="na"></i><text>所属团队</text>
+      </view>
+      <view class="change-info-input">
+        <input type="text" placeholder="请选择所属团队" disabled="true" />
+        <image src="../images/arrow-down.png"></image>
+      </view>
+    </view>
+    <view class="change-info-item">
+      <view class="change-info-item-label">
+        <i class="na"></i><text>客户经理</text>
+      </view>
+      <view class="change-info-input">
+        <input type="text" placeholder="请选择客户经理" disabled="true" />
+        <image src="../images/arrow-down.png"></image>
+      </view>
+    </view>
+    <view class="confirm-btn">
+      <button @tap="submitInfo">提交</button>
+    </view>
+  </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import AreaPicker from "../components/common/wepy-area-picker";
+  export default class QuickRec extends wepy.page {
+    config = {
+      navigationBarTitleText: '快速推荐'
+    }
+
+    data={
+      province: '',
+      city: '',
+      area: '',
+      provinceCode: '',
+      cityCode: '',
+      areaCode: '',
+      fullArea: '',
+    }
+
+    components = {
+      areaPicker: AreaPicker
+    }
+
+    methods={
+      areaPickerArray(province, city, area) {
+        this.province = province;
+        this.city = city;
+        this.area = area;
+        this.provinceCode = province.areaCode;
+        this.cityCode = city.areaCode;
+        this.areaCode = area.areaCode;
+        this.fullArea = this.province.name + this.city.name + this.area.name
+        this.$apply();
+      },
+      openAddressPicker() {
+        this.$invoke('areaPicker', 'openAddressPicker');
+      },
+      submitInfo(){
+        wepy.navigateTo({
+          url: 'merchantmtlsucc'
+        })
+      }
+    }
+  }
+</script>

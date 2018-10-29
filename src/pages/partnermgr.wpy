@@ -1,0 +1,60 @@
+<style lang="less">
+  .mm-page{
+    box-sizing: border-box;
+    padding-top: 16rpx;
+    display: flex;
+    .changecard-info{
+      width: 100vw;
+    }
+  }
+</style>
+<template>
+  <view class="mm-page">
+    <view class="changecard-info">
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>合伙人数量</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入当前合伙人数量" />
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>商户数量</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入当前商户数量" />
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>月交易量</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入当前月总交易量"  />
+        </view>
+      </view>
+      <view class="confirm-btn">
+        <button @tap="submitInfo">提交</button>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class PartnerMgr extends wepy.page {
+    config = {
+      navigationBarTitleText: '合伙人管理员申请'
+    }
+
+    methods={
+      submitInfo(){
+        wepy.navigateTo({
+          url: 'partnermgrsucc'
+        })
+      }
+    }
+  }
+</script>

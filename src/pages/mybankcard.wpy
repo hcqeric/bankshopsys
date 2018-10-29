@@ -1,0 +1,96 @@
+<style lang="less">
+  .m-page{
+    .bankcardlist{
+      padding: 16rpx;
+      .bankcard-item{
+        height: 208rpx;
+        box-sizing: border-box;
+        margin-top: 16rpx;
+        padding: 30rpx;
+        background: url("http://120.79.17.7:85/china_ums/bank-bg1.png") no-repeat center center;
+        background-size: cover;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .bank-info{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          image{
+            width: 64rpx;
+            height: 64rpx;
+            margin-right: 16rpx;
+          }
+          text{
+            color: #fff;
+            font-size: 30rpx;
+          }
+        }
+        text{
+          font-size: 46rpx;
+        }
+      }
+      .bankcard-item.bg-yel{
+        background: url("http://120.79.17.7:85/china_ums/bank-bg2.png") no-repeat center center;
+        background-size: cover;
+      }
+      .bankcard-item.bg-blue{
+        background: url("http://120.79.17.7:85/china_ums/bank-bg3.png") no-repeat center center;
+        background-size: cover;
+      }
+    }
+    .bankcard-intro{
+      display: flex;
+      flex-direction: column;
+      padding: 16rpx;
+      p{
+        i{
+          color: red;
+          margin-right: 8rpx;
+        }
+        &:first-of-type{
+          font-weight: bold;
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="m-page">
+    <view class="bankcardlist">
+      <view class="bankcard-item bg-blue">
+        <view class="bank-info">
+          <image src="../images/bankcard-logo.png"></image>
+          <text>中国建设银行</text>
+        </view>
+        <text>621************2717</text>
+      </view>
+    </view>
+    <view class="bankcard-intro">
+       <p><i>*</i>说明</p>
+        <p>1.商户收款结算到账银行卡，请绑定本人持卡的储蓄卡，若非本人储蓄卡或卡号错误，无法结算到账；</p>
+        <p>2.为确保资金安全，商户仅能绑定一张结算卡；</p>
+        <p>3.若绑定结算卡有问题请联系客服，更换结算卡时，会扣除之前结算失败的手续费后再结算到账，请谨慎操作。</p>
+    </view>
+    <view class="confirm-btn">
+      <button @tap="changeBankCard">更换结算银行卡</button>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class MyBankCard extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的银行卡'
+    }
+    methods = {
+      changeBankCard(){
+        wepy.navigateTo({
+          url: 'changebankcard'
+        })
+      }
+    }
+  }
+</script>

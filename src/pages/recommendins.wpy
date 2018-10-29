@@ -1,0 +1,82 @@
+<style lang="less">
+  .mm-page{
+    display: flex;
+    flex-direction: column;
+    .rec-quick{
+      margin-top: 16rpx;
+      flex: 1;
+      background: #fff;
+      .rec-quick-item{
+        margin-top: 16rpx;
+        height: 314rpx;
+        display: flex;
+
+        .quick-item-intro{
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          text{
+            color: #fff;
+            &:first-child{
+              font-size: 50rpx;
+            }
+          }
+        }
+      }
+      .item-rec{
+        background: url("http://120.79.17.7:85/china_ums/quick-rec.png");
+        background-size: cover;
+      }
+      .item-ent{
+        background: url("http://120.79.17.7:85/china_ums/quick-ent.png");
+        background-size: cover;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="mm-page">
+    <view class="rec-quick">
+      <view class="rec-quick-item item-rec" @tap="quickRec">
+        <view class="quick-item-intro"></view>
+        <view class="quick-item-intro">
+          <text>快速推荐</text>
+          <text>快速推荐分润规则</text>
+        </view>
+      </view>
+      <view class="rec-quick-item item-ent" @tap="quickEnt">
+        <view class="quick-item-intro"></view>
+        <view class="quick-item-intro">
+          <text>快速入网</text>
+          <text>快速入网分润规则</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class RecommendIns extends wepy.page {
+    config = {
+      navigationBarTitleText: '推荐方式'
+    }
+
+    methods={
+      quickRec(){
+        wepy.navigateTo({
+          url: 'quickrec'
+        })
+      },
+      quickEnt(){
+        wepy.showToast({
+          title: '这里是快速入网',
+          icon: 'none',
+          duration: 1500
+        })
+      }
+    }
+  }
+</script>

@@ -1,0 +1,245 @@
+//颜色定义
+@main-bg: #f7f7f7;
+@wbg: #fff;
+@primary: #4a93db;
+@fontBlod: #fe5e48;
+
+//长度定义
+@w100: 100vw;
+@h100: 100vh;
+
+//字体定义
+.font(@fontsize: 24rpx){
+  font-size: @fontsize;
+}
+
+.mt8{
+  margin-top: 8rpx;
+}
+
+.mt16{
+  margin-top: 16rpx;
+}
+
+.pd16{
+  padding: 30rpx;
+}
+
+.pd16ud{
+  padding: 16rpx 0;
+}
+
+.pd16lr{
+  padding: 0 16rpx;
+}
+
+.pd8{
+  padding: 8rpx;
+}
+
+.pd8ud{
+  padding: 8rpx 0;
+}
+
+.pd8lr{
+  padding: 0 8rpx;
+}
+
+.m-container{
+  width: @w100;
+  height: @h100;
+  background: @main-bg;
+}
+
+.m-page{
+  width: @w100;
+  min-height: @h100;
+  background: @wbg;
+}
+
+.mm-page{
+  width: @w100;
+  min-height: @h100;
+  background: @main-bg;
+}
+
+.arrow{
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.ftb{
+  color: @fontBlod;
+}
+
+.tc {
+  text-align: center;
+}
+
+.tl {
+  text-align: left;
+}
+
+.tr {
+  text-align: right;
+}
+
+.c666 {
+  color: #666;
+}
+
+.c333 {
+  color: #333;
+}
+
+.c000 {
+  color: #000;
+}
+
+.c999 {
+  color: #999;
+}
+
+.cfff {
+  color: #ffffff;
+}
+
+.fz24 {
+  font-size: 24rpx;
+}
+
+.fz25 {
+  font-size: 25rpx;
+}
+
+.fz26 {
+  font-size: 26rpx;
+}
+
+.fz27 {
+  font-size: 27rpx;
+}
+
+.fz28 {
+  font-size: 28rpx;
+}
+
+.fz29 {
+  font-size: 29rpx;
+}
+
+.fz30 {
+  font-size: 30rpx;
+}
+
+.fz31 {
+  font-size: 31rpx;
+}
+
+.fz32 {
+  font-size: 32rpx;
+}
+
+view {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.confirm-btn{
+  margin-top: 40rpx;
+  padding: 40rpx;
+  button{
+    background: @primary;
+    color: #fff;
+  }
+}
+
+.success-card{
+  margin-top: 100rpx;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  align-items: center;
+  image{
+    width: 379rpx;
+    //height: 307rpx;
+  }
+  text{
+    margin-top: 32rpx;
+    font-size: 46rpx;
+    &:last-of-type{
+      color: red;
+      font-size: 32rpx;
+    }
+  }
+}
+
+
+.changecard-info{
+  margin-top: 16rpx;
+  background: #fff;
+  padding: 0 16rpx 32rpx;
+  .change-info-item{
+    display: flex;
+    flex-direction: column;
+    padding: 8rpx 0;
+    .change-info-item-label{
+      display: flex;
+      flex-direction: row;
+      i{
+        color: red;
+        margin-right: 16rpx;
+      }
+      .na{
+        width: 16rpx;
+      }
+    }
+    .change-info-input{
+      margin-top: 8rpx;
+      position: relative;
+      input{
+        padding: 16rpx;
+        border-radius: 16rpx;
+        border: 1rpx solid #999;
+      }
+      .no-border{
+        border: none;
+      }
+      image{
+        position: absolute;
+        width: 36rpx;
+        height: 36rpx;
+        /*display: block;*/
+        top: 26rpx;
+        right: 16rpx;
+        /*height: 88rpx;*/
+        /*line-height: 88rpx;*/
+        /*background: #4a93db;*/
+        /*padding: 0 16rpx;*/
+        /*border-radius: 16rpx;*/
+        /*color: #fff;*/
+      }
+      .vericode-btn{
+        position: absolute;
+        display: block;
+        top: 0;
+        right: 0;
+        height: 88rpx;
+        line-height: 88rpx;
+        background: #4a93db;
+        padding: 0 16rpx;
+        border-radius: 16rpx;
+        color: #fff;
+      }
+    }
+  }
+  &:first-of-type{
+    margin-top: 0;
+  }
+  .confirm-btn{
+    padding: 0;
+  }
+}
+
+
+

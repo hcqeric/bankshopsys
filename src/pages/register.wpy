@@ -1,0 +1,223 @@
+<style lang="less">
+  .mm-page{
+    box-sizing: border-box;
+    padding-top: 16rpx;
+    display: flex;
+    .reg-content{
+      background: #fff;
+      width: 100vw;
+      padding: 0 16rpx 32rpx;
+      .reg-item{
+        display: flex;
+        flex-direction: column;
+        padding: 8rpx 0;
+        .reg-item-label{
+          display: flex;
+          flex-direction: row;
+          i{
+            color: red;
+            margin-right: 16rpx;
+          }
+          .na{
+            width: 16rpx;
+
+          }
+        }
+
+        .reg-input{
+          margin-top: 8rpx;
+          position: relative;
+          display: flex;
+          input{
+            padding: 16rpx;
+            border-radius: 16rpx;
+            border: 1rpx solid #999;
+            flex: 1;
+          }
+          text{
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0;
+            height: 88rpx;
+            line-height: 88rpx;
+            background: #4a93db;
+            padding: 0 16rpx;
+            border-radius: 16rpx;
+            color: #fff;
+            z-index: 10;
+          }
+          button{
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0;
+            height: 88rpx;
+            line-height: 88rpx;
+            background: #4a93db;
+            padding: 0 16rpx;
+            border-radius: 16rpx;
+            color: #fff;
+            z-index: 10;
+          }
+        }
+      }
+      .reg-check{
+        .weui-cell{
+          padding: 10px 0;
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="mm-page">
+    <view class="reg-content">
+      <view class="reg-item">
+        <view class="reg-item-label">
+          <i>*</i><text>用户姓名</text>
+        </view>
+        <view class="reg-input">
+          <input type="text" placeholder="请输入您的姓名" @input="nameInput" />
+        </view>
+      </view>
+      <view class="reg-item">
+        <view class="reg-item-label">
+          <i>*</i><text>手机号码</text>
+        </view>
+        <view class="reg-input">
+          <input type="number" placeholder="请输入您的手机号码" maxlength="11" @input="phoneInput"/>
+        </view>
+      </view>
+
+      <view class="reg-item">
+        <view class="reg-item-label">
+          <i>*</i><text>验证码</text>
+        </view>
+        <view class="reg-input">
+          <input type="text" placeholder="请输入验证码" @input="codeInput"/>
+          <text wx:if="{{sendMsgDisabled}}">{{time+'秒后获取'}}</text>
+          <text @tap.stop="getVerifyCode" wx:else="{{sendMsgDisabled}}">获取验证码</text>
+        </view>
+      </view>
+      <view class="reg-item">
+        <view class="reg-item-label">
+          <i class="na"></i><text>推荐人手机号码</text>
+        </view>
+        <view class="reg-input">
+          <input type="text" placeholder="请输入您的推荐人手机号码" @input="recMobileInput"/>
+        </view>
+      </view>
+      <view class="reg-check">
+          <label class="weui-cell weui-check__label" >
+            <checkbox class="weui-check" value="agree" checked="{{isAgree}}" />
+
+            <view class="weui-cell__hd weui-check__hd_in-checkbox" @tap="changeCheck">
+              <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!isAgree}}"></icon>
+              <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{isAgree}}"></icon>
+            </view>
+            <view class="weui-cell__bd">阅读并同意<navigator url="testNav?title=redirect"  class="weui-agree__link" >《用户服务协议》</navigator></view>
+          </label>
+      </view>
+
+      <view class="confirm-btn">
+        <button @tap="doReg">注册</button>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import tip from '@/utils/tip'
+  import {getVeriCode, doRegister} from '../http/getData';
+
+  export default class Register extends wepy.page {
+    config = {
+      navigationBarTitleText: '用户注册'
+    }
+    data ={
+      isAgree: true,
+      sendMsgDisabled: false,
+      time: 60,
+      phone: '',
+      name: '',
+      recMobile: '',
+      code: ''
+    }
+
+    async sendVerifyCode() {
+      const json = await getVeriCode({
+        mobile: this.phone,
+        codeType: "0"
+      });
+      console.log(json)
+      if (json.code == 0) {
+        tip.success("发送成功!");
+        // this.$apply();
+      } else {
+        tip.error(json.msg)
+      }
+    }
+
+    methods = {
+      codeInput(e){
+        this.code = e.detail.value;
+      },
+      recMobileInput(e){
+        this.recMobile = e.detail.value;
+      },
+      nameInput(e){
+        this.name = e.detail.value;
+      },
+      phoneInput(e) {
+        this.phone = e.detail.value;
+      },
+      getVerifyCode(){
+          console.log(this.phone)
+          if (this.phone == "") {
+            tip.alert("请输入手机号码");
+            return false;
+          }
+          this.sendVerifyCode();
+          let that = this;
+          that.sendMsgDisabled = true;
+          let interval = setInterval(() => {
+            if ((that.time--) <= 0) {
+              that.time = 60;
+              that.sendMsgDisabled = false;
+              clearInterval(interval);
+              that.$apply();
+            }
+            that.$apply();
+          }, 1000);
+      },
+      async doReg(){
+
+        if (!this.phone || !this.name || !this.code) {
+          tip.success("标星项为必填！")
+          return false
+        }
+        if(!this.isAgree){
+          tip.success("请勾选用户服务协议！")
+          return false
+        }
+        let res = await wepy.login()
+        console.log(res)
+        doRegister({
+          selected: '0',
+          nickname: this.name,
+          mobilePhone: this.phone,
+          recommendMobile: this.recMobile,
+          verificationCode: this.code,
+          code: res.code
+        }).then(response=>{
+          console.log(response)
+        })
+      },
+
+      changeCheck: function () {
+        this.isAgree = !this.isAgree
+      }
+    }
+  }
+</script>

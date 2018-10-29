@@ -1,0 +1,164 @@
+<style lang="less">
+  .mm-page{
+    box-sizing: border-box;
+    padding-top: 16rpx;
+  }
+</style>
+<template>
+  <view class="mm-page">
+    <view class="changecard-info">
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>开户人姓名</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入开户人姓名" />
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>身份证号码</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入身份证号码" />
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>银行卡号</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入银行卡号" value="{{bankCardNo}}" @input="changeInput" />
+        </view>
+      </view>
+    </view>
+
+    <view class="changecard-info">
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>银行地区</text>
+        </view>
+        <view class="change-info-input">
+          <input  @tap="openAddressPicker" type="text" placeholder="请选择银行地区" disabled="true" value="{{fullArea}}" />
+          <image src="../images/arrow-down.png"></image>
+          <areaPicker @areaArray.user="areaPickerArray"></areaPicker>
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>银行名称</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="-- 请选择支行 --"  disabled="true"  value="{{bankName}}"/>
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>银行支行名称</text>
+        </view>
+        <view class="change-info-input">
+          <input @tap="openBranchBankPicker" type="text" placeholder="请选择银行支行名称" disabled="true" value="{{branchBankName}}"/>
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>手机号码</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入银行卡预留手机号" />
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>验证码</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入验证码" />
+          <text class="vericode-btn">获取验证码</text>
+        </view>
+      </view>
+      <view class="confirm-btn">
+        <button @tap="submitInfo">提交</button>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  import AreaPicker from "../components/common/wepy-area-picker";
+  import {selBanks} from '../http/getData';
+  export default class PartnerMgr extends wepy.page {
+    config = {
+      navigationBarTitleText: '身份认证'
+    }
+
+    components = {
+      areaPicker: AreaPicker
+    }
+
+    data = {
+      province: '',
+      city: '',
+      area: '',
+      provinceCode: '',
+      cityCode: '',
+      areaCode: '',
+      fullArea: '',
+      bankName: '',
+      branchBankName:'',
+      bankCardNo: ''
+    }
+
+    methods = {
+      submitInfo(){
+        wepy.navigateTo({
+          url: 'partnermtlsucc'
+        })
+      },
+      changeInput(e){
+        console.log(e.detail)
+        this.bankCardNo = e.detail.value
+      },
+      openBranchBankPicker(){
+        if (!this.bankCardNo) {
+          wepy.showToast({
+            title: '请输入银行卡号',
+            icon: 'none',
+            duration: 1500
+          })
+          return
+        }
+        if (!this.fullArea) {
+          wepy.showToast({
+            title: '请选择银行地区',
+            icon: 'none',
+            duration: 1500
+          })
+          return
+        }
+        selBanks({
+          provinceCode: this.provinceCode,
+          cityCode: this.cityCode,
+          countyCode: this.countyCode,
+          bankCardNo: this.bankCardNo
+        }).then(response => {
+          console.log(response)
+        })
+      },
+      areaPickerArray(province, city, area) {
+        this.province = province;
+        this.city = city;
+        this.area = area;
+        this.provinceCode = province.areaCode;
+        this.cityCode = city.areaCode;
+        this.areaCode = area.areaCode;
+        this.fullArea = this.province.name + this.city.name + this.area.name
+        this.$apply();
+      },
+      openAddressPicker() {
+        this.$invoke('areaPicker', 'openAddressPicker');
+      },
+    }
+  }
+</script>

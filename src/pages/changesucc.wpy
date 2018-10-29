@@ -1,0 +1,34 @@
+<style lang="less">
+  .m-page{
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+<template>
+  <view class="m-page">
+    <view class="success-card">
+      <image src="http://120.79.17.7:85/china_ums/changecard-succ.png"></image>
+      <text>更换结算银行卡成功</text>
+    </view>
+    <view class="confirm-btn">
+      <button @tap="toHome">返回首页</button>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class ChangeSucc extends wepy.page {
+    config = {
+      navigationBarTitleText: '换卡成功'
+    }
+
+    methods = {
+      toHome(){
+        wepy.switchTab({
+          url: 'home'
+        })
+      }
+    }
+  }
+</script>

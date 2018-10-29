@@ -1,0 +1,138 @@
+<style lang="less">
+  .m-container{
+    box-sizing: border-box;
+    padding-top: 8px;
+    .feedback-block{
+      background: #fff;
+      .qtype{
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding-bottom: 16rpx;
+        .type{
+          display: flex;
+          align-items: center;
+          margin-left: 20rpx;
+          color: #000;
+          font-weight: bold;
+          span{
+            padding-left: 10rpx;
+            width: 36rpx;
+            height: 36rpx;
+            background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjAwODc2QjhCRDFGMDExRTg5MzEzQjNBOEEwQTMyMEU1IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjAwODc2QjhDRDFGMDExRTg5MzEzQjNBOEEwQTMyMEU1Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDA4NzZCODlEMUYwMTFFODkzMTNCM0E4QTBBMzIwRTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDA4NzZCOEFEMUYwMTFFODkzMTNCM0E4QTBBMzIwRTUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6ukA5AAAACRklEQVR42sSXzUtUURiHzxyhNm4GWs3WFIOgxdTCj9pFoPaxMNy0KJJx6QgV6aKFiyIR0u1QVOSmRSD08Qeo6WIY3IgLdf6DaNYFNT2v/K5ONjjXmbmnFx5e8c55n3PuuR/vTVWrVdcoCoVCinQZhmEAzkJahyuwB+vwCVZzuVzDoqnjxAg9KQ/zVhA+w1eJKvpZWhPphxFN8AEsMIHfJxYjvUd6CW/gGUX2XIxgnE1iGu7COONexxYzeJZ0B8YYWHRNBDUukd7DEjWeNBQzYIF0AW4z4JtrIah1hvQBNqmVrz3mj/zwOekcXGtVaqEaV6GX2nN1xdrTmzDKgJ+uTaFao3BDjsNTzT86+PsH9DW7pzH3fANO4/gVrXgS3iYl1cqLukPM5ToymUxK9+ZYNpv97hKMUqm0TfpInrUVX4GVuPdpi6s2x4o5TTwEX1y4MNeQ16NuPaDYLrA+E3fDbkDxDvR4PeQrAcXmSnv3n8JHMwjo3D/DXvvbHVDcY/vso6ssoNhcG15dxXBA8f5zw0dPEnUOiYYc1hqtejVm1iM9DrBaczy0Xiy6nRatR2JGFxNcbVZ92OJBI2DvR0vwjh90JiC1mkswIdffPZfak/Nwq11dCDVPkZZhi5qP6vZcOmDP0uV2rFw1TLpTK/1HLLl1g1tQ1L60sqdFrTR/kob+viW1K08ZXI4p7CLN6EJiWO5Vs58wU2B7v2Zti97d5SOfMF16r1+HQbDT+qKpT5g6ExhU4X6Jaj/aypqQTWztOGEUfwQYANuj7p6ez/imAAAAAElFTkSuQmCC') no-repeat center center;
+            background-size: auto 30rpx;
+          }
+          .active{
+            background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkZFQzk4Qzg4RDFFRjExRThCRUI0Q0YyRDczNTM2NjhBIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkZFQzk4Qzg5RDFFRjExRThCRUI0Q0YyRDczNTM2NjhBIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RkVDOThDODZEMUVGMTFFOEJFQjRDRjJENzM1MzY2OEEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RkVDOThDODdEMUVGMTFFOEJFQjRDRjJENzM1MzY2OEEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz68ga0uAAAC/ElEQVR42sSXS0iUURTHv7lFbmwh5C4K8UFluyiyh+GiAs0ikLJokaS2CdKooBYtWvSih1GLFlZGaeamqGzhoiJNoWmpQT6ipFYJLmpT4kz/E78vPofmYc5HB37cmXu/Of9zH3PP+SLxeNxLZ1XXRyNqNtpHsV4UiTyGJ8Wo6BdPRW/3oaK0TiOphCXo1DSJi+ZQdIvXCE3yWB6BrBPbCPCoaFEAsbTCEkkcqxOtok2cRSwTsyBOiP2iXtwODiqY3+38JD8+LfaJtSJK3xKxV1SIFSJfTInP4pN4KR4Q4AFxg+8F4lSigPuLaAvLtQZRE+wQH5j5FrFY5IhcsUxsDaxKB7+J4mMTPlMKnxfLcTQhtotBsUfMy2CZHc8O0ZqPzQR3IZmw7ekOUSN+isPioVjozd5sJdpFM75qmETdjMOlg2Wz+SHKWKLd4r6Ne3OzODO3vV4tBmyLdMCm/Rnb7O4E9rQ1C6IePloDe96GlhepvDZig9OihMPRzunNpnUyc/svDdt5sRmXi1eILhW1XvZtF75H0So34UrxjAdqk/zF5mouMCHTqnRcdf10Vnjhme/bDliZCReLETpXhijs+7Y9LnFc8v6FvyhE4fxANstz3n8y50fA94kQtb4G0uikY3+L6RwKUXiQ1u6LYeefMjqfhyj8gta0BhxVRRWddqfGQhCN4dvz7w3n3yRcZx9FVwjCXfguItf3+tnpCFVFPRf6EKktG/ZdlIpxEsY7ZafLfulzlbRo5cpb0UAlkY202IDoKuqwnD+FgOVHNY3iLjPtJInH5ih6DF/m8544iNaMhHBLPGE/FrAKO8W3f1xeKxYv4asL3zeT1VzHuUsfEeVj7tjODGcf49lStioXX8P4TlllNvFnj7Iv4yTxAurlHvGF0naKzz2MFfOsv6dRfDUliiSrqy269+IN5coZMSbOQSorFCc5SI3B5Z3tK0wzpWkf+9RPEMFXmELyerXYQOBXMnqFSfPS5nBYjUBhwkvbGAFZYH2pBH37JcAABvffK+h1Ts8AAAAASUVORK5CYII=')  no-repeat center center;
+            background-size: auto 30rpx;
+          }
+
+        }
+        &:after{
+          position: absolute;
+          height: 1px;
+          width: 100%;
+          bottom: 0;
+          left: 0;
+          content: '';
+          background: #eee;
+        }
+      }
+      textarea{
+        width: 100%;
+        padding-top: 16rpx;
+      }
+    }
+    .pic-upload{
+      margin-top: 16rpx;
+      padding: 30rpx;
+      background: #fff;
+    }
+  }
+
+</style>
+<template>
+  <view class="m-container">
+    <view class="feedback-block pd16">
+      <view class="qtype">
+        问题类型：<view class="type" @tap="changeSrc()">投诉 <span class="{{checkOne ? 'active' : ''}}"></span></view> <view class="type" @tap="changeSrc()">建议 <span class="{{checkTwo ? 'active' : ''}}"></span></view>
+      </view>
+      <textarea placeholder="请输入你的建议或投诉" auto-focus maxlength="200"></textarea>
+    </view>
+
+    <view class="pic-upload">
+      <view class="weui-uploader">
+        <view class="weui-uploader__hd">
+          <view class="weui-uploader__title">图片上传</view>
+          <view class="weui-uploader__info">{{files.length}}/{{maxFiles}}</view>
+        </view>
+        <view class="weui-uploader__bd">
+          <view class="weui-uploader__files" id="uploaderFiles">
+            <block wx:for="{{files}}" wx:key="*this">
+              <view class="weui-uploader__file" @tap="previewImage" id="{{item}}">
+                <image class="weui-uploader__img" src="{{item}}" mode="aspectFill"/>
+              </view>
+            </block>
+          </view>
+          <view class="weui-uploader__input-box">
+            <view class="weui-uploader__input" @tap="chooseImage"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="confirm-btn">
+      <button>确定</button>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class Feedback extends wepy.page {
+    config = {
+      navigationBarTitleText: '反馈建议'
+    }
+    data = {
+      maxFiles: 5,
+      files: [],
+      checkOne: true,
+      checkTwo: false
+    }
+
+    methods = {
+      changeSrc(){
+          this.checkOne = !this.checkOne
+          this.checkTwo = !this.checkTwo
+      },
+      chooseImage: function (e) {
+        if (this.files.length >= this.maxFiles){
+          wepy.showToast({
+            title: '文件已达上限',
+            icon: 'none',
+            duration: 1500
+          });
+        }else{
+          var that = this;
+          wepy.chooseImage({
+            count: this.maxFiles,
+            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
+          }).then(res => {
+            // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+            this.files = that.data.files.concat(res.tempFilePaths)
+          }).catch(error => {
+            console.log(error)
+          })
+        }
+      },
+      previewImage: function(e){
+        wepy.previewImage({
+          current: e.currentTarget.id, // 当前显示图片的http链接
+          urls: this.data.files // 需要预览的图片http链接列表
+        })
+      }
+    }
+  }
+</script>
