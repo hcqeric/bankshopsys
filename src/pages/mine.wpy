@@ -117,7 +117,7 @@
       <!--<button open-type="getUserInfo" @getuserinfo="getUserInfo">获取用户信息</button>-->
     </view>
     <view class="mine-content mt16" >
-      <view class="mine-content-item">
+      <view class="mine-content-item" @tap="toDetail(1)">
           <span class="icon-level"></span>
           <view class="mine-item-detail">
             <text>当前等级</text>
@@ -169,8 +169,8 @@
 </template>
 <script>
   import wepy from 'wepy';
-
-
+  import {USER_SPECICAL_INFO} from '../utils/constant';
+  import tip from '../utils/tip'
   export default class Mine extends wepy.page {
     config = {
       navigationBarTitleText: '个人中心'
@@ -188,18 +188,39 @@
         console.log(res)
       },
       toDetail(id){
-        if (id == 2) {
-          wepy.navigateTo({
-            url: 'partnermtl'
-          })
-        }
-        if (id == 3){
-          wepy.navigateTo({
-            url: 'mybankcard'
-          })
-        } else if (id == 4){
+        if (id == 4){
           wepy.navigateTo({
             url: 'feedback'
+          })
+        } else if (id == 5) {
+
+        } else if (id == 6) {
+
+        }
+        let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
+        if (userSpecInfo.userType == 0){
+          tip.confirm("您当前还不是合伙人，请先完善合伙人资料").then(response=>{
+            if (response == 'confirm') {
+              wepy.navigateTo({
+                url: 'partnermtl'
+              })
+            }
+          }).catch(error =>{
+            // console.log(error)
+          })
+          return false
+        }
+        if (id == 1){
+          wepy.navigateTo({
+            url: 'mylevel'
+          })
+        } else if (id == 2) {
+          wepy.navigateTo({
+            url: 'partnermgr'
+          })
+        } else if (id == 3){
+          wepy.navigateTo({
+            url: 'mybankcard'
           })
         }
       }

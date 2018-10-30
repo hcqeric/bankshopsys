@@ -114,10 +114,10 @@ export default class Filter extends wepy.component {
   position: relative;
 }
 
-.active {
-  color: #eb6623;
-  border-bottom: 5rpx solid #eb6623;
-}
+/*.active {*/
+  /*color: #eb6623;*/
+  /*border-bottom: 5rpx solid #eb6623;*/
+/*}*/
 
 .swiper-box {
   display: block;

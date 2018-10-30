@@ -38,7 +38,7 @@ export default class Tips {
         showCancel: true,
         success: res => {
           if (res.confirm) {
-            resolve(payload);
+            resolve("confirm");
           } else if (res.cancel) {
             reject(payload);
           }

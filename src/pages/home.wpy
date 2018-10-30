@@ -129,13 +129,13 @@
         </view>
       </view>
       <view class="func-block">
-        <view>
+        <view @tap="toDetail(2)">
           <image src="../images/merc-mgr.png"></image>
           <text>商户管理</text>
         </view>
       </view>
       <view class="func-block">
-        <view>
+        <view @tap="toDetail(3)">
           <image src="../images/personal-qrcode.png"></image>
         <text>专属二维码</text>
         </view>
@@ -154,7 +154,9 @@
 </template>
 <script>
   import wepy from 'wepy'
-
+  import {codeLogin} from '../http/getData';
+  import {USER_SPECICAL_INFO} from '../utils/constant';
+  import tip from '../utils/tip'
   export default class Home extends wepy.page {
     config = {
       navigationBarTitleText: '首页'
@@ -173,37 +175,39 @@
       userInfo:{}
     }
     methods ={
-      async getPhoneNumber (e) {
-        console.log(e.detail.errMsg)
-        console.log(e.detail.iv)
-        console.log(e.detail.encryptedData)
-        let res = await wepy.login()
-        console.log(res)
-        this.userInfo = await wepy.getUserInfo();
-        console.log(this.userInfo)
-      },
       getUserInfo(res){
         console.log(res)
       },
       toDetail(id){
-        if (id == 1) {
-          wepy.navigateTo({
-            url: 'recommendins'
+        let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
+        if (userSpecInfo.userType >= 1){
+          if (id == 1) {
+            wepy.navigateTo({
+              url: 'recommendins'
+            })
+          }
+        }else{
+          tip.confirm("您当前还不是合伙人，请先完善合伙人资料").then(response=>{
+            if (response == 'confirm') {
+              wepy.navigateTo({
+                url: 'partnermtl'
+              })
+            }
+          }).catch(error =>{
+            // console.log(error)
           })
         }
       }
     }
 
-    onShow(){
-      console.log("TOUTER")
-      console.log(this)
-      console.log("TOUTER")
-    }
     async onLoad() {
       let res = await wepy.login()
-      console.log("AAAAAAA")
-      console.log(res)
-      console.log("AAAAAAA")
+      codeLogin({
+        code: res.code
+      }).then(response => {
+        console.log(response)
+      })
+      // console.log(res)
       // this.userInfo = await wepy.getUserInfo();
       // console.log(this.userInfo)
     }

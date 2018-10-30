@@ -42,6 +42,16 @@ export const getVeriCode = (datas) => new Request().require({api: url.sendCode, 
 
 export const doRegister = (datas) => new Request().require({api: url.doRegister, data: datas}); //用户注册
 
+export const doLogin = (datas) => new Request().require({api: url.doLogin, data: datas}); //用户登录
+
+export const codeLogin = (datas) => new Request().require({api: url.codeLogin, data: datas}); //根据code登录
+
+export const saveSuggestion = (datas,params) => new Request().require({api: url.saveSuggestion, data: datas, openId: true}); //保存建议
+
+export const getMerchantList = (datas,params) => new Request().require({api: url.getMerchantList, data: datas, openId: true, showLoading: true}); //获取商户列表
+
+export const getPartnerList = (datas,params) => new Request().require({api: url.getPartnerList, data: datas, openId: true}); //获取合伙人列表
+
 
 
 

@@ -10,8 +10,14 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/register',
+
+
+
+      'pages/home',
       'pages/login',
+      'pages/register',
+      'pages/merchantmgr',
+      'pages/mylevel',
       'pages/partnermtl',
       'pages/partnermgr',
       'pages/quickrec',
@@ -33,7 +39,7 @@ export default class extends wepy.app {
       'pages/mine',
       'pages/recommendins',
       'pages/earnings',
-      'pages/home',
+
 
       'pages/feedback',
 

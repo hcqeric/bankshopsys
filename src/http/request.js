@@ -1,6 +1,7 @@
 import wepy from 'wepy';
 import url from '@/http/url.js'
-
+import tip from '@/utils/tip'
+import {getOpenId} from '../utils/utils';
 
 class Request {
   constructor(baseUrl = url.baseUrl){
@@ -9,7 +10,11 @@ class Request {
 
   require(options) {
     if (!options.api) throw new Error('api 不能为空');
+    if (!options.openId) {
 
+    } else {
+      options.api = options.api + '?openId=' + getOpenId()
+    }
     //动态路由参数设置
     if (!options.restParam) {
       options.restParam = {}
@@ -27,8 +32,12 @@ class Request {
     //动态路由参数设置
     if (!options.data) { options.data = {} }
     if (!options.methods) { options.methods = 'POST' }; //不传递方法默认为POST
-
+    if (!options.loadingVisble) { options.loadingVisble = false };
+    if(options.loadingVisble){
+      tip.loading();
+    };
     return new Promise((resolve,reject) => {
+
         return wepy.request({
             method: options.methods,
             url: this.Domain + options.api,
@@ -37,6 +46,7 @@ class Request {
             },
             data:options.data
         }).then(response => {
+            tip.loaded();
             if(response.data.code === 0){ //请求成功
                 return resolve(response.data)
             }else{
@@ -44,13 +54,15 @@ class Request {
                   // removeLocalStorage(Constants.TOKEN)
                   // router.push('/login')
                 }
-                return resolve(response.data)
+                tip.alert(response.data.msg)
+                return reject(response.data)
             }
         },error => {
-
+            tip.loaded();
             return reject()
         }).catch(error=>{
-
+            tip.loaded();
+            tip.alert(error.msg)
         })
 
     })

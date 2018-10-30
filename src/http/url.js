@@ -20,6 +20,11 @@ export default {
   baseUrl: url,
   serviceUrl: serviceUrl,
   sendCode: '/app/sendCode',
-  doRegister: '/app/register',
+  doRegister: '/app/user/register',
+  doLogin: '/app/wx/oauth2Login',
+  codeLogin: '/app/wx/codeLogin',
+  saveSuggestion: '/app/suggestions/save',
+  getMerchantList: '/app/merchant/list',
+  getPartnerList: '/app/user/getUserByParentId',
   selBanks: '/v1/bank/sele_banks'
 }

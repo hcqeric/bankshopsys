@@ -53,15 +53,15 @@
       <input type="text" placeholder="请输入商户费率" />
     </view>
   </view>
-    <view class="change-info-item">
-      <view class="change-info-item-label">
-        <i class="na"></i><text>所属团队</text>
-      </view>
-      <view class="change-info-input">
-        <input type="text" placeholder="请选择所属团队" disabled="true" />
-        <image src="../images/arrow-down.png"></image>
-      </view>
-    </view>
+    <!--<view class="change-info-item">-->
+      <!--<view class="change-info-item-label">-->
+        <!--<i class="na"></i><text>所属团队</text>-->
+      <!--</view>-->
+      <!--<view class="change-info-input">-->
+        <!--<input type="text" placeholder="请选择所属团队" disabled="true" />-->
+        <!--<image src="../images/arrow-down.png"></image>-->
+      <!--</view>-->
+    <!--</view>-->
     <view class="change-info-item">
       <view class="change-info-item-label">
         <i class="na"></i><text>客户经理</text>

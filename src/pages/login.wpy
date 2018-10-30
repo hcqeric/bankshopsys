@@ -63,14 +63,16 @@
       </view>
       <view class="login-info">
         <view class="info-item">
-          <span class="mobile"></span><input type="number" placeholder="手机号码" maxlength="11" />
+          <span class="mobile"></span><input type="number" placeholder="手机号码" maxlength="11" @input="mobileInput" />
         </view>
         <view class="info-item">
-          <span class="pwd"></span><input type="number" placeholder="请输入验证码" maxlength="6" /><p>获取验证码</p>
+          <span class="pwd"></span><input type="number" placeholder="请输入验证码" maxlength="6" @input="codeInput"/>
+          <p wx:if="{{sendMsgDisabled}}">{{time+'秒后获取'}}</p>
+          <p @tap.stop="getVerifyCode" wx:else="{{sendMsgDisabled}}">获取验证码</p>
         </view>
       </view>
       <view class="confirm-btn">
-        <button>登录</button>
+        <button  @tap="doLogin">登录</button>
       </view>
       <view class="forget-pass">
         <span  @tap="toReg">用户注册</span>
@@ -79,17 +81,86 @@
 </template>
 <script>
   import wepy from 'wepy';
-
+  import tip from '@/utils/tip'
+  import {getVeriCode, doLogin} from '../http/getData';
+  import {USER_SPECICAL_INFO} from '../utils/constant';
   export default class Login extends wepy.page {
     config = {
       navigationBarTitleText: '登录'
     }
 
     data = {
+      sendMsgDisabled: false,
+      time: 60,
+      mobile: '',
+      code: '',
       files: []
     }
 
+    async sendVerifyCode() {
+      const json = await getVeriCode({
+        mobile: this.mobile,
+        codeType: "1"
+      });
+      if (json.code == 0) {
+        tip.success("发送成功!");
+        this.$apply();
+      } else {
+        tip.error(json.msg)
+      }
+    }
+
     methods = {
+      mobileInput(e){
+        this.mobile = e.detail.value
+      },
+      codeInput(e){
+        this.code = e.detail.value
+      },
+      getVerifyCode(){
+        console.log(this.mobile)
+        if (this.mobile == "") {
+          tip.alert("请输入手机号码");
+          return false;
+        }
+        this.sendVerifyCode();
+        let that = this;
+        that.sendMsgDisabled = true;
+        let interval = setInterval(() => {
+          if ((that.time--) <= 0) {
+            that.time = 60;
+            that.sendMsgDisabled = false;
+            clearInterval(interval);
+            that.$apply();
+          }
+          that.$apply();
+        }, 1000);
+      },
+
+      async doLogin(){
+        if (!this.mobile || !this.code) {
+          tip.success("手机号或验证码不能为空")
+          return false
+        }
+        let res = await wepy.login()
+        doLogin({
+          mobile: this.mobile,
+          code: res.code,
+          verificationCode: this.code
+        }).then(response=>{
+          let userSpecInfo = response.result
+          wepy.setStorageSync(USER_SPECICAL_INFO, userSpecInfo);
+          if (userSpecInfo.userType == 3){
+            wepy.navigateTo({
+              url: ''
+            })
+          } else{
+            wepy.switchTab({
+              url: 'home'
+            })
+          }
+        })
+      },
       toReg(){
         wepy.navigateTo({
           url: 'register'
