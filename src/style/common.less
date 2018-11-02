@@ -153,7 +153,7 @@ view {
     color: #fff;
   }
 }
-
+//更换银行卡成功
 .success-card{
   margin-top: 100rpx;
   display: flex;
@@ -174,7 +174,7 @@ view {
   }
 }
 
-
+//更换银行卡
 .changecard-info{
   margin-top: 16rpx;
   background: #fff;
@@ -202,6 +202,17 @@ view {
         border-radius: 16rpx;
         border: 1rpx solid #999;
       }
+      picker{
+        padding: 16 rpx;
+        border-radius: 16 rpx;
+        border: 1 rpx solid #999;
+      }
+        //.picker {
+        //  padding: 16 rpx;
+        //  border-radius: 16 rpx;
+        //  border: 1 rpx solid #999;
+        //}
+
       .no-border{
         border: none;
       }
@@ -230,6 +241,7 @@ view {
         padding: 0 16rpx;
         border-radius: 16rpx;
         color: #fff;
+        z-index: 10;
       }
     }
   }
@@ -240,7 +252,7 @@ view {
     padding: 0;
   }
 }
-
+//商户管理
 .partner-list-no-content{
   position: absolute;
   top: 82rpx;
@@ -271,6 +283,96 @@ view {
       width: 100%;
       background: #4a93db;
       color: #fff;
+    }
+  }
+}
+
+//合伙人详情
+.partner-detail{
+  position: relative;
+  z-index: 99;
+  background: #fff;
+  margin: 0rpx 32rpx 0 32rpx;
+  padding: 16rpx 0rpx;
+  border-radius: 10rpx;
+  .partner-detail-info{
+    display: flex;
+    flex-direction: column;
+    padding: 0 32rpx 16rpx;
+    .partner-detail-info-item{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      text{
+        &:first-of-type{
+          color: #999;
+          flex-shrink: 0;
+          margin-right: 16rpx;
+        }
+      }
+    }
+  }
+  .partner-detail-enable{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1rpx solid #eee;
+    border-bottom: 1rpx solid #eee;
+    padding: 16rpx 32rpx;
+    &:before{
+      position: absolute;
+      content: '';
+      height: 32rpx;
+      width: 32rpx;
+      border-radius: 16rpx;
+      background: #f7f7f7;
+      top: -16rpx;
+      left: -16rpx;
+    }
+    &:after{
+      position: absolute;
+      content: '';
+      height: 32rpx;
+      width: 32rpx;
+      border-radius: 16rpx;
+      background: #f7f7f7;
+      top: -16rpx;
+      right: -16rpx;
+    }
+  }
+  .partner-detail-merchant{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16rpx 32rpx;
+    image{
+      width: 36rpx;
+      height: 36rpx;
+    }
+    &:before{
+      position: absolute;
+      content: '';
+      height: 32rpx;
+      width: 32rpx;
+      border-radius: 16rpx;
+      background: #f7f7f7;
+      top: -16rpx;
+      left: -16rpx;
+    }
+    &:after{
+      position: absolute;
+      content: '';
+      height: 32rpx;
+      width: 32rpx;
+      border-radius: 16rpx;
+      background: #f7f7f7;
+      top: -16rpx;
+      right: -16rpx;
     }
   }
 }

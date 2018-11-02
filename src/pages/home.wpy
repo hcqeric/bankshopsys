@@ -14,14 +14,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100rpx;
+    height: 45rpx;
     padding: 0 20rpx;
-    background: #fefcec;
+    background: #fffbf8;
     .msg-tip-info{
       display: flex;
       align-items: center;
+      image{
+        width: 33rpx;
+        height: 27rpx;
+      }
       text{
-        font-size: 16px;
+        font-size: 24rpx;
         margin-left: 10rpx;
       }
     }
@@ -99,13 +103,13 @@
         </swiper-item>
       </block>
     </swiper>
-    <!--<view class="msg-tips">-->
-      <!--<view class="msg-tip-info">-->
-        <!--<icon type="waiting" size="30"></icon>-->
-        <!--<text>你有新的消息你有新的消息</text>-->
-      <!--</view>-->
+    <view class="msg-tips" @tap="toNotice">
+      <view class="msg-tip-info">
+        <image  src="../images/loudspeaker.png"></image>
+        <text>你有新的消息你有新的消息</text>
+      </view>
       <!--<image src="../images/arrow-right.png"></image>-->
-    <!--</view>-->
+    </view>
     <view class="today-bonus">
       <view class="today-figure">
         <view>
@@ -175,6 +179,11 @@
       userInfo:{}
     }
     methods ={
+      toNotice(){
+        wepy.navigateTo({
+          url: 'notification'
+        })
+      },
       getUserInfo(res){
         console.log(res)
       },
@@ -187,15 +196,38 @@
             })
           }
         }else{
-          tip.confirm("您当前还不是合伙人，请先完善合伙人资料").then(response=>{
-            if (response == 'confirm') {
+          if (userSpecInfo.accountEntity.auditStatus == 2){
+            if (id == 1) {
               wepy.navigateTo({
-                url: 'partnermtl'
+                url: 'recommendins'
               })
             }
-          }).catch(error =>{
-            // console.log(error)
-          })
+          }else{
+            if(userSpecInfo.accountEntity.auditStatus == 1){
+              tip.alert("您的资料正在审核中...")
+              return false
+            }else if(userSpecInfo.accountEntity.auditStatus == 0){
+              tip.confirm("您当前还不是合伙人，请先完善合伙人资料").then(response=>{
+                if (response == 'confirm') {
+                  wepy.navigateTo({
+                    url: 'partnermtl'
+                  })
+                }
+              }).catch(error =>{
+                // console.log(error)
+              })
+            }else if(userSpecInfo.accountEntity.auditStatus == 0){
+              tip.confirm("您提交的资料未通过审核，请重新认证").then(response=>{
+                if (response == 'confirm') {
+                  wepy.navigateTo({
+                    url: 'partnermtl'
+                  })
+                }
+              }).catch(error =>{
+                // console.log(error)
+              })
+            }
+          }
         }
       }
     }

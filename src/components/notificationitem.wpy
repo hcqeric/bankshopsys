@@ -1,0 +1,69 @@
+<style lang="less">
+  .notification-item{
+    display: flex;
+    flex-direction: row;
+    .notification-icon{
+      flex-shrink: 0;
+      image{
+        width: 46rpx;
+        height: 49rpx;
+      }
+    }
+    .notification-content{
+      display: flex;
+      flex-direction: column;
+      margin-left: 16rpx;
+      .notification-content-header{
+        height: 32rpx;
+        line-height: 32rpx;
+        text{
+          font-size: 30rpx;
+          color: #000;
+        }
+      }
+      .notification-content-time{
+        height: 26rpx;
+        line-height: 26rpx;
+        text{
+          color: #999;
+          font-size: 24rpx;
+        }
+      }
+      .notification-content-detail{
+        margin-top: 8rpx;
+        padding: 8rpx;
+        background: #f6f6f6;
+        text{
+          font-size: 28rpx;
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="notification-item">
+    <view class="notification-icon">
+      <image src="../images/notification-center-icon.png"></image>
+    </view>
+    <view class="notification-content">
+      <view class="notification-content-header">
+        <text>小公告</text>
+      </view>
+      <view class="notification-content-time">
+        <text>2018-09-11    12:03</text>
+      </view>
+      <view class="notification-content-detail">
+        <text>2018-09-09的合伙人收益为491.88元，其中POS机收益163.88元，扫码收益128.00元，信用卡推荐收益100.00元，贷款推荐收益100.00元。</text>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class NotificationItem extends wepy.component {
+      data = {
+
+      }
+  }
+</script>

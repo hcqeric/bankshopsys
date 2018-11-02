@@ -16,7 +16,7 @@
           <i>*</i><text>合伙人数量</text>
         </view>
         <view class="change-info-input">
-          <input type="text" placeholder="请输入当前合伙人数量" />
+          <input type="number" placeholder="请输入当前合伙人数量"  @input="handleInput" data-obj="partnerMgrInfo"  data-item="partnerNum" value="{{partnerMgrInfo.partnerNum}}"/>
         </view>
       </view>
       <view class="change-info-item">
@@ -24,7 +24,7 @@
           <i>*</i><text>商户数量</text>
         </view>
         <view class="change-info-input">
-          <input type="text" placeholder="请输入当前商户数量" />
+          <input type="number" placeholder="请输入当前商户数量"  @input="handleInput" data-obj="partnerMgrInfo"  data-item="merchantNum" value="{{partnerMgrInfo.merchantNum}}"/>
         </view>
       </view>
       <view class="change-info-item">
@@ -32,7 +32,7 @@
           <i>*</i><text>月交易量</text>
         </view>
         <view class="change-info-input">
-          <input type="text" placeholder="请输入当前月总交易量"  />
+          <input type="digit" placeholder="请输入当前月总交易量" @input="handleInput" data-obj="partnerMgrInfo"  data-item="monthOrder" value="{{partnerMgrInfo.monthOrder}}" />
         </view>
       </view>
       <view class="confirm-btn">
@@ -43,17 +43,56 @@
 </template>
 <script>
   import wepy from 'wepy';
-
+  import {savePartnerMgr} from '../http/getData';
+  import tip from '../utils/tip'
   export default class PartnerMgr extends wepy.page {
     config = {
       navigationBarTitleText: '合伙人管理员申请'
     }
 
+    data={
+      partnerMgrInfo:{
+        partnerNum: '',
+        merchantNum: '',
+        monthOrder: ''
+      }
+    }
+
+    checkAllNeeded(){
+      if (!this.partnerMgrInfo.partnerNum
+        || !this.partnerMgrInfo.merchantNum
+        || !this.partnerMgrInfo.monthOrder
+      ){
+        tip.success("标星项为必填！")
+        return false
+      }else{
+        return true
+      }
+    }
+
     methods={
+      handleInput(e){
+        let dataset = e.currentTarget.dataset
+        this[dataset.obj][dataset.item] = e.detail.value
+      },
       submitInfo(){
-        wepy.navigateTo({
-          url: 'partnermgrsucc'
+        if (!this.checkAllNeeded()) {
+          return false
+        }
+
+        savePartnerMgr({
+          partnerNum: this.partnerMgrInfo.partnerNum,
+          merchantNum: this.partnerMgrInfo.merchantNum,
+          monthOrder: this.partnerMgrInfo.monthOrder
+        }).then(response => {
+          console.log(response)
+          wepy.navigateTo({
+            url: 'partnermgrsucc'
+          })
+        }, error=>{
+          console.log(error)
         })
+
       }
     }
   }

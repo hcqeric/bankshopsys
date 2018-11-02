@@ -1,0 +1,79 @@
+<style lang="less">
+  .mm-page{
+    box-sizing: border-box;
+    padding-top: 170rpx;
+    position: relative;
+    .merchant-detail-header-bg{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 195rpx;
+      background-image: url("http://120.79.17.7:85/china_ums/merchant-detail.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+      z-index: 0;
+    }
+  }
+</style>
+<template>
+  <view class="mm-page">
+    <view class="partner-detail">
+      <view class="partner-detail-info">
+        <view class="partner-detail-info-item">
+          <text>商户编号</text>
+          <text>40001</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>商户名称</text>
+          <text>喜乐购超市</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>商户地址</text>
+          <text>深圳市南山区西环街4-408号</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>联系人名</text>
+          <text>陈先生</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>联系电话</text>
+          <text>15899888888</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>POS费率</text>
+          <text>0.55%</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>扫码费率</text>
+          <text>0.35%</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>客户经理</text>
+          <text>张三</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>入网时间</text>
+          <text>2018-08-21  14:01</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>账号状态</text>
+          <text class="ftb">正常</text>
+        </view>
+      </view>
+    </view>
+    <view class="merchant-detail-header-bg"></view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class MerchantDtl extends wepy.page {
+    config = {
+      navigationBarTitleText: '商户详情'
+    }
+    methods = {
+
+    }
+  }
+</script>

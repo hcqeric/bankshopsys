@@ -12,8 +12,13 @@ export default class extends wepy.app {
     pages: [
 
 
-
+      'pages/order',
+      'pages/notification',
       'pages/home',
+
+      'pages/merchantdtl',
+      'pages/partnerdtl',
+      'pages/userinfo',
       'pages/login',
       'pages/register',
       'pages/merchantmgr',
@@ -35,7 +40,7 @@ export default class extends wepy.app {
       'pages/authentication',
 
 
-      'pages/order',
+
       'pages/mine',
       'pages/recommendins',
       'pages/earnings',
@@ -47,7 +52,7 @@ export default class extends wepy.app {
       'pages/play',
     ],
     window: {
-      backgroundTextStyle: 'light',
+      backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'

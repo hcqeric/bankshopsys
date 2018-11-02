@@ -3,6 +3,19 @@
     box-sizing: border-box;
     padding-top: 16rpx;
   }
+  .branch-bank-picker{
+    .picker{
+      height: 1.4rem;
+      line-height: 1.4rem;
+      padding: 16rpx;
+      border-radius: 16rpx;
+      border: 1rpx solid #999;
+      color: #999;
+    }
+    .picker.selected{
+      color: #333;
+    }
+  }
 </style>
 <template>
   <view class="mm-page">
@@ -12,7 +25,8 @@
           <i>*</i><text>开户人姓名</text>
         </view>
         <view class="change-info-input">
-          <input type="text" placeholder="请输入开户人姓名" />
+          <input type="text" placeholder="请输入开户人姓名" @input="handleInput" data-obj="partnerInfo"  data-item="accountName" value="{{partnerInfo.accountName}}"/>
+          <!--<input type="text" bindinput="inputeidt" data-obj="obj" data-item="item" value="{{obj.item}}"/>-->
         </view>
       </view>
       <view class="change-info-item">
@@ -20,7 +34,7 @@
           <i>*</i><text>身份证号码</text>
         </view>
         <view class="change-info-input">
-          <input type="text" placeholder="请输入身份证号码" />
+          <input type="text" placeholder="请输入身份证号码" @input="handleInput" data-obj="partnerInfo"  data-item="idCardNo" value="{{partnerInfo.idCardNo}}"/>
         </view>
       </view>
       <view class="change-info-item">
@@ -28,7 +42,7 @@
           <i>*</i><text>银行卡号</text>
         </view>
         <view class="change-info-input">
-          <input type="text" placeholder="请输入银行卡号" value="{{bankCardNo}}" @input="changeInput" />
+          <input type="number" placeholder="请输入银行卡号" maxlength="21" @input="handleInput" data-obj="partnerInfo"  data-item="cardNo" value="{{partnerInfo.cardNo}}" @blur="handleCardNoBlur"/>
         </view>
       </view>
     </view>
@@ -49,7 +63,7 @@
           <i>*</i><text>银行名称</text>
         </view>
         <view class="change-info-input">
-          <input type="text" placeholder="-- 请选择支行 --"  disabled="true"  value="{{bankName}}"/>
+          <input type="text" placeholder="-- 请选择支行 --"  disabled="true"  value="{{partnerInfo.bankName}}"/>
         </view>
       </view>
       <view class="change-info-item">
@@ -57,7 +71,13 @@
           <i>*</i><text>银行支行名称</text>
         </view>
         <view class="change-info-input">
-          <input @tap="openBranchBankPicker" type="text" placeholder="请选择银行支行名称" disabled="true" value="{{branchBankName}}"/>
+          <input wx:if="{{branchBankArray.length <= 0}}" @tap="openBranchBankPicker" type="text" placeholder="请选择银行支行名称" disabled="true"/>
+          <picker wx:else="{{branchBankArray.length > 0}}" class="branch-bank-picker"  @change="bindBranchBankChange" value="{{index}}" range="{{branchBankArray}}"  range-key="subbranchBank" >
+            <view class="picker {{partnerInfo.branchBankName != ''? 'selected' : ''}}" >
+              {{partnerInfo.branchBankName == '' ? '请选择银行支行名称' : branchBankArray[index].subbranchBank}}
+            </view>
+          </picker>
+          <image src="../images/arrow-down.png"></image>
         </view>
       </view>
       <view class="change-info-item">
@@ -65,7 +85,7 @@
           <i>*</i><text>手机号码</text>
         </view>
         <view class="change-info-input">
-          <input type="text" placeholder="请输入银行卡预留手机号" />
+          <input type="number" placeholder="请输入银行卡预留手机号" maxlength="11" @input="handleInput" data-obj="partnerInfo"  data-item="mobilePhone" value="{{partnerInfo.mobilePhone}}"/>
         </view>
       </view>
       <view class="change-info-item">
@@ -73,8 +93,9 @@
           <i>*</i><text>验证码</text>
         </view>
         <view class="change-info-input">
-          <input type="text" placeholder="请输入验证码" />
-          <text class="vericode-btn">获取验证码</text>
+          <input type="number" placeholder="请输入验证码" @input="handleInput" data-obj="partnerInfo"  data-item="verificationCode" value="{{partnerInfo.verificationCode}}"/>
+          <text class="vericode-btn" wx:if="{{sendMsgDisabled}}">{{time+'秒后获取'}}</text>
+          <text class="vericode-btn" @tap.stop="getVerifyCode" wx:else="{{sendMsgDisabled}}">获取验证码</text>
         </view>
       </view>
       <view class="confirm-btn">
@@ -87,7 +108,9 @@
   import wepy from 'wepy';
 
   import AreaPicker from "../components/common/wepy-area-picker";
-  import {selBanks} from '../http/getData';
+  import {selBanks, getVeriCodeNoType, updateIdCardNo} from '../http/getData';
+  import {USER_SPECICAL_INFO} from '../utils/constant';
+  import tip from '../utils/tip'
   export default class PartnerMgr extends wepy.page {
     config = {
       navigationBarTitleText: '身份认证'
@@ -98,30 +121,143 @@
     }
 
     data = {
+      sendMsgDisabled: false,
+      index: 0,
+      branchBankArray:[],
+      partnerInfo:{
+        mobilePhone:'',
+        verificationCode: '',
+        cardNo: '',
+        bankName: '',
+        accountName: '',
+        province: '',
+        city: '',
+        district: '',
+        branchBankId: '',
+        branchBankName: '',
+        idCardNo: ''
+      },
+      time: 60,
       province: '',
       city: '',
       area: '',
-      provinceCode: '',
-      cityCode: '',
-      areaCode: '',
-      fullArea: '',
-      bankName: '',
-      branchBankName:'',
-      bankCardNo: ''
+      fullArea: ''
+    }
+
+    async sendVerifyCode() {
+      const json = await getVeriCodeNoType({
+        mobile: this.partnerInfo.mobilePhone
+      });
+      if (json.code == 0) {
+        tip.success("发送成功!");
+        this.$apply();
+      } else {
+        tip.error(json.msg)
+      }
+    }
+
+    checkAllNeeded(){
+      if (!this.partnerInfo.accountName
+        || !this.partnerInfo.mobilePhone
+        || !this.partnerInfo.verificationCode
+        || !this.partnerInfo.cardNo
+        || !this.partnerInfo.bankName
+        || !this.partnerInfo.province
+        || !this.partnerInfo.branchBankId
+        || !this.partnerInfo.branchBankName
+        || !this.partnerInfo.idCardNo
+      ){
+        tip.success("标星项为必填！")
+        return false
+      }else{
+        return true
+      }
     }
 
     methods = {
+      bindBranchBankChange(e){
+        let i = e.detail.value
+        this.index = e.detail.value
+        this.partnerInfo.branchBankId = this.branchBankArray[i].id
+        this.partnerInfo.branchBankName = this.branchBankArray[i].subbranchBank
+      },
+      getVerifyCode(){
+        if (this.partnerInfo.mobilePhone == "") {
+          tip.alert("请输入手机号码");
+          return false;
+        }
+        this.sendVerifyCode();
+        let that = this;
+        that.sendMsgDisabled = true;
+        let interval = setInterval(() => {
+          if ((that.time--) <= 0) {
+            that.time = 60;
+            that.sendMsgDisabled = false;
+            clearInterval(interval);
+            that.$apply();
+          }
+          that.$apply();
+        }, 1000);
+      },
+
+      handleInput(e){
+        let dataset = e.currentTarget.dataset
+        this[dataset.obj][dataset.item] = e.detail.value
+      },
+
       submitInfo(){
-        wepy.navigateTo({
-          url: 'partnermtlsucc'
+        if (!this.checkAllNeeded()) {
+          return false
+        }
+
+        updateIdCardNo({
+          mobilePhone:this.partnerInfo.mobilePhone,
+          verificationCode: this.partnerInfo.verificationCode,
+          cardNo: this.partnerInfo.cardNo,
+          bankName: this.partnerInfo.bankName,
+          accountName: this.partnerInfo.accountName,
+          province: this.partnerInfo.province,
+          city: this.partnerInfo.city,
+          district: this.partnerInfo.district,
+          branchBankId: this.partnerInfo.branchBankId,
+          branchBankName: this.partnerInfo.branchBankName,
+          idCardNo: this.partnerInfo.idCardNo
+        }).then(response=>{
+          console.log(response)
+          let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
+          userSpecInfo.accountEntity.auditStatus = 1
+          wepy.setStorageSync(USER_SPECICAL_INFO, userSpecInfo)
+          wepy.navigateTo({
+            url: 'partnermtlsucc'
+          })
+          console.log(userSpecInfo)
+        }, error=>{
+          console.log(error)
         })
       },
-      changeInput(e){
+      handleCardNoBlur(e){
+        if (this.partnerInfo.cardNo != '' && this.partnerInfo.province != ''){
+          selBanks({
+            provinceCode: this.partnerInfo.province,
+            cityCode: this.partnerInfo.city,
+            bankCardNo: this.partnerInfo.cardNo
+          }).then(response => {
+            if (response.result != undefined) {
+              this.partnerInfo.bankName = response.result[0].bankName
+              this.branchBankArray = response.result
+            } else{
+              tip.alert("银行卡号和银行地区信息不匹配")
+            }
+            this.$apply()
+          }, error =>{
+            this.$apply()
+          })
+        }
         console.log(e.detail)
         this.bankCardNo = e.detail.value
       },
       openBranchBankPicker(){
-        if (!this.bankCardNo) {
+        if (!this.partnerInfo.cardNo) {
           wepy.showToast({
             title: '请输入银行卡号',
             icon: 'none',
@@ -137,23 +273,30 @@
           })
           return
         }
-        selBanks({
-          provinceCode: this.provinceCode,
-          cityCode: this.cityCode,
-          countyCode: this.countyCode,
-          bankCardNo: this.bankCardNo
-        }).then(response => {
-          console.log(response)
-        })
+
       },
       areaPickerArray(province, city, area) {
         this.province = province;
         this.city = city;
         this.area = area;
-        this.provinceCode = province.areaCode;
-        this.cityCode = city.areaCode;
-        this.areaCode = area.areaCode;
+        this.partnerInfo.province = province.areaCode;
+        this.partnerInfo.city = city.areaCode;
+        this.partnerInfo.district = area.areaCode;
         this.fullArea = this.province.name + this.city.name + this.area.name
+        if (this.partnerInfo.cardNo != '') {
+          selBanks({
+            provinceCode: this.partnerInfo.province,
+            cityCode: this.partnerInfo.city,
+            bankCardNo: this.partnerInfo.cardNo
+          }).then(response => {
+            console.log(response.result[0].bankName)
+            this.partnerInfo.bankName = response.result[0].bankName
+            this.branchBankArray = response.result
+            this.$apply()
+          }, error =>{
+            this.$apply()
+          })
+        }
         this.$apply();
       },
       openAddressPicker() {

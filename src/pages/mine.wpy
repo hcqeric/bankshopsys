@@ -15,6 +15,7 @@
         image{
           width: 110rpx;
           height: 110rpx;
+          border-radius: 55rpx;
         }
         button{
           margin-top: 8rpx;
@@ -30,7 +31,6 @@
       }
       text{
         margin-left: 32rpx;
-        margin-bottom: 40rpx;
       }
     }
     .mine-content{
@@ -108,12 +108,12 @@
 </style>
 <template>
   <view class="mm-page">
-    <view class="mine-header mt16">
+    <view class="mine-header mt16" @tap="toInfo">
       <view class="mine-avatar">
         <image src="{{userInfo.avatarUrl}}"></image>
-        <button open-type="getUserInfo" @getuserinfo="getUserInfo" size="mini" plain="true">更换头像</button>
+        <!--<button open-type="getUserInfo" @getuserinfo="getUserInfo" size="mini" plain="true">更换头像</button>-->
       </view>
-      <text>无名氏</text>
+      <text>{{userInfo.nickName}}</text>
       <!--<button open-type="getUserInfo" @getuserinfo="getUserInfo">获取用户信息</button>-->
     </view>
     <view class="mine-content mt16" >
@@ -170,6 +170,7 @@
 <script>
   import wepy from 'wepy';
   import {USER_SPECICAL_INFO} from '../utils/constant';
+  import {getUserInfo} from '../http/getData';
   import tip from '../utils/tip'
   export default class Mine extends wepy.page {
     config = {
@@ -184,6 +185,11 @@
     }
 
     methods = {
+      toInfo(){
+        wepy.navigateTo({
+          url: 'userinfo'
+        })
+      },
       getUserInfo(res){
         console.log(res)
       },
@@ -192,23 +198,40 @@
           wepy.navigateTo({
             url: 'feedback'
           })
+          return false
         } else if (id == 5) {
-
+          return false
         } else if (id == 6) {
-
+          return false
         }
         let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
         if (userSpecInfo.userType == 0){
-          tip.confirm("您当前还不是合伙人，请先完善合伙人资料").then(response=>{
-            if (response == 'confirm') {
-              wepy.navigateTo({
-                url: 'partnermtl'
-              })
-            }
-          }).catch(error =>{
-            // console.log(error)
-          })
-          return false
+          if(userSpecInfo.accountEntity.auditStatus == 1){
+            tip.alert("您的资料正在审核中...")
+            return false
+          }else if(userSpecInfo.accountEntity.auditStatus == 0){
+            tip.confirm("您当前还不是合伙人，请先完善合伙人资料").then(response=>{
+              if (response == 'confirm') {
+                wepy.navigateTo({
+                  url: 'partnermtl'
+                })
+              }
+            }).catch(error =>{
+              // console.log(error)
+            })
+            return false
+          }else if(userSpecInfo.accountEntity.auditStatus == 3){
+            tip.confirm("您提交的资料未通过审核，请重新认证").then(response=>{
+              if (response == 'confirm') {
+                wepy.navigateTo({
+                  url: 'partnermtl'
+                })
+              }
+            }).catch(error =>{
+              // console.log(error)
+            })
+            return false
+          }
         }
         if (id == 1){
           wepy.navigateTo({
@@ -224,6 +247,16 @@
           })
         }
       }
+    }
+
+    onLoad(){
+      getUserInfo().then(response=>{
+        this.userInfo.nickName = response.result.nickname
+        this.userInfo.avatarUrl = response.result.logoUrl
+        this.$apply();
+      },error=>{
+        console.log(error)
+      })
     }
   }
 </script>

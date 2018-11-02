@@ -13,12 +13,16 @@
 //嘉龙本地IP
  const serviceUrl = 'http://192.168.0.99:8081';
 
+ const uploadUrl = `${url}/app/file/ftpUpload/headImg/0`;
+
 //增加支持动态路由形式
 // testUseCoupon: '/app/order/useCoupon/:userId/:orderNum'
 
 export default {
   baseUrl: url,
   serviceUrl: serviceUrl,
+  uploadUrl: uploadUrl,
+  sendCodeNoType: '/app/sendCodeNoType',
   sendCode: '/app/sendCode',
   doRegister: '/app/user/register',
   doLogin: '/app/wx/oauth2Login',
@@ -26,5 +30,16 @@ export default {
   saveSuggestion: '/app/suggestions/save',
   getMerchantList: '/app/merchant/list',
   getPartnerList: '/app/user/getUserByParentId',
-  selBanks: '/v1/bank/sele_banks'
+  isEnablePartner: '/app/account/onOff',
+  updateIdCardNo: '/app/account/updateIdCardNo',
+  saveMerchant: '/app/merchant/save',
+  getSalesmanList: '/app/user/getSalesmanListBy',
+  getNoticeList: '/app/notice/listByUserId',
+  savePartnerMgr: '/app/partnerUpgrade/save',
+  updateCardNo: '/app/account/updateCardNo',
+  requestWithdraw: '/app/accountDetail/withdraw',
+  getUserInfo: '/app/user/info',
+  updateUser: '/app/user/updateUser',
+  uploadFile: '/app/file/ftpUpload/headImg/0',
+  selBanks: '/app/bank/sele_banks'
 }

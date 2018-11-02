@@ -4,9 +4,9 @@
     background: #fff;
   }
 
-  .swiper-tab-order.active {
-    color: #ff4856;
-    border-bottom: 5rpx solid #ff4856;
+  .swiper-tab-list.active {
+    color: #4a93db;
+    border-bottom: 5rpx solid #4a93db;
   }
   .swiper-item-box{
     box-sizing: border-box;
