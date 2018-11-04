@@ -1,6 +1,7 @@
 import wepy from 'wepy';
 import url from '@/http/url.js'
 import tip from '@/utils/tip'
+import {USER_SPECICAL_INFO} from '../utils/constant';
 import {getOpenId} from '../utils/utils';
 
 class Request {
@@ -11,7 +12,7 @@ class Request {
   require(options) {
     if (!options.api) throw new Error('api 不能为空');
     if (!options.openId) {
-
+      console.log("不需要openId")
     } else {
       options.api = options.api + '?openId=' + getOpenId()
     }
@@ -51,6 +52,10 @@ class Request {
                 return resolve(response.data)
             }else{
                 if(response.data.code === 401){ //TOKEN失效
+                  wepy.removeStorageSync(USER_SPECICAL_INFO)
+                  wepy.redirectTo({
+                    url: 'login'
+                  })
                   // removeLocalStorage(Constants.TOKEN)
                   // router.push('/login')
                 }

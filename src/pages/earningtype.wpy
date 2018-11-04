@@ -1,0 +1,166 @@
+<style lang="less">
+  .m-page{
+    .notification-list-box{
+      box-sizing: border-box;
+      padding: 16rpx;
+      .notification-list-item{
+        position: relative;
+        padding: 16rpx 0;
+        &:after{
+          position: absolute;
+          content: '';
+          bottom: 0;
+          left: 0;
+          height: 1px;
+          width: 100%;
+          background: #eee;
+        }
+      }
+    }
+  }
+
+</style>
+<template>
+  <view class="m-page">
+    <scroll-view scroll-y="true" class="notification-list-box" style="height:{{winHeight - 31}}px" bindscrolltolower="onReachBottom">
+      <!--<orderItem :orderList.sync="orderList" class="swiper-item-order"></orderItem>-->
+      <notification class="notification-list-item"></notification>
+      <!--加载更多时动画-->
+      <bottomLoadMore :show.sync="showLoading" message="正在加载"></bottomLoadMore>
+      <!--暂无数据显示-->
+      <placeholder :show.sync="is_empty" message="暂无发现数据"></placeholder>
+    </scroll-view>
+
+    <view class="partner-list-no-content" wx:if="{{noData == true}}">
+      <view class="no-content-tip">
+        <p>o(╥﹏╥)o</p>
+        <text>您还没有添加过商户</text>
+        <button @tap="toQuickRec">去添加商户</button>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import NotificationItem from "../components/notificationitem"
+  import BottomLoadMore from "../components/common/bottomLoadMore"
+  import Placeholder from "../components/common/placeholder"
+  import {getNoticeList} from '../http/getData';
+
+  export default class Notification extends wepy.page {
+    config = {
+      enablePullDownRefresh: true,
+    }
+
+    components = {
+      notification: NotificationItem,
+      bottomLoadMore: BottomLoadMore,
+      placeholder: Placeholder
+    }
+
+    data = {
+      type: '',
+      page: 1,
+      limit: '15',
+      winHeight: 0,
+      showLoading: false,
+      is_empty: false,
+      noData: false,
+      isPullDownRefresh: false
+    }
+
+    onPullDownRefresh () {
+
+      // 显示顶部刷新图标
+      wepy.showNavigationBarLoading();
+      this.isPullDownRefresh = true
+      this.page = 1
+
+      this.getNotificationList()
+
+    }
+    getNotificationList(){
+
+      getNoticeList({
+        page: this.page + '',
+        limit: this.limit
+      }).then(response=>{
+        console.log(response)
+        this.stopPullDown()
+      }, error=>{
+        this.stopPullDown()
+      }).catch(error =>{
+        this.stopPullDown()
+      })
+    }
+
+    stopPullDown(){
+      if (this.isPullDownRefresh) {
+        // 隐藏导航栏加载框
+        wepy.hideNavigationBarLoading();
+        // 停止下拉动作
+        wepy.stopPullDownRefresh()
+      }
+    }
+
+    onLoad(opt){
+      this.type = opt.type
+      if (this.type == 0) {
+        wepy.setNavigationBarTitle({
+          title: 'pocs收款收益'
+        })
+      }else if(this.type == 1){
+        wepy.setNavigationBarTitle({
+          title: '扫码收款收益'
+        })
+      }else if(this.type == 2){
+        wepy.setNavigationBarTitle({
+          title: '信用卡推荐收益'
+        })
+      }else if(this.type == 3){
+        wepy.setNavigationBarTitle({
+          title: '贷款推荐收益'
+        })
+      }
+      this.getNotificationList()
+    }
+
+    //加载更多
+    onReachBottom() {
+      console.log("加载更多");
+      let that = this;
+      that.showLoading = true;
+      // console.log(that.page_total + "232===" + that.currentPage);
+      // //判断总页数是否大于翻页数
+      // if ((that.page_total) > that.currentPage) {
+      //   //防止重复加载
+      //   if (that.preventRepeatReuqest) {
+      //     return true;
+      //   }
+      //   that.preventRepeatReuqest = true;
+      //   that.currentPage++;
+      //   console.log(this.currentTab);
+      //   if (this.currentTab == 0) {
+      //     console.log("所有订单类型");
+      //     that.getMyOrder(that.currentPage);
+      //   } else if (this.currentTab == 1) {
+      //     console.log("未付款订单类型");
+      //     that.orderStatus = 0;
+      //     that.getMyOrder(that.currentPage);
+      //   } else if (this.currentTab == 2) {
+      //     console.log("待发货订单类型");
+      //     that.orderStatus = 2;
+      //     that.receiveFlg=2;
+      //     that.getMyOrder(that.currentPage);
+      //   } else if (this.currentTab == 3) {
+      //     console.log("已完成订单类型");
+      //     that.orderStatus = 4;
+      //     that.getMyOrder(that.currentPage);
+      //   }
+      //   that.preventRepeatReuqest = false;
+      // } else {
+      //   that.showLoading = false;
+      // }
+    };
+  }
+</script>

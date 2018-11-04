@@ -138,28 +138,28 @@
     </view>
   </view>
   <view class="earnings-content">
-    <view class="earnings-item">
+    <view class="earnings-item" @tap="toEarningsTypeList(0)">
       <view class="earnings-info">
         <text>pocs收款收益</text>
         <text class="earnings-amount">3000.00</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
-    <view class="earnings-item">
+    <view class="earnings-item" @tap="toEarningsTypeList(1)">
       <view class="earnings-info">
         <text>扫码收款收益</text>
         <text class="earnings-amount">3000.00</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
-    <view class="earnings-item">
+    <view class="earnings-item" @tap="toEarningsTypeList(2)">
       <view class="earnings-info">
         <text>信用卡推荐收益</text>
         <text class="earnings-amount">3000.00</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
-    <view class="earnings-item">
+    <view class="earnings-item" @tap="toEarningsTypeList(3)">
       <view class="earnings-info">
         <text>贷款推荐收益</text>
         <text class="earnings-amount">3000.00</text>
@@ -196,6 +196,11 @@
     };
 
     methods = {
+      toEarningsTypeList(type){
+        wepy.navigateTo({
+          url: 'earningtype?type='+ type
+        })
+      },
       toWithdrawal() {
         wepy.navigateTo({
           url: 'withdrawal'

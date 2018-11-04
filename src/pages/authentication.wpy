@@ -17,7 +17,10 @@
 </template>
 <script>
   import wepy from 'wepy';
-
+  import {getOpenId} from '../utils/utils';
+  import {codeLogin} from '../http/getData';
+  import {USER_SPECICAL_INFO} from '../utils/constant';
+  import tip from '../utils/tip'
   export default class Authentication extends wepy.page {
 
       config = {
@@ -28,18 +31,35 @@
 
       }
 
-      onLoad(){
-
-        console.log(this.$parent.globalData.login)
-        if (this.$parent.globalData.login) {
-          wepy.switchTab({
-            url: 'home'
-          })
-        }else{
+     async onLoad(){
+        if (getOpenId() == '') {
           wepy.redirectTo({
             url: 'login'
           })
+        }else{
+          let res = await wepy.login()
+          codeLogin({
+            code: res.code
+          }).then(response => {
+            let userSpecInfo = response.result
+            wepy.setStorageSync(USER_SPECICAL_INFO, userSpecInfo);
+            wepy.switchTab({
+              url: 'home'
+            })
+          }, error =>{
+            tip.alert("登录信息有误，请重新登陆")
+            wepy.redirectTo({
+              url: 'login'
+            })
+          })
+
         }
+        // console.log(this.$parent.globalData.login)
+        // if (this.$parent.globalData.login) {
+        //
+        // }else{
+        //
+        // }
       }
   }
 </script>

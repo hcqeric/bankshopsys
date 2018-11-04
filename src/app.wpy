@@ -11,11 +11,11 @@ export default class extends wepy.app {
   config = {
     pages: [
 
-
+      'pages/authentication',
       'pages/order',
       'pages/notification',
       'pages/home',
-
+      'pages/earningtype',
       'pages/merchantdtl',
       'pages/partnerdtl',
       'pages/userinfo',
@@ -37,7 +37,7 @@ export default class extends wepy.app {
       'pages/mybankcard',
 
       'pages/testNav',
-      'pages/authentication',
+
 
 
 
