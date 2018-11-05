@@ -1,0 +1,102 @@
+<style lang="less">
+  .mm-page{
+    background: #4a93db;
+    .orderdtl-detail{
+      position: relative;
+      z-index: 99;
+      padding: 16rpx;
+      height: 96vh;
+      background-image: url("http://120.79.17.7:85/china_ums/orderdtl-bg.png");
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+      .orderdtl-detail-title{
+        text-align: center;
+        height: 152rpx;
+        line-height: 152rpx;
+        font-size: 36rpx;
+        font-weight: 550;
+      }
+      .orderdtl-detail-info{
+        display: flex;
+        flex-direction: column;
+        padding: 0 32rpx 16rpx;
+        .orderdtl-detail-info-item{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: flex-start;
+          text{
+            &:first-of-type{
+              color: #999;
+              flex-shrink: 0;
+              margin-right: 16rpx;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="mm-page">
+    <view class="orderdtl-detail">
+      <view class="orderdtl-detail-title">订单详情</view>
+      <view class="orderdtl-detail-info">
+        <view class="orderdtl-detail-info-item">
+          <text>商户名称</text>
+          <text>喜乐购超市</text>
+        </view>
+
+        <view class="orderdtl-detail-info-item">
+          <text>联系人</text>
+          <text>陈先生</text>
+        </view>
+        <view class="orderdtl-detail-info-item">
+          <text>联系电话</text>
+          <text>15899888888</text>
+        </view>
+        <view class="orderdtl-detail-info-item">
+          <text>POS费率</text>
+          <text>0.60%</text>
+        </view>
+        <view class="orderdtl-detail-info-item">
+          <text>扫码费率</text>
+          <text>0.38%</text>
+        </view>
+        <view class="orderdtl-detail-info-item">
+          <text>发展人</text>
+          <text>李四</text>
+        </view>
+        <view class="orderdtl-detail-info-item">
+          <text>客户经理</text>
+          <text>张三</text>
+        </view>
+        <view class="orderdtl-detail-info-item">
+          <text>派发时间</text>
+          <text>2018-08-21  14:01</text>
+        </view>
+        <view class="orderdtl-detail-info-item">
+          <text>处理状态</text>
+          <text class="ftb">已退回</text>
+        </view>
+        <view class="orderdtl-detail-info-item">
+          <text>退回原因</text>
+          <text>商户资料不全</text>
+        </view>
+        <view class="orderdtl-detail-info-item">
+          <text>商户地址</text>
+          <text>深圳市南山区西环街4-408号</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class OrderDtl extends wepy.page {
+    config = {
+      navigationBarTitleText: '订单详情'
+    }
+  }
+</script>

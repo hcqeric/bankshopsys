@@ -13,7 +13,8 @@ import wepy from 'wepy'
 export default class Filter extends wepy.component {
   props = {
     currentTab: {
-      default: 0
+      default: 0,
+      twoWay: true
     },
     tabList: {
       type: Object
@@ -26,7 +27,12 @@ export default class Filter extends wepy.component {
      */
     swichNav(e) {
       let that = this;
-      if (this.data.currentTab == e.target.dataset.current) {
+      if (this.data.currentTab === undefined) {
+        that.currentTab = 0
+        this.data.currentTab = 0
+        that.$apply();
+      }
+      if (this.data.currentTab === e.target.dataset.current) {
         return false;
       } else {
         that.currentTab = e.target.dataset.current;

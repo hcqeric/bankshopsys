@@ -148,14 +148,14 @@
           <image src="../images/arrow-right.png"></image>
         </view>
       </view>
-      <view class="mine-content-item">
+      <view class="mine-content-item" @tap="toDetail(5)">
         <span class="icon-contact"></span>
         <view class="mine-item-detail">
           <text>联系客服</text>
           <image src="../images/arrow-right.png"></image>
         </view>
       </view>
-      <view class="mine-content-item">
+      <view class="mine-content-item" @tap="toDetail(6)">
         <span class="icon-company"></span>
         <view class="mine-item-detail">
           <text>公司介绍</text>
@@ -200,8 +200,14 @@
           })
           return false
         } else if (id == 5) {
+          wepy.makePhoneCall({
+            phoneNumber: '10086'
+          })
           return false
         } else if (id == 6) {
+          wepy.navigateTo({
+            url: 'companyintro'
+          })
           return false
         }
         let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)

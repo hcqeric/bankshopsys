@@ -9,6 +9,9 @@
         align-items: center;
         justify-content: space-between;
         padding: 10rpx 0;
+        text{
+          flex-shrink: 0;
+        }
         .userinfo-item-right{
           display: flex;
           align-items: center;
@@ -34,21 +37,21 @@
         &:before{
           content: '';
           position: absolute;
-          height: 1rpx;
+          height: 1px;
           width: 100%;
           background: #eee;
-          top: 0rpx;
+          top: 0;
           left: 0;
         }
-        &:after{
-          content: '';
-          position: absolute;
-          height: 1rpx;
-          width: 100%;
-          background: #eee;
-          top: 1rpx;
-          left: 0;
-        }
+        /*&:after{*/
+          /*content: '';*/
+          /*position: absolute;*/
+          /*height: 1px;*/
+          /*width: 100%;*/
+          /*background: #eee;*/
+          /*top: 0;*/
+          /*left: 0;*/
+        /*}*/
       }
     }
   }

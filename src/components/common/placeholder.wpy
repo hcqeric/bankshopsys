@@ -1,7 +1,10 @@
 <template>
-    <view class="empty-placeholder row-center" wx:if="{{show}}">
-        <image class="icon-xl" src="../../images/empty.png" />
-        <view class="txt">{{message}}</view>
+    <view class="empty-placeholder {{topZero ? 'is_top' : ''}}" wx:if="{{show}}">
+        <!--<image class="icon-xl" src="../../images/empty.png" />-->
+      <view class="empty-placeholder-content">
+        <p>o(╥﹏╥)o</p>
+        <text class="txt">{{message}}</text>
+      </view>
     </view>
 </template>
 <script>
@@ -12,6 +15,10 @@ export default class Placeholder extends wepy.component {
             type: Boolean,
             default: false
         },
+      topZero: {
+        type: Boolean,
+        default: false
+      },
         message: {
             default: '没有相关信息'
         }
@@ -20,26 +27,35 @@ export default class Placeholder extends wepy.component {
 </script>
 <style lang="less">
 .empty-placeholder {
-margin-top:150rpx;
-    width: 100%;
-    text-align: center;
-    text {
-        color: #666;
-        font-size: 40rpx;
-        margin-left: 30rpx;
+  position: absolute;
+  top: 82rpx;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .empty-placeholder-content{
+    width: 60vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    p {
+      color: #333;
+      font-size: 50rpx;
     }
+    .txt {
+      font-size: 26rpx;
+      color: #888888;
+      margin-top: 36rpx;
+    }
+  }
 }
+  .empty-placeholder.is_top{
+    top: 0;
+    background: #f7f7f7;
+  }
 
-.icon-xl {
-    width: 140rpx;
-    height: 148rpx;
-    display: block;
-    margin: 0 auto;
-}
-
-.txt {
-    font-size: 26rpx;
-    color: #888888;
-    margin-top: 36rpx;
-}
 </style>

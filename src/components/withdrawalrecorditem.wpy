@@ -1,0 +1,76 @@
+<style lang="less">
+  .withdrawal-item-obj{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    padding: 24rpx 0;
+    .withdrawal-item-content{
+      flex: 1;
+      margin: 0 8rpx;
+      .withdrawal-item-info{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .money{
+        text{
+          font-size: 32rpx;
+        }
+      }
+      .time{
+        text{
+          color: #999;
+          font-size: 26rpx;
+        }
+        text.txt-time{
+          font-size: 26rpx;
+          color: #999;
+        }
+        text.fail{
+          color: #fe7e6d;
+        }
+        text.success{
+          color: #579add;
+        }
+      }
+    }
+    image{
+      width: 36rpx;
+      height: 36rpx;
+      flex-shrink: 0;
+    }
+    &:after{
+      content: '';
+      height: 1px;
+      width: 100%;
+      background: #eee;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+  }
+</style>
+<template>
+  <view class="withdrawal-item-obj">
+    <view class="withdrawal-item-content">
+      <view class="withdrawal-item-info money">
+        <text>中国建设银行</text>
+        <text>2000.00</text>
+      </view>
+      <view class="withdrawal-item-info time">
+        <text class="txt-time">2018-08-21 14:01:02</text>
+        <text>提现成功</text>
+      </view>
+    </view>
+    <image src="../images/arrow-right.png"></image>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class WithdrawalRecordItem extends wepy.component {
+    data={}
+  }
+</script>

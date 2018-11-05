@@ -1,0 +1,282 @@
+<template>
+  <view wx:if="{{show}}" class="cascade_box">
+    <view class="cascade_hei" animation="{{animationData.fadeAnim}}"></view>
+    <view class="cascade_find" animation="{{animationData.showAnim}}">
+      <view class="cascade_header">
+        <text class='quxiao' @tap="cancelPicker">取消</text>
+        <text class="queren" @tap="onAddressPick">确认</text>
+      </view>
+      <picker-view value="{{value}}" indicator-style="height: 80rpx;font-size: 38rpx" style="width: 100%; height: 400rpx;" @change="bindChange">
+        <picker-view-column class="pvc">
+          <view wx:for="{{years}}" wx:key='this' style="line-height: 80rpx;text-align:center;">{{item}}年</view>
+        </picker-view-column>
+        <picker-view-column class="pvc">
+          <view wx:for="{{months}}" wx:key='this' style="line-height: 80rpx;text-align:center;">{{item}}月</view>
+        </picker-view-column>
+        <!--<picker-view-column class="pvc">-->
+          <!--<view wx:for="{{days}}" wx:key='this' style="line-height: 80rpx;text-align:center;">{{item}}日</view>-->
+        <!--</picker-view-column>-->
+      </picker-view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import {getDaysInYearMonth} from '../../utils/utils';
+
+export default class TimePicker extends wepy.component {
+  data = {
+    years: [],
+    months: [],
+    days: [],
+    year: '',
+    month: '',
+    day: '',
+    value: [1993, 1, 1],
+    selectedRegion: [0, 0, 0],
+    animationData: {},
+    show: false,
+  }
+
+
+  setDatePickerValue(year, month, day) {
+    this.year = year;
+    this.month = month;
+    this.day = day;
+    this.$apply();
+  }
+
+  showPicker() {
+    const fadeAnim = wepy.createAnimation({
+      duration: 500,
+      timingFunction: 'ease',
+    });
+    this.fadeAnim = fadeAnim;
+
+    const showAnim = wepy.createAnimation({
+      duration: 500,
+      timingFunction: 'ease',
+    });
+    this.showAnim = showAnim;
+
+    fadeAnim.backgroundColor('#000').opacity(0.5).step();
+    showAnim.bottom(0 + 'rpx').step();
+    this.show = true;
+    this.animationData = {
+      fadeAnim: fadeAnim.export(),
+      showAnim: showAnim.export(),
+    };
+
+    this.$apply();
+  }
+
+  hidePicker() {
+    this.fadeAnim.backgroundColor('#fff').opacity(0).step();
+    this.showAnim.bottom(-600 + 'rpx').step();
+
+
+    this.show = false;
+    this.animationData = {
+      fadeAnim: this.fadeAnim.export(),
+      showAnim: this.showAnim.export(),
+    };
+
+    this.$apply();
+
+  }
+
+  //点击事件，点击弹出选择页
+  openDatePicker() {
+    this.initDatePicker();
+    this.showPicker();
+  }
+
+
+  methods = {
+    //取消按钮
+    cancelPicker() {
+      //这里也是动画，然其高度变为0
+      this.hidePicker();
+    },
+    //确认按钮
+    onAddressPick() {
+      //一样是动画，级联选择页消失，效果和取消一样
+      this.hidePicker();
+      const [yearIndex, monthIndex, dayIndex] = this.selectedRegion;
+      const { years, months, days } = this;
+      this.year = years[yearIndex];
+      this.month = months[monthIndex];
+      this.day = days[dayIndex] || {};
+
+      this.$emit("dateArray", this.year, this.month, this.day)
+      this.$apply();
+    },
+    //滚动选择的时候触发事件
+    bindChange(e) {
+      //这里是获取picker-view内的picker-view-column 当前选择的是第几项
+      const val = e.detail.value
+
+      let years = this.years
+      let months = this.months
+      let daysNow = this.days
+      let days = []
+      //年变化
+      if (this.selectedRegion[0] != val[0]) {
+        let dayInt = getDaysInYearMonth(years[val[0]], months[val[1]])
+        for (let i = 1 ; i <= dayInt; i++) {
+          days.push(i)
+        }
+        this.days = days
+        if (daysNow.length > days.length){
+          this.selectedRegion = [val[0], val[1], val[2]];
+        } else{
+          this.selectedRegion = [val[0], val[1], 0];
+        }
+        this.$apply()
+        //月变化
+      } else if (this.selectedRegion[1] != val[1]) {
+        let dayInt = getDaysInYearMonth(years[val[0]], months[val[1]])
+        for (let i = 1 ; i <= dayInt; i++) {
+          days.push(i)
+        }
+        this.days = days
+        if (daysNow.length < days.length){
+          this.selectedRegion = [val[0], val[1], val[2]];
+        } else{
+          this.selectedRegion = [val[0], val[1], 0];
+        }
+        this.$apply()
+        //日变化，省市不变
+      } else {
+        this.selectedRegion = val;
+      }
+
+      this.value = this.selectedRegion;
+      this.$apply();
+    }
+  }
+
+
+
+  initDatePicker(selected){
+    let years = [];
+    let months = [];
+    let days = [];
+    let defaultValue = selected || [0, 0, 0];
+    let date = new Date()
+    let year = date.getFullYear()
+    let month = date.getMonth() + 1
+    let day = date.getDay()
+
+
+    for (let i = 1900; i <= date.getFullYear(); i++) {
+      years.push(i)
+    }
+
+    years.some((item, index) => {
+      if (year && item == year) {
+        defaultValue[0] = index;
+        return true;
+      }
+    });
+
+    for (let i = 1 ; i <= 12; i++) {
+      months.push(i)
+    }
+
+    months.some((item, index) => {
+      if (month && item == month) {
+        defaultValue[1] = index;
+        return true;
+      }
+    })
+
+    let dayInt = getDaysInYearMonth(years[defaultValue[0]], months[defaultValue[1]])
+
+    for (let i = 1 ; i <= dayInt; i++) {
+      days.push(i)
+    }
+    days.some((item, index) => {
+      if (day && item == day) {
+        defaultValue[2] = index;
+        return true;
+      }
+    })
+
+    this.years = years;
+    this.months = months;
+    this.days = days;
+    this.value = defaultValue;
+    this.selectedRegion = defaultValue;
+    this.$apply();
+  }
+
+
+  onLoad() {
+
+  }
+};
+
+</script>
+<style lang="less">
+.cascade_box {
+  font-size: 32rpx;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 99999;
+}
+
+.cascade_hei {
+  width: 100%;
+  height: 100vh;
+  background: #fff;
+  opacity: 0;
+}
+
+.cascade_find {
+  width: 100%;
+  height: 600rpx;
+  position: fixed;
+  bottom: -600rpx;
+  left: 0;
+  background: #fff;
+  z-index: 99999;
+}
+
+.quxiao,
+.queren {
+  display: block;
+  position: absolute;
+  width: 100rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  /*background: #00f;*/
+  text-align: center;
+  color: #0CBB0A
+}
+
+.quxiao {
+  color: #939393;
+}
+
+.queren {
+  right: 0;
+  top: 0;
+}
+
+.pvc {
+  font-size: 38rpx;
+}
+
+.cascade_header {
+  height: 80rpx;
+  width: 100%;
+  margin-bottom: 20rpx;
+}
+
+</style>

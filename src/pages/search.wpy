@@ -1,0 +1,131 @@
+<template>
+  <view class="container">
+    <search @searchValue.user="doSearch"></search>
+    <!--<filterBar wx:if="{{list.length>0||skuval !==''}}" @currentType.user="currentType"></filterBar>-->
+    <view wx:if="{{list.length>0}}">
+      <!--矩阵商品列表模块-->
+      <!--<shopGridList :purchasetype.sync="purchasetype" :list.sync="list"></shopGridList>-->
+      <repeat  for="{{list}}" key="index" index="index" item="item">
+        <machineins :type.sync="item.activeStatus" :merchantInfo="item"></machineins>
+      </repeat>
+    </view>
+    <placeholder :show.sync="is_empty" message="暂无发现数据"></placeholder>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import tip from '@/utils/tip'
+  import {selectByIdOrName} from '../http/getData';
+  import Searchs from '@/components/search'
+  import MachineIns from '@/components/machineins'
+  import Placeholder from "../components/common/placeholder"
+  export default class Search extends wepy.page {
+    config = {
+      navigationBarTitleText: '搜索',
+    }
+    components = {
+      search: Searchs,
+      placeholder: Placeholder,
+      machineins: MachineIns
+    }
+    data = {
+      list: [],
+      is_empty: false,
+      page: 1,
+      limit: '15',
+      totalCount: 0
+    }
+
+    onLoad() {
+
+    }
+
+    doSearchContent(val){
+      selectByIdOrName({
+        merchantStr: val,
+        page: this.page + '',
+        limit: this.limit
+      }).then(response=>{
+        this.totalCount = response.result.totalCount
+        if (response.result.totalCount == 0){
+          this.is_empty = true;
+          console.log("AA")
+        }else{
+          this.is_empty = false;
+        }
+        if (response.result.list != undefined) {
+          response.result.list.map(item=>{
+            this.list.push(item)
+          })
+        }
+        this.$apply();
+      }, error => {
+        console.log(error)
+      }).catch(error=>{
+        if (this.list.length > 0) {
+          this.is_empty = false
+        }else {
+          this.is_empty = true
+        }
+      })
+    }
+
+    methods = {
+      doSearch(val) {
+        this.list = [];
+        this.is_empty = false;
+        this.doSearchContent(val);
+      }
+    }
+    //加载更多
+    onReachBottom() {
+      let that = this;
+      if(this.totalCount - parseInt(this.limit) * this.page > 0){
+        // that.showLoading = true;
+        that.page++;
+        that.getNotificationList()
+      }else{
+        // that.showLoading = false;
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .history {
+    padding: 20px 27px;
+  }
+  .doc {
+    color: #999;
+    font-size: 26rpx;
+  }
+  .lable {
+    margin-top: 20rpx;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left: -20rpx;
+    .child {
+      background: #dedede;
+      padding: 10rpx 20rpx;
+      border-radius: 300rpx;
+      margin-left: 20rpx;
+      font-size: 26rpx;
+      margin-top: 5rpx;
+      color: #000;
+    }
+  }
+  .btn_box {
+    width: 377rpx;
+    margin: 0 auto;
+    padding-top: 88rpx;
+    .button {
+      color: #999;
+    }
+  }
+  .active {
+    border: 1px solid #f23737;
+    color: #f23737;
+  }
+</style>

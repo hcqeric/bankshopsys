@@ -40,6 +40,10 @@ export default {
   requestWithdraw: '/app/accountDetail/withdraw',
   getUserInfo: '/app/user/info',
   updateUser: '/app/user/updateUser',
+  getOrderListByType: '/app/merchant/getMerchantList',
+  getCustomManagerList: '/app/merchant/listByUserId',
+  selectByIdOrName: '/app/merchant/selectByIdOrName',
+  getEarningListByType: '/app/accountDetail/listByType',
   uploadFile: '/app/file/ftpUpload/headImg/0',
   selBanks: '/app/bank/sele_banks'
 }

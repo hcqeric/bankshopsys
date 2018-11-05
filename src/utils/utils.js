@@ -51,3 +51,9 @@ export function formatTime(date){
     // + ':' + date.getSeconds()
   return Str
 }
+export function getDaysInYearMonth(year, month){
+  month = parseInt(month, 10);
+  var date = new Date(year, month, 0);
+  return date.getDate();
+}
+

@@ -16,34 +16,33 @@
           background: #eee;
         }
       }
+      .notification-list-item:last-of-type{
+        &:after{
+          height: 0px;
+        }
+      }
     }
   }
 
 </style>
 <template>
   <view class="m-page">
-    <scroll-view scroll-y="true" class="notification-list-box" style="height:{{winHeight - 31}}px" bindscrolltolower="onReachBottom">
-      <!--<orderItem :orderList.sync="orderList" class="swiper-item-order"></orderItem>-->
-      <notification class="notification-list-item"></notification>
-      <!--加载更多时动画-->
-      <bottomLoadMore :show.sync="showLoading" message="正在加载"></bottomLoadMore>
-      <!--暂无数据显示-->
-      <placeholder :show.sync="is_empty" message="暂无发现数据"></placeholder>
-    </scroll-view>
-
-    <view class="partner-list-no-content" wx:if="{{noData == true}}">
-      <view class="no-content-tip">
-        <p>o(╥﹏╥)o</p>
-        <text>您还没有添加过商户</text>
-        <button @tap="toQuickRec">去添加商户</button>
-      </view>
+    <view class="notification-list-box">
+      <repeat  for="{{notificationList}}" key="index" index="index" item="item">
+        <!--<orderItem :orderList.sync="orderList" class="swiper-item-order"></orderItem>-->
+        <notification class="notification-list-item" :notificationInfo="item"></notification>
+      </repeat>
     </view>
+      <!--&lt;!&ndash;加载更多时动画&ndash;&gt;-->
+      <!--<bottomLoadMore :show.sync="showLoading" message="正在加载"></bottomLoadMore>-->
+      <!--暂无数据显示-->
+      <placeholder :show.sync="is_empty" :topZero="is_top" message="暂无发现数据"></placeholder>
   </view>
 </template>
 <script>
   import wepy from 'wepy';
   import NotificationItem from "../components/notificationitem"
-  import BottomLoadMore from "../components/common/bottomLoadMore"
+  // import BottomLoadMore from "../components/common/bottomLoadMore"
   import Placeholder from "../components/common/placeholder"
   import {getNoticeList} from '../http/getData';
 
@@ -52,44 +51,58 @@
       navigationBarTitleText: '消息中心',
       enablePullDownRefresh: true,
     }
-
+    // bottomLoadMore: BottomLoadMore,
     components = {
       notification: NotificationItem,
-      bottomLoadMore: BottomLoadMore,
+
       placeholder: Placeholder
     }
-
+    // showLoading: false,
     data = {
       page: 1,
       limit: '15',
-      winHeight: 0,
-      showLoading: false,
       is_empty: false,
-      noData: false,
-      isPullDownRefresh: false
+      is_top: true,
+      isPullDownRefresh: false,
+      notificationList: []
     }
 
     onPullDownRefresh () {
 
-      // 显示顶部刷新图标
       wepy.showNavigationBarLoading();
+      this.notificationList = []
       this.isPullDownRefresh = true
       this.page = 1
-
       this.getNotificationList()
-
     }
     getNotificationList(){
-
       getNoticeList({
         page: this.page + '',
         limit: this.limit
       }).then(response=>{
-        console.log(response)
+
+        this.totalCount = response.result.totalCount
+        // this.totalCount = 100
+        if (response.result.totalCount == 0){
+          this.is_empty = true;
+        }else{
+          this.is_empty = false;
+        }
+        if (response.result.list != undefined) {
+          response.result.list.map(item=>{
+            this.notificationList.push(item)
+          })
+        }
         this.stopPullDown()
+        this.$apply();
       }, error=>{
         this.stopPullDown()
       }).catch(error =>{
+        if (this.notificationList.length > 0) {
+          this.is_empty = false
+        }else {
+          this.is_empty = true
+        }
         this.stopPullDown()
       })
     }
@@ -111,38 +124,13 @@
     onReachBottom() {
       console.log("加载更多");
       let that = this;
-      that.showLoading = true;
-      // console.log(that.page_total + "232===" + that.currentPage);
-      // //判断总页数是否大于翻页数
-      // if ((that.page_total) > that.currentPage) {
-      //   //防止重复加载
-      //   if (that.preventRepeatReuqest) {
-      //     return true;
-      //   }
-      //   that.preventRepeatReuqest = true;
-      //   that.currentPage++;
-      //   console.log(this.currentTab);
-      //   if (this.currentTab == 0) {
-      //     console.log("所有订单类型");
-      //     that.getMyOrder(that.currentPage);
-      //   } else if (this.currentTab == 1) {
-      //     console.log("未付款订单类型");
-      //     that.orderStatus = 0;
-      //     that.getMyOrder(that.currentPage);
-      //   } else if (this.currentTab == 2) {
-      //     console.log("待发货订单类型");
-      //     that.orderStatus = 2;
-      //     that.receiveFlg=2;
-      //     that.getMyOrder(that.currentPage);
-      //   } else if (this.currentTab == 3) {
-      //     console.log("已完成订单类型");
-      //     that.orderStatus = 4;
-      //     that.getMyOrder(that.currentPage);
-      //   }
-      //   that.preventRepeatReuqest = false;
-      // } else {
-      //   that.showLoading = false;
-      // }
+      if(this.totalCount - parseInt(this.limit) * this.page > 0){
+        // that.showLoading = true;
+        that.page++;
+        that.getNotificationList()
+      }else{
+        // that.showLoading = false;
+      }
     };
   }
 </script>

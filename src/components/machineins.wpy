@@ -32,8 +32,13 @@
       padding: 8rpx;
       right: 32rpx;
       background: #fe5e48;
+      font-size: 26rpx;
       color: #fff;
       border-radius: 0 0 16rpx 16rpx;
+    }
+    .order-type-button.done{
+      background: #4a93db;
+
     }
   }
 </style>
@@ -50,21 +55,27 @@
       <text>2018-08-21</text>
       <image src="../images/arrow-right.png" class="arrow"></image>
     </view>
-    <text class="order-type-button">申请退回</text>
+    <text wx:if="{{type == 0}}" class="order-type-button">待装机</text>
+    <text wx:if="{{type == 1}}" class="order-type-button done">已装机</text>
   </view>
 </template>
 <script>
   import wepy from 'wepy';
 
-  export default class OrderItem extends wepy.component {
+  export default class MachineIns extends wepy.component {
       data = {
 
       }
 
     props = {
-      orderInfo: {
+      merchantInfo: {
         type: Object
+      },
+      type: {
+        type: Number,
+        default: 0
       }
+
     }
   }
 </script>

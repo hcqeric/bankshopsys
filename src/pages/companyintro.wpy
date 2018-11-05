@@ -1,0 +1,29 @@
+<style lang="less">
+  .m-page{
+    display: flex;
+    view{
+      margin: 32rpx;
+    }
+
+  }
+</style>
+<template>
+  <view class="m-page">
+    <view>
+      这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!这是一个非常非常牛逼的公司!!!
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class CompanyIntro extends wepy.page {
+    config = {
+      navigationBarTitleText: '公司介绍'
+    }
+
+    data = {
+
+    }
+  }
+</script>

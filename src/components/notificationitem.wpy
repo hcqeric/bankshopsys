@@ -12,6 +12,7 @@
     .notification-content{
       display: flex;
       flex-direction: column;
+      flex: 1;
       margin-left: 16rpx;
       .notification-content-header{
         height: 32rpx;
@@ -47,13 +48,13 @@
     </view>
     <view class="notification-content">
       <view class="notification-content-header">
-        <text>小公告</text>
+        <text>{{notificationInfo.title}}</text>
       </view>
       <view class="notification-content-time">
-        <text>2018-09-11    12:03</text>
+        <text>{{notificationInfo.createTime}}</text>
       </view>
       <view class="notification-content-detail">
-        <text>2018-09-09的合伙人收益为491.88元，其中POS机收益163.88元，扫码收益128.00元，信用卡推荐收益100.00元，贷款推荐收益100.00元。</text>
+        <text>{{notificationInfo.content}}</text>
       </view>
     </view>
   </view>
@@ -64,6 +65,11 @@
   export default class NotificationItem extends wepy.component {
       data = {
 
+      }
+      props = {
+        notificationInfo: {
+          type: Object
+        }
       }
   }
 </script>

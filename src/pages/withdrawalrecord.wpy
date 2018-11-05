@@ -1,0 +1,108 @@
+<style lang="less">
+  .mm-page{
+    box-sizing: border-box;
+    position: relative;
+    .withdrawalrecord-detail{
+      position: relative;
+      z-index: 99;
+      margin: 0rpx 32rpx 0 32rpx;
+      .calendar-month{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 32rpx 8rpx;
+        text{
+          color: #fff;
+        }
+        image{
+          width: 41rpx;
+          height: 40rpx;
+        }
+      }
+      .withdrawalrecord-list{
+        padding:  16rpx 16rpx;
+        border-radius: 10rpx;
+        background-color: #fff;
+      }
+
+    }
+    .detail-header-bg{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 194rpx;
+      background-color: #4a93db;
+      background-repeat: no-repeat;
+      background-size: cover;
+      z-index: 0;
+    }
+  }
+
+</style>
+<template>
+  <view class="mm-page">
+    <view class="withdrawalrecord-detail">
+      <view class="calendar-month">
+        <text @tap="openTimePicker">{{month}}月</text>
+        <image src="../images/calendar.png" @tap="openTimePicker"></image>
+
+      </view>
+      <view class="withdrawalrecord-list">
+        <repeat  for="{{withdrawalList}}" key="index" index="index" item="item">
+          <withdrawalitem></withdrawalitem>
+        </repeat>
+      </view>
+
+    </view>
+    <view class="detail-header-bg"></view>
+    <mytimepic @dateArray.user="datePickerArray"></mytimepic>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import WithdrawalRecordItem from '@/components/withdrawalrecorditem'
+  import MyTimePicker from '@/components/common/timepicker'
+
+  export default class WithdrawalRecord extends wepy.page {
+    config = {
+      navigationBarTitleText: '提现记录',
+      navigationBarBackgroundColor: "#4a93db",
+      navigationBarTextStyle: "white"
+    }
+
+    data = {
+      withdrawalList: [{"aa": 15}],
+      page: 1,
+      limit: '15',
+      year: '',
+      month: ''
+    }
+
+    methods = {
+      openTimePicker() {
+        this.$invoke('mytimepic', 'openDatePicker');
+      },
+      datePickerArray(year, month, day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        console.log(this.year)
+        console.log(this.month)
+        console.log(this.day)
+        this.$apply();
+      },
+    }
+
+    components={
+      withdrawalitem: WithdrawalRecordItem,
+      mytimepic: MyTimePicker
+    }
+    onLoad(){
+      let date = new Date()
+      this.year = date.getFullYear()
+      this.month = date.getMonth() + 1
+      this.$apply()
+    }
+  }
+</script>
