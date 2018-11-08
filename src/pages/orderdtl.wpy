@@ -44,36 +44,36 @@
       <view class="orderdtl-detail-info">
         <view class="orderdtl-detail-info-item">
           <text>商户名称</text>
-          <text>喜乐购超市</text>
+          <text>{{merchantDtlInfo.merchantName}}</text>
         </view>
 
         <view class="orderdtl-detail-info-item">
           <text>联系人</text>
-          <text>陈先生</text>
+          <text>{{merchantDtlInfo.contact}}</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>联系电话</text>
-          <text>15899888888</text>
+          <text>{{merchantDtlInfo.contactMobile}}</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>POS费率</text>
-          <text>0.60%</text>
+          <text>{{merchantDtlInfo.posRate}}%</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>扫码费率</text>
-          <text>0.38%</text>
+          <text>{{merchantDtlInfo.scanRate}}%</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>发展人</text>
-          <text>李四</text>
+          <text>{{merchantDtlInfo.partnerName}}</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>客户经理</text>
-          <text>张三</text>
+          <text>{{merchantDtlInfo.managerName}}</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>派发时间</text>
-          <text>2018-08-21  14:01</text>
+          <text>{{merchantDtlInfo.createTime}}</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>处理状态</text>
@@ -81,11 +81,11 @@
         </view>
         <view class="orderdtl-detail-info-item">
           <text>退回原因</text>
-          <text>商户资料不全</text>
+          <text>{{merchantDtlInfo.remarks}}商户资料不全</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>商户地址</text>
-          <text>深圳市南山区西环街4-408号</text>
+          <text>{{merchantDtlInfo.address}}</text>
         </view>
       </view>
     </view>
@@ -93,10 +93,28 @@
 </template>
 <script>
   import wepy from 'wepy';
-
+  import {getMerchantInfo} from '../http/getData';
   export default class OrderDtl extends wepy.page {
     config = {
       navigationBarTitleText: '订单详情'
+    }
+
+    data = {
+      id: '',
+      merchantDtlInfo: ''
+    }
+
+    onLoad(opts){
+      this.id = opts.id
+      getMerchantInfo({
+        id: this.id
+      }).then(response=>{
+        console.log(response)
+        this.merchantDtlInfo = response.result
+        this.$apply()
+      }, error =>{
+        console.log(error)
+      })
     }
   }
 </script>

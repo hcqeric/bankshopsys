@@ -6,9 +6,9 @@
 <template>
   <view class="m-page">
     <view class="success-card">
-      <image src="http://120.79.17.7:85/china_ums/id-bg.png" mode="widthFix"></image>
-      <text>身份认证申请已提交</text>
-      <text>正在审核中...</text>
+      <image src="http://120.79.17.7:85/china_ums/machineins-bg.png" mode="widthFix"></image>
+      <text>商户装机完成</text>
+      <text></text>
     </view>
     <view class="confirm-btn">
       <button @tap="toHome">返回首页</button>
@@ -18,16 +18,18 @@
 <script>
   import wepy from 'wepy';
 
-  export default class PartnerMgrSucc extends wepy.page {
+  export default class MachineInsSucc extends wepy.page {
     config = {
-      navigationBarTitleText: '身份认证提交成功'
+      navigationBarTitleText: '装机完成'
     }
+
     methods={
       toHome(){
-        wepy.switchTab({
-          url: 'home'
+        wepy.navigateTo({
+          url: 'salesmanager'
         })
       }
     }
+
   }
 </script>

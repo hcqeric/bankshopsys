@@ -56,12 +56,14 @@
   <view class="withdrawal-item-obj">
     <view class="withdrawal-item-content">
       <view class="withdrawal-item-info money">
-        <text>中国建设银行</text>
-        <text>2000.00</text>
+        <text>{{withdrawalInfo.bankName}}</text>
+        <text>￥{{withdrawalInfo.amt}}</text>
       </view>
       <view class="withdrawal-item-info time">
-        <text class="txt-time">2018-08-21 14:01:02</text>
-        <text>提现成功</text>
+        <text class="txt-time">{{withdrawalInfo.time}}</text>
+        <text wx:if="{{withdrawalInfo.auditStatus == 0}}" class="success}}">提现成功</text>
+        <text wx:if="{{withdrawalInfo.auditStatus == 1}}">处理中</text>
+        <text wx:if="{{withdrawalInfo.auditStatus == 2}}" class="fail">提现失败</text>
       </view>
     </view>
     <image src="../images/arrow-right.png"></image>
@@ -72,5 +74,14 @@
 
   export default class WithdrawalRecordItem extends wepy.component {
     data={}
+    props = {
+      withdrawalInfo: {
+        type: Object
+      },
+      type: {
+        type: Number,
+        default: 0
+      }
+    }
   }
 </script>

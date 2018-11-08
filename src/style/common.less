@@ -72,6 +72,10 @@
   color: @fontBlod;
 }
 
+.ptb{
+  color: @primary;
+}
+
 .tc {
   text-align: center;
 }
@@ -230,6 +234,20 @@ view {
         /*border-radius: 16rpx;*/
         /*color: #fff;*/
       }
+      .rate-signal{
+        position: absolute;
+        display: block;
+        top: 1px;
+        right: 1px;
+        height: 80rpx;
+        width: 20vw;
+        line-height: 88rpx;
+        border-radius: 16rpx;
+        text-align: center;
+        font-size: 40rpx;
+        //font-weight: bold;
+        color: #333;
+      }
       .vericode-btn{
         position: absolute;
         display: block;
@@ -304,11 +322,15 @@ view {
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-start;
+      padding: 8rpx 0;
       text{
         &:first-of-type{
           color: #999;
           flex-shrink: 0;
-          margin-right: 16rpx;
+          margin-right: 60rpx;
+        }
+        &:last-of-type{
+          text-align: right;
         }
       }
     }
@@ -374,6 +396,26 @@ view {
       top: -16rpx;
       right: -16rpx;
     }
+  }
+}
+
+//到底了
+.page-allLoaded{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100rpx;
+  .line{
+    height: 1px;
+    background: #ddd;
+    width: 100%;
+  }
+  .txt-bottom{
+    position: absolute;
+    background: #f7f7f7;
+    padding: 0 32rpx;
+    z-index: 2;
   }
 }
 

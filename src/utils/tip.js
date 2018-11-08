@@ -1,3 +1,4 @@
+import wepy from 'wepy'
 /**
  * 提示与加载工具类
  */
@@ -9,7 +10,7 @@ export default class Tips {
    * 弹出提示框
    */
 
-  static success(title, duration = 500) {
+  static success(title = "服务器出错", duration = 500) {
     setTimeout(() => {
       wx.showToast({
         title: title,
@@ -50,7 +51,7 @@ export default class Tips {
     });
   }
 
-  static toast(title, onHide, icon = "success") {
+  static toast(title = "服务器出错", onHide, icon = "success") {
     setTimeout(() => {
       wx.showToast({
         title: title,
@@ -71,7 +72,7 @@ export default class Tips {
   /**
    * 警告框
    */
-  static alert(title) {
+  static alert(title = "服务器出错") {
     wx.showToast({
       title: title,
       icon: "none",
@@ -85,7 +86,7 @@ export default class Tips {
    * 错误框
    */
 
-  static error(title, onHide) {
+  static error(title  = "服务器出错", onHide) {
     wx.showToast({
       title: title,
       image: "../images/error.png",

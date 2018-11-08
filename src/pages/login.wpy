@@ -105,8 +105,10 @@
       if (json.code == 0) {
         tip.success("发送成功!");
         this.$apply();
+        return true
       } else {
         tip.error(json.msg)
+        return false
       }
     }
 
@@ -123,18 +125,22 @@
           tip.alert("请输入手机号码");
           return false;
         }
-        this.sendVerifyCode();
-        let that = this;
-        that.sendMsgDisabled = true;
-        let interval = setInterval(() => {
-          if ((that.time--) <= 0) {
-            that.time = 60;
-            that.sendMsgDisabled = false;
-            clearInterval(interval);
+        if(this.sendVerifyCode()){
+          let that = this;
+          that.sendMsgDisabled = true;
+          let interval = setInterval(() => {
+            if ((that.time--) <= 0) {
+              that.time = 60;
+              that.sendMsgDisabled = false;
+              clearInterval(interval);
+              that.$apply();
+            }
             that.$apply();
-          }
-          that.$apply();
-        }, 1000);
+          }, 1000);
+        }else{
+          return false
+        }
+
       },
 
       async doLogin(){
@@ -152,7 +158,7 @@
           wepy.setStorageSync(USER_SPECICAL_INFO, userSpecInfo);
           if (userSpecInfo.userType == 3){
             wepy.navigateTo({
-              url: ''
+              url: 'salesmanager'
             })
           } else{
             wepy.switchTab({

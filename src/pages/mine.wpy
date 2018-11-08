@@ -211,7 +211,7 @@
           return false
         }
         let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
-        if (userSpecInfo.userType == 0){
+        if (userSpecInfo.userType == 1){
           if(userSpecInfo.accountEntity.auditStatus == 1){
             tip.alert("您的资料正在审核中...")
             return false

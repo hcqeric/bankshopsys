@@ -10,6 +10,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        height: 50rpx;
         padding: 32rpx 8rpx;
         text{
           color: #fff;
@@ -20,11 +21,13 @@
         }
       }
       .withdrawalrecord-list{
-        padding:  16rpx 16rpx;
+        position: relative;
+        box-sizing: border-box;
+        padding:  0rpx 16rpx;
+        /*height: 88vh;*/
         border-radius: 10rpx;
         background-color: #fff;
       }
-
     }
     .detail-header-bg{
       position: absolute;
@@ -38,24 +41,61 @@
       z-index: 0;
     }
   }
+  .withdrawalrecord-nodata{
+    z-index: 100;
+  }
+  .withdrawalrecord-empty{
+    position: absolute;
+    top: 0;
+    height: 88vh;
+    width: 100%;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    p {
+      color: #333;
+      font-size: 50rpx;
+    }
+    .txt {
+      font-size: 26rpx;
+      color: #888888;
+      margin-top: 36rpx;
+    }
+  }
 
 </style>
 <template>
   <view class="mm-page">
     <view class="withdrawalrecord-detail">
       <view class="calendar-month">
-        <text @tap="openTimePicker">{{month}}月</text>
+        <text @tap="openTimePicker">{{month ? month + '月' : ''}}</text>
         <image src="../images/calendar.png" @tap="openTimePicker"></image>
-
       </view>
       <view class="withdrawalrecord-list">
+      <scroll-view scroll-y="true" style="height: 88vh"  @scrolltolower="loadMore">
+      <!--<view class="withdrawalrecord-list">-->
         <repeat  for="{{withdrawalList}}" key="index" index="index" item="item">
-          <withdrawalitem></withdrawalitem>
+          <navigator class="item_content" url="/pages/withdrawaldtl?id={{item.id}}">
+            <withdrawalitem :withdrawalInfo="item"></withdrawalitem>
+          </navigator>
         </repeat>
-      </view>
+        <view wx:if="{{allLoaded}}" class="page-allLoaded">
+          <text class="txt-bottom">o(╥﹏╥)o已经触碰到底线了!!!</text>
+          <text class="line"></text>
+        </view>
+      <!--</view>-->
 
+      </scroll-view>
+        <view class="withdrawalrecord-empty" wx:if="{{is_empty}}">
+          <p>o(╥﹏╥)o</p>
+          <text class="txt">暂无发现数据</text>
+        </view>
+      </view>
     </view>
-    <view class="detail-header-bg"></view>
+    <view  class="detail-header-bg"></view>
+    <!--<placeholder class="withdrawalrecord-nodata" :show.sync="is_empty" :topZero="is_top" message="暂无发现数据"></placeholder>-->
     <mytimepic @dateArray.user="datePickerArray"></mytimepic>
   </view>
 </template>
@@ -63,6 +103,8 @@
   import wepy from 'wepy';
   import WithdrawalRecordItem from '@/components/withdrawalrecorditem'
   import MyTimePicker from '@/components/common/timepicker'
+  import {getWithdrawList} from '../http/getData';
+  import Placeholder from "../components/common/placeholder"
 
   export default class WithdrawalRecord extends wepy.page {
     config = {
@@ -72,11 +114,44 @@
     }
 
     data = {
-      withdrawalList: [{"aa": 15}],
+      withdrawalList: [],
       page: 1,
       limit: '15',
       year: '',
-      month: ''
+      month: '',
+      day: '',
+      time: '',
+      totalCount: '',
+      is_empty: false,
+      allLoaded: false
+    }
+
+    getRecordList(){
+      getWithdrawList({
+        page: this.page + '',
+        limit: this.limit,
+        time: this.time
+      }).then(response=>{
+        this.totalCount = response.result.totalCount
+        if (response.result.totalCount == 0){
+          this.is_empty = true;
+        }else{
+          this.is_empty = false;
+        }
+        if (response.result.list != undefined) {
+          response.result.list.map(item=>{
+            this.withdrawalList.push(item)
+          })
+        }
+        this.$apply();
+      },error=>{
+        if (this.totalCount == 0) {
+          this.is_empty = true
+        }else {
+          this.is_empty = false
+        }
+        this.$apply()
+      })
     }
 
     methods = {
@@ -87,21 +162,49 @@
         this.year = year;
         this.month = month;
         this.day = day;
-        console.log(this.year)
-        console.log(this.month)
-        console.log(this.day)
+        this.time = `${this.year}-${this.month}`
+        this.page = 1
+        this.withdrawalList = []
+        this.getRecordList()
         this.$apply();
       },
+      loadMore(){
+        console.log("加载更多");
+        let that = this;
+        if(this.totalCount - parseInt(this.limit) * this.page > 0){
+          that.allLoaded = false;
+          that.page++;
+          that.getMyOrder()
+        }else{
+          console.log(this.withdrawalList.length)
+          if (this.withdrawalList.length > parseInt(this.limit)) {
+            that.allLoaded = true;
+          }else{
+            that.allLoaded = false;
+          }
+        }
+      }
     }
+
+    // onReachBottom() {
+    //   let that = this;
+    //   if(this.totalCount - parseInt(this.limit) * this.page > 0){
+    //     that.allLoaded = false;
+    //     that.page++;
+    //     that.getMachineInsList()
+    //   }else{
+    //     that.allLoaded = true;
+    //   }
+    // };
 
     components={
       withdrawalitem: WithdrawalRecordItem,
-      mytimepic: MyTimePicker
+      mytimepic: MyTimePicker,
+      placeholder: Placeholder
     }
+
     onLoad(){
-      let date = new Date()
-      this.year = date.getFullYear()
-      this.month = date.getMonth() + 1
+      this.getRecordList()
       this.$apply()
     }
   }

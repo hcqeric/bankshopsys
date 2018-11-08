@@ -2,12 +2,18 @@
   <view class="container">
     <search @searchValue.user="doSearch"></search>
     <!--<filterBar wx:if="{{list.length>0||skuval !==''}}" @currentType.user="currentType"></filterBar>-->
-    <view wx:if="{{list.length>0}}">
+    <view wx:if="{{list.length>0}}" class="search-result-list">
       <!--矩阵商品列表模块-->
       <!--<shopGridList :purchasetype.sync="purchasetype" :list.sync="list"></shopGridList>-->
       <repeat  for="{{list}}" key="index" index="index" item="item">
-        <machineins :type.sync="item.activeStatus" :merchantInfo="item"></machineins>
+        <navigator class="item_content" url="/pages/merchantdtl?id={{item.id}}">
+          <machineins class="machine-ins-item" :type.sync="item.activeStatus" :merchantInfo="item"></machineins>
+        </navigator>
       </repeat>
+      <view wx:if="{{allLoaded}}" class="page-allLoaded">
+        <text class="txt-bottom">o(╥﹏╥)o已经触碰到底线了!!!</text>
+        <text class="line"></text>
+      </view>
     </view>
     <placeholder :show.sync="is_empty" message="暂无发现数据"></placeholder>
   </view>
@@ -34,16 +40,18 @@
       is_empty: false,
       page: 1,
       limit: '15',
-      totalCount: 0
+      totalCount: 0,
+      searchVal: '',
+      allLoaded: false
     }
 
     onLoad() {
 
     }
 
-    doSearchContent(val){
+    doSearchContent(){
       selectByIdOrName({
-        merchantStr: val,
+        merchantStr: this.searchVal,
         page: this.page + '',
         limit: this.limit
       }).then(response=>{
@@ -75,24 +83,41 @@
       doSearch(val) {
         this.list = [];
         this.is_empty = false;
-        this.doSearchContent(val);
+        this.searchVal = val
+        this.doSearchContent();
       }
     }
-    //加载更多
     onReachBottom() {
       let that = this;
       if(this.totalCount - parseInt(this.limit) * this.page > 0){
-        // that.showLoading = true;
+        that.allLoaded = false;
         that.page++;
-        that.getNotificationList()
+        that.doSearchContent()
       }else{
-        // that.showLoading = false;
+        that.allLoaded = true;
       }
-    }
+    };
   }
 </script>
 
 <style lang="less">
+  .container{
+    position: relative;
+    min-height: 100vh;
+    width: 100vw;
+  }
+  .search-result-list{
+    position: absolute;
+    box-sizing: border-box;
+    width: 100vw;
+    top: 88rpx;
+    padding: 16rpx;
+    bottom: 0;
+    background: #f7f7f7;
+    .machine-ins-item{
+      margin-top: 16rpx;
+    }
+  }
   .history {
     padding: 20px 27px;
   }

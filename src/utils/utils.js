@@ -57,3 +57,12 @@ export function getDaysInYearMonth(year, month){
   return date.getDate();
 }
 
+export function getQueryString(url,name) {
+  var reg = new RegExp('(^|&|/?)' + name + '=([^&|/?]*)(&|/?|$)', 'i')
+  var r = url.substr(1).match(reg)
+  if (r != null) {
+    return r[2]
+  }
+  return null;
+}
+

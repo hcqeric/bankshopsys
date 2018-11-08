@@ -21,45 +21,53 @@
     <view class="partner-detail">
       <view class="partner-detail-info">
         <view class="partner-detail-info-item">
+          <text>单号</text>
+          <text>{{merchantDtlInfo.id}}</text>
+        </view>
+        <view class="partner-detail-info-item">
           <text>商户编号</text>
-          <text>40001</text>
+          <text>{{merchantDtlInfo.id}}</text>
         </view>
         <view class="partner-detail-info-item">
           <text>商户名称</text>
-          <text>喜乐购超市</text>
+          <text>{{merchantDtlInfo.merchantName}}</text>
         </view>
-        <view class="partner-detail-info-item">
-          <text>商户地址</text>
-          <text>深圳市南山区西环街4-408号</text>
-        </view>
+
         <view class="partner-detail-info-item">
           <text>联系人名</text>
-          <text>陈先生</text>
+          <text>{{merchantDtlInfo.contact}}</text>
         </view>
         <view class="partner-detail-info-item">
           <text>联系电话</text>
-          <text>15899888888</text>
+          <text>{{merchantDtlInfo.contactMobile}}</text>
         </view>
         <view class="partner-detail-info-item">
           <text>POS费率</text>
-          <text>0.55%</text>
+          <text>{{merchantDtlInfo.posRate}}%</text>
         </view>
         <view class="partner-detail-info-item">
           <text>扫码费率</text>
-          <text>0.35%</text>
+          <text>{{merchantDtlInfo.scanRate}}%</text>
         </view>
         <view class="partner-detail-info-item">
           <text>客户经理</text>
-          <text>张三</text>
+          <text>{{merchantDtlInfo.managerName}}</text>
         </view>
         <view class="partner-detail-info-item">
           <text>入网时间</text>
-          <text>2018-08-21  14:01</text>
+          <text>{{merchantDtlInfo.createTime}}</text>
         </view>
         <view class="partner-detail-info-item">
           <text>账号状态</text>
-          <text class="ftb">正常</text>
+          <text class="{{merchantDtlInfo.status == 1 ? 'ptb' : 'ftb' }}">{{merchantDtlInfo.status == 1 ? '正常' : '失效 '}}</text>
         </view>
+        <view class="partner-detail-info-item">
+          <text>商户地址</text>
+          <text>{{merchantDtlInfo.address}}</text>
+        </view>
+      </view>
+      <view class="confirm-btn" wx:if="{{merchantDtlInfo.activeStatus == 0}}">
+        <button  @tap="confirmIns">确认装机</button>
       </view>
     </view>
     <view class="merchant-detail-header-bg"></view>
@@ -67,13 +75,46 @@
 </template>
 <script>
   import wepy from 'wepy';
-
+  import {machineIns, getMerchantInfo} from '../http/getData';
+  import tip from '../utils/tip'
   export default class MerchantDtl extends wepy.page {
     config = {
       navigationBarTitleText: '商户详情'
     }
-    methods = {
 
+    data = {
+      id: '',
+      merchantDtlInfo: ''
+    }
+
+    onLoad(opt){
+      this.id = opt.id
+      getMerchantInfo({
+        id: this.id
+      }).then(response=>{
+        this.merchantDtlInfo = response.result
+        this.$apply()
+      }, error =>{
+        console.log(error)
+      })
+    }
+
+    methods = {
+      confirmIns(){
+        machineIns({
+          id: this.id
+        }).then(response=>{
+          console.log(response);
+          wepy.navigateTo({
+            url: 'machineinssucc'
+          })
+        },error=>{
+          console.log(error);
+          tip.alert("确认装机失败，请稍后重试")
+        }).catch(error=>{
+
+        })
+      }
     }
   }
 </script>

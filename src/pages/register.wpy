@@ -105,7 +105,7 @@
           <i>*</i><text>推荐人手机号码</text>
         </view>
         <view class="reg-input">
-          <input type="number" placeholder="请输入您的推荐人手机号码" maxlength="11" @input="recMobileInput"/>
+          <input type="text" placeholder="请输入您的推荐人手机号码" maxlength="11" @input="recMobileInput" value="{{recMobile}}"/>
         </view>
       </view>
       <view class="reg-check">
@@ -129,6 +129,7 @@
 <script>
   import wepy from 'wepy';
   import tip from '@/utils/tip'
+  import {getQueryString} from '../utils/utils';
   import {getVeriCode, doRegister} from '../http/getData';
   import {USER_SPECICAL_INFO} from '../utils/constant';
 
@@ -223,6 +224,21 @@
       changeCheck: function () {
         this.isAgree = !this.isAgree
       }
+    }
+
+    onLoad(opts){
+      console.log(opts)
+      if (opts.mobile) {
+        this.recMobile = opts.mobile
+      }
+      if (opts.q) {
+        tip.confirm(opts.q)
+        let query = decodeURIComponent(opts.q)
+        tip.confirm(query)
+        this.recMobile = getQueryString(query, 'mobile')
+        tip.confirm(this.recMobile)
+      }
+      this.$apply()
     }
   }
 </script>

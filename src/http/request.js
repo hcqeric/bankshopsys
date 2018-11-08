@@ -11,12 +11,7 @@ class Request {
 
   require(options) {
     if (!options.api) throw new Error('api 不能为空');
-    if (!options.openId) {
-      console.log("不需要openId")
-    } else {
-      options.api = options.api + '?openId=' + getOpenId()
-      console.log(options.api)
-    }
+
     //动态路由参数设置
     if (!options.restParam) {
       options.restParam = {}
@@ -30,6 +25,13 @@ class Request {
         }
       })
       options.api = restArr.join('/')
+      console.log(options.api)
+    }
+    if (!options.openId) {
+      console.log("不需要openId")
+    } else {
+      options.api = options.api + '?openId=' + getOpenId()
+      console.log(options.api)
     }
     //动态路由参数设置
     if (!options.data) { options.data = {} }

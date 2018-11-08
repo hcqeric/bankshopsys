@@ -1,4 +1,7 @@
 <style lang="less">
+  .m-page{
+    min-height: 1px;
+  }
 </style>
 <template>
   <view class="m-page">

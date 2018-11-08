@@ -4,13 +4,16 @@
     background: #fff;
   }
 
+  .list-container{
+    padding: 0 30rpx;
+  }
   .swiper-tab-list.active {
     color: #4a93db;
     border-bottom: 5rpx solid #4a93db;
   }
   .swiper-item-box{
     box-sizing: border-box;
-    padding: 0 30rpx;
+
     .swiper-item-order{
       margin-top: 16rpx;
     }
@@ -22,14 +25,19 @@
     <view class="swiper-tab-pd">
       <tab @currentTab.user="getCurrentTab" :tabList.sync="tabList" :currentTab.sync="currentTab"></tab>
     </view>
-    <scroll-view scroll-y="true" class="swiper-item-box" @scrolltolower="loadMore">
+    <view class="list-container">
+    <scroll-view scroll-y="true" style="height:{{winHeight - 44}}px" class="swiper-item-box" @scrolltolower="loadMore">
       <repeat for="{{orderList}}" key="index" index="index" item="item">
-        <orderItem :orderInfo="item" class="swiper-item-order"></orderItem>
+        <navigator class="item_content" url="/pages/orderdtl?id={{item.id}}">
+          <orderItem :orderInfo="item" class="swiper-item-order"></orderItem>
+        </navigator>
       </repeat>
-      <!--加载更多时动画-->
-      <bottomLoadMore :show.sync="showLoading" message="正在加载"></bottomLoadMore>
-
+      <view wx:if="{{allLoaded}}" class="page-allLoaded">
+        <text class="txt-bottom">o(╥﹏╥)o已经触碰到底线了!!!</text>
+        <text class="line"></text>
+      </view>
     </scroll-view>
+    </view>
     <placeholder :show.sync="is_empty" message="暂无发现数据"></placeholder>
   </view>
 </template>
@@ -56,6 +64,7 @@
       placeholder: Placeholder
     }
     data = {
+      winHeight: 0,
       totalCount: 0,
       tabList: ["全部", "已退回", "未完成", "已完成"],
       orderList: [],
@@ -64,7 +73,8 @@
       activeStatus:'',
       auditStatus: '',
       is_empty: false,
-      currentTab: 0
+      currentTab: 0,
+      allLoaded: false
     }
 
     getMyOrder() {
@@ -88,14 +98,20 @@
         }
         this.$apply();
       }, error =>{
-        console.log(error)
+        if (this.totalCount == 0) {
+          this.is_empty = true
+        }else {
+          this.is_empty = false
+        }
+        this.$apply()
       })
 
     }
 
     onLoad(opts) {
       this.orderList = [];
-      this.currentTab = opts.type;
+      let sysinfo = wepy.getSystemInfoSync()
+      this.winHeight = sysinfo.windowHeight
       this.getMyOrder();
       // //设置滚动高度
       this.$apply();
@@ -107,6 +123,7 @@
       getCurrentTab(cur, evt) {
         this.page = 1;
         this.orderList = [];
+        this.allLoaded = false
         let that = this;
         that.currentTab = cur;
         if (cur == 0) {
@@ -122,12 +139,12 @@
         } else if (cur == 2) {
           console.log("未完成");
           that.activeStatus = 0;
-          that.auditStatus = "";
+          that.auditStatus = "1,2";
           that.getMyOrder();
         } else if (cur == 3) {
           console.log("已完成");
           that.activeStatus = 1;
-          that.auditStatus = "";
+          that.auditStatus = 2;
           that.getMyOrder();
         }
         that.$apply();
@@ -141,6 +158,21 @@
         console.log("change tab...." + e.detail.current);
         that.$apply();
       },
+      loadMore() {
+        console.log("加载更多");
+        let that = this;
+        if(this.totalCount - parseInt(this.limit) * this.page > 0){
+          that.allLoaded = false;
+          that.page++;
+          that.getMyOrder()
+        }else{
+          if (this.totalCount > 0) {
+            that.allLoaded = true;
+          }else{
+            that.allLoaded = false;
+          }
+        }
+      }
     }
     events = {
       // refreshOrderList(msg){
@@ -154,17 +186,7 @@
       // }
     }
 
-    loadMore() {
-      console.log("加载更多");
-      let that = this;
-      //分页处理
-      if(this.totalCount - parseInt(this.limit) * this.page > 0){
-        that.page++;
-        that.getMyOrder()
-      }else{
 
-      }
-    };
 
   }
 

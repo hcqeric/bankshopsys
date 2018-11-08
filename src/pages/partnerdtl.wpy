@@ -14,6 +14,9 @@
       background-size: cover;
       z-index: 0;
     }
+    .withdrawalrecord-nodata{
+      z-index: 100;
+    }
   }
 </style>
 <template>
@@ -55,16 +58,30 @@
       </view>
     </view>
     <view class="detail-header-bg"></view>
+    <placeholder class="withdrawalrecord-nodata" :show.sync="is_empty" :topZero="is_top" :message.sync="message"></placeholder>
   </view>
 </template>
 <script>
   import wepy from 'wepy';
-  import {isEnablePartner} from '../http/getData';
-
+  import {isEnablePartner, getInfoByUserId} from '../http/getData';
+  import Placeholder from "../components/common/placeholder"
   export default class PartnerDtl extends wepy.page {
     config = {
       navigationBarTitleText: '合伙人详情'
     }
+
+    data = {
+      id: '',
+      partnerInfo: '',
+      is_empty: false,
+      is_top:true,
+      message: '暂无发现数据'
+    }
+
+    components={
+      placeholder: Placeholder
+    }
+
     methods = {
       enablePartner(e){
         console.log('switch1 发生 change 事件，携带值为', e.detail.value)
@@ -77,6 +94,21 @@
           console.log(error)
         })
       }
+    }
+
+    onLoad(opts){
+      this.id = opts.id
+      getInfoByUserId({
+        id: this.id
+      }).then(response=>{
+        this.partnerInfo = response.result
+      }, error=>{
+        this.is_empty = true
+        if (error) {
+          this.message = error.msg
+        }
+        this.$apply()
+      })
     }
   }
 </script>

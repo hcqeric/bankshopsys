@@ -73,6 +73,7 @@
       </view>
       <view class="change-info-input">
         <input type="digit" placeholder="请输入商户pos机费率" @input="handleInput" data-obj="quickRecInfo"  data-item="posRateNum" value="{{quickRecInfo.posRateNum}}"/>
+        <text class="rate-signal">%</text>
       </view>
     </view>
     <view class="change-info-item">
@@ -82,6 +83,7 @@
       </view>
       <view class="change-info-input">
         <input type="digit" placeholder="请输入商户扫码费率" @input="handleInput" data-obj="quickRecInfo"  data-item="scanRateNum" value="{{quickRecInfo.scanRateNum}}"/>
+        <text class="rate-signal">%</text>
       </view>
     </view>
     <!--<view class="change-info-item">-->
@@ -146,7 +148,7 @@
     }
 
     checkAllNeeded(){
-
+      console.log(this.quickRecInfo)
       if (!this.quickRecInfo.merchantName
         || !this.quickRecInfo.salesmanId
         || !this.quickRecInfo.posRateNum
@@ -199,9 +201,9 @@
         }
         saveMerchant({
           merchantName: this.quickRecInfo.merchantName,
-          province: this.quickRecInfo.province,
-          city: this.quickRecInfo.city,
-          district: this.quickRecInfo.district,
+          province: this.quickRecInfo.province+'',
+          city: this.quickRecInfo.city+'',
+          district: this.quickRecInfo.district+'',
           salesmanId: this.quickRecInfo.salesmanId,
           posRateNum: this.quickRecInfo.posRateNum,
           scanRateNum: this.quickRecInfo.scanRateNum,

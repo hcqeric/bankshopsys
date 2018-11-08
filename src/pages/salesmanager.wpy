@@ -47,7 +47,10 @@
         }
         .machine-ins-list{
           background: #f7f7f7;
-          padding: 32rpx 16rpx;
+          padding: 16rpx 16rpx;
+          .machine-ins-item{
+            margin-top: 16rpx;
+          }
         }
       }
     }
@@ -91,6 +94,24 @@
       }
     }
   }
+  .page-allLoaded{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100rpx;
+    .line{
+      height: 1px;
+      background: #ddd;
+      width: 100%;
+    }
+    .txt-bottom{
+      position: absolute;
+      background: #f7f7f7;
+      padding: 0 32rpx;
+      z-index: 2;
+    }
+  }
 </style>
 <template>
   <view class="mm-page">
@@ -100,17 +121,22 @@
       </view>
       <view class="salesmanager-welcome">
         <image src="../images/manager-avatar.png"></image>
-        <text>您好！刘经理</text>
+        <text>您好！{{nickName}}</text>
       </view>
       <view class="salesmanager-detail-info">
         <view class="swiper-tab-salesmanager">
           <tab class="salesmanager-tab" @currentTab.user="getCurrentTab" :tabList.sync="tabList" :currentTab.sync='currentTab'></tab>
         </view>
         <view class="machine-ins-list">
-          <repeat  for="{{notificationList}}" key="index" index="index" item="item">
-            <machineins :type.sync="currentTab" :merchantInfo="item"></machineins>
+          <repeat  for="{{customManagerList}}" key="index" index="index" item="item">
+            <navigator class="item_content" url="/pages/merchantdtl?id={{item.id}}">
+              <machineins class="machine-ins-item" :type.sync="currentTab" :merchantInfo="item"></machineins>
+            </navigator>
           </repeat>
-
+          <view wx:if="{{allLoaded}}" class="page-allLoaded">
+            <text class="txt-bottom">o(╥﹏╥)o已经触碰到底线了!!!</text>
+            <text class="line"></text>
+          </view>
         </view>
       </view>
     </view>
@@ -129,12 +155,14 @@
   import Tab from '@/components/common/tab'
   import MachineIns from '@/components/machineins'
   import {getCustomManagerList} from '../http/getData';
+  import {USER_SPECICAL_INFO} from '../utils/constant';
 
   export default class SalesManager extends wepy.page {
     config = {
       navigationBarTitleText: '客户经理',
       navigationBarBackgroundColor: "#1bb6ff",
-      navigationBarTextStyle: "white"
+      navigationBarTextStyle: "white",
+      onReachBottomDistance: 50
     }
 
     components = {
@@ -149,7 +177,9 @@
       limit: '15',
       customManagerList: [],
       isEmpty: false,
-      totalCount: 0
+      totalCount: 0,
+      nickName: '',
+      allLoaded: false
     }
 
     getMachineInsList(){
@@ -162,7 +192,6 @@
         this.totalCount = response.result.totalCount
         if (response.result.totalCount == 0){
           this.isEmpty = true;
-          console.log(this.isEmpty)
         }else{
           this.isEmpty = false;
         }
@@ -202,9 +231,21 @@
 
     onLoad(opts) {
       this.customManagerList = [];
+      let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
+      this.nickName = userSpecInfo.nickname
       this.getMachineInsList();
-      // //设置滚动高度
       this.$apply();
     }
+
+    onReachBottom() {
+      let that = this;
+      if(this.totalCount - parseInt(this.limit) * this.page > 0){
+        that.allLoaded = false;
+        that.page++;
+        that.getMachineInsList()
+      }else{
+        that.allLoaded = true;
+      }
+    };
   }
 </script>

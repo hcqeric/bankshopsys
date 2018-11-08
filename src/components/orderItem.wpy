@@ -35,6 +35,12 @@
       color: #fff;
       border-radius: 0 0 16rpx 16rpx;
     }
+    .order-type-button.goahead{
+      background: #a4a9ad;
+    }
+    .order-type-button.done{
+      background: #4a93db;
+    }
   }
 </style>
 <template>
@@ -42,23 +48,29 @@
     <view class="order-item-left">
       <image src="../images/merchant.png"></image>
       <view class="order-info">
-        <text>喜乐购超市</text>
-        <text>13823154182</text>
+        <text>{{orderInfo.merchantName}}</text>
+        <text>{{orderInfo.contactMobile}}</text>
       </view>
     </view>
     <view class="order-item-right">
-      <text>2018-08-21</text>
+      <text>{{mtools.getDate(orderInfo.createTime)}}</text>
       <image src="../images/arrow-right.png" class="arrow"></image>
     </view>
-    <text class="order-type-button">申请退回</text>
+    <text wx:if="{{orderInfo.auditStatus == 3}}" class="order-type-button">申请退回</text>
+    <text wx:if="{{orderInfo.activeStatus == 0 && orderInfo.auditStatus <= 2}}" class="order-type-button goahead">待跟进</text>
+    <text wx:if="{{orderInfo.activeStatus == 1 && orderInfo.auditStatus == 2}}"class="order-type-button done">已完成</text>
   </view>
 </template>
 <script>
   import wepy from 'wepy';
-
+  import MyFilter from '../wxs/filter.wxs'
   export default class OrderItem extends wepy.component {
       data = {
 
+      }
+
+      wxs = {
+        mtools: MyFilter
       }
 
     props = {

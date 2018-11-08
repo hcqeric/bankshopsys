@@ -43,6 +43,11 @@ export default {
   getOrderListByType: '/app/merchant/getMerchantList',
   getCustomManagerList: '/app/merchant/listByUserId',
   selectByIdOrName: '/app/merchant/selectByIdOrName',
+  machineIns: '/app/merchant/install',
+  getMerchantInfo: '/app/merchant/info/:id',
+  getWithdrawList: '/app/accountDetail/withdrawList',
+  getWithdrawDetail: '/app/accountDetail/withdrawDetail',
+  getInfoByUserId: '/app/account/getInfoByUserId/:id',
   getEarningListByType: '/app/accountDetail/listByType',
   uploadFile: '/app/file/ftpUpload/headImg/0',
   selBanks: '/app/bank/sele_banks'

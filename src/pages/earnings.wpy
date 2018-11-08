@@ -174,7 +174,7 @@
         <text>账户总金额：</text>
         <text class="ftb">10000.00</text>
       </view>
-      <view class="earnings-record">
+      <view class="earnings-record" @tap="toWithdrawalRecord">
         <text>提现记录</text>
       </view>
     </view>
@@ -204,6 +204,11 @@
       toWithdrawal() {
         wepy.navigateTo({
           url: 'withdrawal'
+        })
+      },
+      toWithdrawalRecord(){
+        wepy.navigateTo({
+          url: 'withdrawalrecord'
         })
       }
     };

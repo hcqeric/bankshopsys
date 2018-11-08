@@ -1,4 +1,7 @@
 <style lang="less">
+  .m-page{
+    min-height: 1px;
+  }
 </style>
 <template>
   <view class="m-page">
@@ -17,13 +20,15 @@
 
   export default class PartnerMgrSucc extends wepy.page {
     config = {
-      navigationBarTitleText: '合伙人提交成功'
+      navigationBarTitleText: '合伙人申请提交成功'
+    }
+    methods={
+      toHome(){
+        wepy.switchTab({
+          url: 'home'
+        })
+      }
     }
 
-    toHome(){
-      wepy.switchTab({
-        url: 'home'
-      })
-    }
   }
 </script>

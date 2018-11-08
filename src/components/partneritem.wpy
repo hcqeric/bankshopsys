@@ -1,0 +1,65 @@
+<style lang="less">
+  .mymerchant-item{
+    position: relative;
+    box-shadow: 5rpx 5rpx 5rpx #efefef;
+    display: flex;
+    padding: 60rpx 16rpx;
+    background: #fff;
+    justify-content: space-between;
+    align-items: center;
+    .mymerchant-item-left{
+      display: flex;
+      align-items: center;
+      image{
+        width: 77rpx;
+        height: 77rpx;
+        margin-right: 32rpx;
+      }
+      .mymerchant-info{
+        display: flex;
+        flex-direction: column;
+      }
+    }
+    .mymerchant-item-right{
+      display: flex;
+      align-items: center;
+      .text{
+        margin-right: 8rpx;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="mymerchant-item">
+    <view class="mymerchant-item-left">
+      <image wx:if="{{merchantType == 0}}" src="../images/partner.png"></image>
+      <image wx:else="{{merchantType == 1}}" src="../images/mymerchant.png"></image>
+      <view class="mymerchant-info">
+        <text>喜乐购超市</text>
+        <text>13823154182</text>
+      </view>
+    </view>
+    <view class="mymerchant-item-right">
+      <text>2018-08-21</text>
+      <image src="../images/arrow-right.png" class="arrow"></image>
+    </view>
+
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class PartnerItem extends wepy.component {
+    props = {
+      merchantType: {
+        default: 0
+      },
+      tabList: {
+        type: Object
+      }
+    }
+    data = {
+
+    }
+  }
+</script>

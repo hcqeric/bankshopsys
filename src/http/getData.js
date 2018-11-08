@@ -34,6 +34,10 @@ export const updateCardNo = (datas) => new Request().require({api: url.updateCar
 
 export const requestWithdraw = (datas) => new Request().require({api: url.requestWithdraw, data: datas, openId: true}); //申请提现
 
+export const getWithdrawList = (datas) => new Request().require({api: url.getWithdrawList, data: datas, openId: true}); //提现记录
+
+export const getWithdrawDetail = (datas) => new Request().require({api: url.getWithdrawDetail, data: datas, openId: true}); //提现详情
+
 export const isEnablePartner = (datas) => new Request().require({api: url.isEnablePartner, data: datas, openId: true}); //是否禁用合伙人
 
 export const getNoticeList = (datas) => new Request().require({api: url.getNoticeList, data: datas, openId: true, loadingVisble: true}); //获取消息通知列表
@@ -45,6 +49,12 @@ export const updateUser = (datas) => new Request().require({api: url.updateUser,
 export const getCustomManagerList = (datas) => new Request().require({api: url.getCustomManagerList, data: datas, openId: true, loadingVisble: true}); //获取装机列表信息
 
 export const selectByIdOrName = (datas) => new Request().require({api: url.selectByIdOrName, data: datas, openId: true, loadingVisble: true}); //搜索商户名称或单号
+
+export const machineIns = (datas) => new Request().require({api: url.machineIns, data: datas, openId: true}); //确认装机
+
+export const getMerchantInfo = (restParam) => new Request().require({api: url.getMerchantInfo, methods: "GET", restParam: restParam, openId: true}); //获取商户详情
+
+export const getInfoByUserId = (restParam) => new Request().require({api: url.getInfoByUserId, methods: "GET", restParam: restParam, openId: true}); //获取合伙人详情
 
 export const getOrderListByType = (datas) => new Request().require({api: url.getOrderListByType, data: datas, openId: true, loadingVisble: true}); //获取订单列表
 

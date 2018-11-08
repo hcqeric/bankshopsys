@@ -47,10 +47,12 @@
               url: 'home'
             })
           }, error =>{
-            tip.alert("登录信息有误，请重新登陆")
-            wepy.redirectTo({
-              url: 'login'
-            })
+            console.log(error)
+            // tip.alert("登录信息有误，请重新登陆")
+            // wepy.removeStorageSync(USER_SPECICAL_INFO)
+            // wepy.redirectTo({
+            //   url: 'login'
+            // })
           })
 
         }

@@ -1,0 +1,19 @@
+<style lang="less">
+</style>
+<template>
+  <view class="mm-page">
+    我是其他服务
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class QRCode extends wepy.page {
+    config = {
+      navigationBarTitleText: '其他服务'
+    }
+    data = {
+
+    }
+  }
+</script>

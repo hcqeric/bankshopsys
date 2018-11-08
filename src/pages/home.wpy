@@ -113,13 +113,13 @@
     <view class="today-bonus">
       <view class="today-figure">
         <view>
-        <text>今日交易金额(元)</text>
+        <text>昨日交易金额(元)</text>
         <text class="amount">10000.00</text>
         </view>
       </view>
       <view class="today-figure">
         <view>
-        <text>今日分润金额(元)</text>
+        <text>昨日分润金额(元)</text>
         <text class="amount">13.00</text>
         </view>
       </view>
@@ -189,17 +189,30 @@
       },
       toDetail(id){
         let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
-        if (userSpecInfo.userType >= 1){
-          if (id == 1) {
-            wepy.navigateTo({
-              url: 'recommendins'
-            })
-          }
-        }else{
+        // if (userSpecInfo.userType > 1){
+        //   if (id == 1) {
+        //     wepy.navigateTo({
+        //       url: 'recommendins'
+        //     })
+        //   }
+        // }else{
+          console.log(userSpecInfo.accountEntity.auditStatus)
           if (userSpecInfo.accountEntity.auditStatus == 2){
             if (id == 1) {
               wepy.navigateTo({
                 url: 'recommendins'
+              })
+            }else if (id == 2) {
+              wepy.navigateTo({
+                url: 'merchantmgr'
+              })
+            }else if (id == 3) {
+              wepy.navigateTo({
+                url: 'qrcode'
+              })
+            }else if (id == 4) {
+              wepy.navigateTo({
+                url: 'otherservice'
               })
             }
           }else{
@@ -208,6 +221,7 @@
               return false
             }else if(userSpecInfo.accountEntity.auditStatus == 0){
               tip.confirm("您当前还不是合伙人，请先完善合伙人资料").then(response=>{
+                console.log(response)
                 if (response == 'confirm') {
                   wepy.navigateTo({
                     url: 'partnermtl'
@@ -216,7 +230,7 @@
               }).catch(error =>{
                 // console.log(error)
               })
-            }else if(userSpecInfo.accountEntity.auditStatus == 0){
+            }else if(userSpecInfo.accountEntity.auditStatus == 3){
               tip.confirm("您提交的资料未通过审核，请重新认证").then(response=>{
                 if (response == 'confirm') {
                   wepy.navigateTo({
@@ -228,17 +242,17 @@
               })
             }
           }
-        }
+        // }
       }
     }
 
     async onLoad() {
-      let res = await wepy.login()
-      codeLogin({
-        code: res.code
-      }).then(response => {
-        console.log(response)
-      })
+      // let res = await wepy.login()
+      // codeLogin({
+      //   code: res.code
+      // }).then(response => {
+      //   console.log(response)
+      // })
       // console.log(res)
       // this.userInfo = await wepy.getUserInfo();
       // console.log(this.userInfo)

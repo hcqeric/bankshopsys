@@ -62,9 +62,9 @@
       <view class="bankcard-item bg-blue">
         <view class="bank-info">
           <image src="../images/bankcard-logo.png"></image>
-          <text>中国建设银行</text>
+          <text>{{bankName}}</text>
         </view>
-        <text>621************2717</text>
+        <text>{{mtool.bankcardFormat(bankCardNo+'')}}</text>
       </view>
     </view>
     <view class="bankcard-intro">
@@ -80,10 +80,21 @@
 </template>
 <script>
   import wepy from 'wepy';
-
+  import {USER_SPECICAL_INFO} from '../utils/constant';
+  import tip from '../utils/tip'
+  import MyFilter from '../wxs/filter.wxs'
   export default class MyBankCard extends wepy.page {
     config = {
       navigationBarTitleText: '我的银行卡'
+    }
+
+    wxs = {
+      mtool: MyFilter
+    }
+
+    data = {
+      bankCardNo: '',
+      bankName: ''
     }
     methods = {
       changeBankCard(){
@@ -91,6 +102,20 @@
           url: 'changebankcard'
         })
       }
+    }
+    onLoad(){
+      let userSpecInf = wepy.getStorageSync(USER_SPECICAL_INFO)
+
+      if (userSpecInf.accountEntity && userSpecInf.accountEntity.cardNo) {
+        this.bankCardNo = userSpecInf.accountEntity.cardNo
+        this.bankName = userSpecInf.accountEntity.bankName
+      } else {
+        tip.alert("您的银行卡信息有误")
+        wepy.navigateBack({
+          delta: 1
+        })
+      }
+
     }
   }
 </script>

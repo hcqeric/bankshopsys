@@ -1,4 +1,7 @@
 <style lang="less">
+  .m-page{
+    min-height: 1px;
+  }
 </style>
 <template>
   <view class="m-page">
@@ -20,10 +23,12 @@
       navigationBarTitleText: '资料提交成功'
     }
 
-    toHome(){
-      wepy.switchTab({
-        url: 'home'
-      })
+    methods={
+      toHome(){
+        wepy.switchTab({
+          url: 'home'
+        })
+      }
     }
   }
 </script>
