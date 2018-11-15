@@ -211,7 +211,7 @@
           contactMobile: this.quickRecInfo.contactMobile,
           address: this.quickRecInfo.address
         }).then(response=>{
-          wepy.navigateTo({
+          wepy.redirectTo({
             url: 'merchantmtlsucc'
           })
         },error=>{

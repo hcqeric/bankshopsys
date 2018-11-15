@@ -106,7 +106,7 @@
     <view class="msg-tips" @tap="toNotice">
       <view class="msg-tip-info">
         <image  src="../images/loudspeaker.png"></image>
-        <text>你有新的消息你有新的消息</text>
+        <text>你有新的消息!!!</text>
       </view>
       <!--<image src="../images/arrow-right.png"></image>-->
     </view>
@@ -211,9 +211,14 @@
                 url: 'qrcode'
               })
             }else if (id == 4) {
-              wepy.navigateTo({
-                url: 'otherservice'
+              wepy.showToast({
+                title: '当前功能暂未开放',
+                icon: 'none',
+                duration: 1500
               })
+              // wepy.navigateTo({
+              //   url: 'otherservice'
+              // })
             }
           }else{
             if(userSpecInfo.accountEntity.auditStatus == 1){

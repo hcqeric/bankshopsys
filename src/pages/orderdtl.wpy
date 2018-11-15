@@ -67,7 +67,7 @@
           <text>发展人</text>
           <text>{{merchantDtlInfo.partnerName}}</text>
         </view>
-        <view class="orderdtl-detail-info-item">
+        <view class="orderdtl-detail-info-item" wx:if="{{merchantDtlInfo.managerName}}">
           <text>客户经理</text>
           <text>{{merchantDtlInfo.managerName}}</text>
         </view>
@@ -77,11 +77,14 @@
         </view>
         <view class="orderdtl-detail-info-item">
           <text>处理状态</text>
-          <text class="ftb">已退回</text>
+          <text wx:if="{{merchantDtlInfo.auditStatus == 1}}" class="btb">资料审核中</text>
+          <text wx:if="{{merchantDtlInfo.auditStatus == 2 && merchantDtlInfo.activeStatus == 0}}" class="ptb">资料审核通过,待装机</text>
+          <text wx:if="{{merchantDtlInfo.auditStatus == 2 && merchantDtlInfo.activeStatus == 1}}" class="ptb">资料审核通过,已装机</text>
+          <text wx:if="{{merchantDtlInfo.auditStatus == 3}}" class="ftb">已退回</text>
         </view>
-        <view class="orderdtl-detail-info-item">
+        <view class="orderdtl-detail-info-item" wx:if="{{merchantDtlInfo.remarks}}">
           <text>退回原因</text>
-          <text>{{merchantDtlInfo.remarks}}商户资料不全</text>
+          <text>{{merchantDtlInfo.remarks}}</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>商户地址</text>
@@ -109,7 +112,6 @@
       getMerchantInfo({
         id: this.id
       }).then(response=>{
-        console.log(response)
         this.merchantDtlInfo = response.result
         this.$apply()
       }, error =>{

@@ -25,13 +25,11 @@ class Request {
         }
       })
       options.api = restArr.join('/')
-      console.log(options.api)
     }
     if (!options.openId) {
       console.log("不需要openId")
     } else {
       options.api = options.api + '?openId=' + getOpenId()
-      console.log(options.api)
     }
     //动态路由参数设置
     if (!options.data) { options.data = {} }

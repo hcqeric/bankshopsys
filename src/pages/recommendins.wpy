@@ -43,14 +43,14 @@
         <view class="quick-item-intro"></view>
         <view class="quick-item-intro">
           <text>快速推荐</text>
-          <text>快速推荐分润规则</text>
+          <!--<text>快速推荐分润规则</text>-->
         </view>
       </view>
       <view class="rec-quick-item item-ent" @tap="quickEnt">
         <view class="quick-item-intro"></view>
         <view class="quick-item-intro">
           <text>快速入网</text>
-          <text>快速入网分润规则</text>
+          <!--<text>快速入网分润规则</text>-->
         </view>
       </view>
     </view>
@@ -71,10 +71,8 @@
         })
       },
       quickEnt(){
-        wepy.showToast({
-          title: '这里是快速入网',
-          icon: 'none',
-          duration: 1500
+        wepy.navigateTo({
+          url: 'quickent'
         })
       }
     }

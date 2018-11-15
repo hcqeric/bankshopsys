@@ -25,21 +25,22 @@ export default class extends wepy.app {
       'pages/quickrec',
       'pages/orderdtl',
       'pages/login',
-
+      'pages/quickent',
       'pages/notification',
       'pages/home',
       'pages/earningtype',
+      'pages/mine',
+      'pages/register',
       'pages/merchantmtlsucc',
       'pages/machineinssucc',
       'pages/partnerdtl',
       'pages/userinfo',
-
-      'pages/register',
+      // 'pages/partnermct',
+      'pages/partnermerchant',
 
       'pages/mylevel',
       'pages/partnermtl',
       'pages/partnermgr',
-
 
       'pages/partnermtlsucc',
       'pages/partnermgrsucc',
@@ -52,7 +53,7 @@ export default class extends wepy.app {
 
       'pages/testNav',
 
-      'pages/mine',
+
       'pages/recommendins',
       'pages/earnings',
 
@@ -101,8 +102,8 @@ export default class extends wepy.app {
   }
 
   globalData = {
-    userInfo: null,
-    login: false
+    // userInfo: null,
+    // login: false
   }
 
   constructor () {
@@ -125,45 +126,45 @@ export default class extends wepy.app {
     // }
   }
 
-  sleep (s) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve('promise resolved')
-      }, s * 1000)
-    })
-  }
+  // sleep (s) {
+  //   return new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       resolve('promise resolved')
+  //     }, s * 1000)
+  //   })
+  // }
 
-  async testAsync () {
-    // await wepy.login({
-    //   success: res =>{
-    //     console.log(res);
-    //   }
-    // })
-    let res = await wepy.login()
-    console.log(res)
+  // async testAsync () {
+  //   // await wepy.login({
+  //   //   success: res =>{
+  //   //     console.log(res);
+  //   //   }
+  //   // })
+  //   let res = await wepy.login()
+  //   console.log(res)
+  //
+  //   // this.userInfo = await wepy.getUserInfo().catch(error=>{
+  //   //   console.log(error);
+  //   // });
+  //   // console.log(this.userInfo)
+  //
+  //
+  //   // const data = await this.sleep(3)
+  //   // console.log(data)
+  // }
 
-    // this.userInfo = await wepy.getUserInfo().catch(error=>{
-    //   console.log(error);
-    // });
-    // console.log(this.userInfo)
 
-
-    // const data = await this.sleep(3)
-    // console.log(data)
-  }
-
-
-  getUserInfo(cb) {
-    const that = this
-    if (this.globalData.userInfo) {
-      return this.globalData.userInfo
-    }
-    wepy.getUserInfo({
-      success (res) {
-        that.globalData.userInfo = res.userInfo
-        cb && cb(res.userInfo)
-      }
-    })
-  }
+  // getUserInfo(cb) {
+  //   const that = this
+  //   if (this.globalData.userInfo) {
+  //     return this.globalData.userInfo
+  //   }
+  //   wepy.getUserInfo({
+  //     success (res) {
+  //       that.globalData.userInfo = res.userInfo
+  //       cb && cb(res.userInfo)
+  //     }
+  //   })
+  // }
 }
 </script>

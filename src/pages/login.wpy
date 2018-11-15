@@ -157,7 +157,7 @@
           let userSpecInfo = response.result
           wepy.setStorageSync(USER_SPECICAL_INFO, userSpecInfo);
           if (userSpecInfo.userType == 3){
-            wepy.navigateTo({
+            wepy.redirectTo({
               url: 'salesmanager'
             })
           } else{

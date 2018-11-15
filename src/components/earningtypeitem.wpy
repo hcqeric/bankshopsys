@@ -1,0 +1,89 @@
+<style lang="less">
+  .earning-item{
+    margin-top: 16rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 48rpx 32rpx;
+    background: #fff;
+    .earning-item-left{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-shrink: 0;
+      .icon-bank{
+        width: 61rpx;
+        height: 43rpx;
+      }
+      .icon-scan{
+        width: 49rpx;
+        height: 49rpx;
+      }
+      .icon-credit{
+        width: 58rpx;
+        height: 46rpx;
+      }
+      .icon-loans{
+        width: 47rpx;
+        height: 51rpx;
+      }
+      .earning-merchant{
+        margin-left: 16rpx;
+        display: flex;
+        flex-direction: column;
+        .txt-small{
+          font-size: 24rpx;
+        }
+      }
+    }
+    .earning-item-right{
+      display: flex;
+      flex-direction: column;
+      .txt-bold{
+        font-size: 40rpx;
+        line-height: 42rpx;
+        height: 42rpx;
+      }
+      .txt-small{
+        font-size: 24rpx;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="earning-item">
+    <view class="earning-item-left">
+      <image class="icon-bank" wx:if="{{type == 1}}" src="../images/type-bank-icon.png"></image>
+      <image class="icon-scan" wx:if="{{type == 2}}" src="../images/type-scan-icon.png"></image>
+      <image class="icon-credit" wx:if="{{type == 3}}" src="../images/type-credit-icon.png"></image>
+      <image class="icon-loans" wx:if="{{type == 4}}" src="../images/type-loans-icon.png"></image>
+      <view class="earning-merchant">
+        <text>永乐超市</text>
+        <text class="txt-small">客户经理：张三</text>
+      </view>
+    </view>
+    <view class="earning-item-right">
+        <text class="txt-bold">+200.00</text>
+        <text class="txt-small">2018-9-12</text>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import mtool from '../wxs/filter.wxs';
+  export default class EarningTypeItem extends wepy.component {
+    wxs = {
+      mtool: mtool
+    }
+    props = {
+      earningInfo: {
+        type: Object
+      },
+      type: {
+        type: Number,
+        default: 1
+      }
+    }
+  }
+</script>

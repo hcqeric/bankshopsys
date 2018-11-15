@@ -1,0 +1,596 @@
+<style lang="less">
+  .mm-page{
+    box-sizing: border-box;
+    padding-top: 16rpx;
+  }
+  .branch-bank-picker{
+    .picker{
+      height: 1.4rem;
+      line-height: 1.4rem;
+      padding: 16rpx;
+      border-radius: 16rpx;
+      border: 1rpx solid #999;
+      color: #999;
+    }
+    .picker.selected{
+      color: #333;
+    }
+  }
+  .confirm-double-btn{
+    display: flex;
+    margin: 40rpx 0;
+    padding: 16rpx;
+    button{
+      flex: 1;
+      background: #4a93db;
+      color: #fff;
+      &:first-child{
+        margin-right: 20rpx;
+      }
+    }
+  }
+</style>
+<template>
+  <view class="mm-page">
+    <view class="step-one"  hidden="{{step==2}}">
+      <view class="changecard-info">
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>商户名称</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入商户名称" @input="handleInput" data-obj="quickEntInfo"  data-item="merchantName" value="{{quickEntInfo.merchantName}}"/>
+          <!--<input type="text" bindinput="inputeidt" data-obj="obj" data-item="item" value="{{obj.item}}"/>-->
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>商户简称</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入商户简称" maxlength="21" @input="handleInput" data-obj="quickEntInfo"  data-item="merchantShortName" value="{{quickEntInfo.merchantShortName}}" @blur="handleCardNoBlur"/>
+        </view>
+      </view>
+      <view class="change-info-item">
+          <view class="change-info-item-label">
+            <i>*</i><text>联系电话</text>
+          </view>
+          <view class="change-info-input">
+            <input type="number" placeholder="请输入联系电话" maxlength="11" @input="handleInput" data-obj="quickEntInfo"  data-item="contactPhone" value="{{quickEntInfo.contactPhone}}" />
+          </view>
+        </view>
+      <view class="change-info-item">
+          <view class="change-info-item-label">
+            <i>*</i><text>注册法人</text>
+          </view>
+          <view class="change-info-input">
+            <input type="text" placeholder="请输入商户注册法人" maxlength="21" @input="handleInput" data-obj="quickEntInfo"  data-item="name" value="{{quickEntInfo.name}}"/>
+          </view>
+        </view>
+      <view class="change-info-item">
+          <view class="change-info-item-label">
+            <i>*</i>
+            <text>签约费率</text>
+          </view>
+          <view class="change-info-input">
+            <input type="digit" placeholder="请输入商户签约费率" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="rate" value="{{quickEntInfo.rate}}"/>
+            <text class="rate-signal">%</text>
+          </view>
+        </view>
+    </view>
+      <view class="changecard-info">
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>银行卡号</text>
+        </view>
+        <view class="change-info-input">
+          <input type="number" placeholder="请输入银行卡号" maxlength="21" @input="handleInput" data-obj="quickEntInfo"  data-item="cardNo" value="{{quickEntInfo.cardNo}}" @blur="handleCardNoBlur"/>
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>开户地址</text>
+        </view>
+        <view class="change-info-input">
+          <input  @tap="openAddressPicker" type="text" placeholder="请选择开户地址" disabled="true" value="{{fullArea}}" />
+          <image src="../images/arrow-down.png"></image>
+          <areaPicker @areaArray.user="areaPickerArray"></areaPicker>
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>银行名称</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="-- 请选择支行 --" @tap="openBranchBankPicker"  disabled="true"  value="{{quickEntInfo.bankName}}"/>
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>银行支行名称</text>
+        </view>
+        <view class="change-info-input">
+          <input wx:if="{{branchBankArray.length <= 0}}" @tap="openBranchBankPicker" type="text" placeholder="请选择银行支行名称" disabled="true"/>
+          <picker wx:else="{{branchBankArray.length > 0}}" class="branch-bank-picker"  @change="bindBranchBankChange" value="{{index}}" range="{{branchBankArray}}"  range-key="subbranchBank" >
+            <view class="picker {{quickEntInfo.branchBankName != ''? 'selected' : ''}}" >
+              {{quickEntInfo.branchBankName == '' ? '请选择银行支行名称' : branchBankArray[index].subbranchBank}}
+            </view>
+          </picker>
+          <image src="../images/arrow-down.png"></image>
+        </view>
+      </view>
+      <view class="change-info-item">
+          <view class="change-info-item-label">
+            <i>*</i><text>账户类型</text>
+          </view>
+          <view class="change-info-input">
+            <picker class="branch-bank-picker" @change="bindAccountTypeChange" value="{{accountType}}" range="{{accountTypeArray}}" range-key="name" >
+              <view class="picker {{quickEntInfo.accountType != ''? 'selected' : ''}}">
+                {{quickEntInfo.accountType === '' ? "请选择账户类型" : accountTypeArray[accountType].name}}
+              </view>
+            </picker>
+            <image src="../images/arrow-down.png"></image>
+          </view>
+        </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>开户人姓名</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入开户人姓名" @input="handleInput" data-obj="quickEntInfo"  data-item="accountName" value="{{quickEntInfo.accountName}}"/>
+        </view>
+      </view>
+      <view class="change-info-item">
+          <view class="change-info-item-label">
+            <i>*</i><text>开户预留手机号码</text>
+          </view>
+          <view class="change-info-input">
+            <input type="number" placeholder="请输入开户预留手机号码" maxlength="11" @input="handleInput" data-obj="quickEntInfo"  data-item="mobilePhone" value="{{quickEntInfo.mobilePhone}}"/>
+          </view>
+        </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>身份证号</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入身份证号" @input="handleInput" data-obj="quickEntInfo"  data-item="idCardNo" value="{{quickEntInfo.idCardNo}}"/>
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
+          <i>*</i><text>详细地址</text>
+        </view>
+        <view class="change-info-input">
+          <input type="text" placeholder="请输入详细地址" @input="handleInput" data-obj="quickEntInfo"  data-item="address" value="{{quickEntInfo.address}}"/>
+        </view>
+      </view>
+      <view class="confirm-btn">
+        <button @tap="nextStep">下一步</button>
+      </view>
+    </view>
+    </view>
+    <view class="step-two" hidden="{{step==1}}">
+      <view class="userinfo-content-item">
+        <view class="changecard-info">
+          <view class="change-info-item">
+            <view class="change-info-item-label">
+              <i>*</i><text>身份证正面照</text>
+            </view>
+            <view class="change-info-upload" @tap="chooseImage(1)">
+              <image class="imgType" wx:if="{{imageFile1}}" src="{{imageFile1}}"></image>
+              <image wx:if="{{!imageFile1}}" src="../images/pic2.png"></image>
+            </view>
+          </view>
+          <view class="change-info-item">
+            <view class="change-info-item-label">
+              <i>*</i><text>身份证反面照</text>
+            </view>
+            <view class="change-info-upload" @tap="chooseImage(2)">
+              <image class="imgType" wx:if="{{imageFile2}}" src="{{imageFile2}}"></image>
+              <image wx:if="{{!imageFile2}}" src="../images/pic2.png"></image>
+            </view>
+          </view>
+          <view class="change-info-item">
+            <view class="change-info-item-label">
+              <i>*</i><text>手持身份证</text>
+            </view>
+            <view class="change-info-upload" @tap="chooseImage(3)">
+              <image class="imgType" wx:if="{{imageFile3}}" src="{{imageFile3}}"></image>
+              <image wx:if="{{!imageFile3}}" src="../images/pic2.png"></image>
+            </view>
+          </view>
+          <view class="change-info-item">
+            <view class="change-info-item-label">
+              <i>*</i><text>银行卡照</text>
+            </view>
+            <view class="change-info-upload" @tap="chooseImage(4)">
+              <image class="imgType" wx:if="{{imageFile4}}" src="{{imageFile4}}"></image>
+              <image wx:if="{{!imageFile4}}" src="../images/pic2.png"></image>
+            </view>
+          </view>
+          <view class="change-info-item">
+            <view class="change-info-item-label">
+              <i>*</i><text>营业执照号码</text>
+            </view>
+            <view class="change-info-input">
+              <input type="number" placeholder="请输入营业执照号码" @input="handleInput" data-obj="quickEntInfo"  data-item="businessLicense" value="{{quickEntInfo.businessLicense}}" />
+            </view>
+          </view>
+          <view class="change-info-item">
+            <view class="change-info-item-label">
+              <i>*</i><text>营业执照</text>
+            </view>
+            <view class="change-info-upload" @tap="chooseImage(6)">
+              <image class="imgType" wx:if="{{imageFile6}}" src="{{imageFile6}}"></image>
+              <image wx:if="{{!imageFile6}}" src="../images/pic1.png"></image>
+            </view>
+          </view>
+        </view>
+        <view class="confirm-double-btn">
+          <button @tap="previousStep">上一步</button>
+          <button @tap="submitInfo">提交</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import AreaPicker from "../components/common/wepy-area-picker";
+  import {selBanks, getVeriCodeNoType, updateCardNo, addMerchantAndPic} from '../http/getData';
+  import tip from '../utils/tip'
+  export default class QuickEnt extends wepy.page {
+    config = {
+      navigationBarTitleText: '快速入网'
+    }
+
+    components = {
+      areaPicker: AreaPicker,
+      merchantAreaPicker: AreaPicker
+    }
+
+    data = {
+      step: 1,
+      sendMsgDisabled: false,
+      index: 0,
+      branchBankArray:[],
+      quickEntInfo:{
+        name: '',
+        merchantName:'',
+        merchantShortName: '',
+        cardNo: '',
+        bankName: '',
+        accountName: '',
+        province: '',
+        city: '',
+        district: '',
+        address: '',
+        contactPhone: '',
+        branchBankId: '',
+        branchBankName: '',
+        idCardNo: '',
+        businessLicense: '',
+        mobilePhone: '',
+        accountType: '',
+        rate: ''
+      },
+      accountType: 0,
+      accountTypeArray: [
+        {
+          id: 1,
+          name: '个人账户'
+        },
+        {
+          id: 2,
+          name: '企业账户'
+        }
+      ],
+      imageFile1: '',
+      imageFile2: '',
+      imageFile3: '',
+      imageFile4: '',
+      imageFile6: '',
+      files:['','','','',''],
+      maxFiles: 1,
+      time: 60,
+      province: '',
+      city: '',
+      area: '',
+      fullArea: '',
+      rateUnit: '‰'
+    }
+
+    async sendVerifyCode() {
+      const json = await getVeriCodeNoType({
+        mobile: this.quickEntInfo.mobilePhone
+      });
+      if (json.code == 0) {
+        tip.success("发送成功!");
+        this.$apply();
+      } else {
+        tip.error(json.msg)
+      }
+    }
+
+    checkAllNeeded(){
+      console.log(this.files)
+      if ( !this.quickEntInfo.businessLicense
+        || !this.imageFile1
+        || !this.imageFile2
+        || !this.imageFile3
+        || !this.imageFile4
+        || !this.imageFile6
+      ){
+        tip.success("标星项为必填！")
+        return false
+      }else{
+        return true
+      }
+    }
+
+    checkFirstStep(){
+      if (!this.quickEntInfo.accountName
+        || !this.quickEntInfo.merchantName
+        || !this.quickEntInfo.merchantShortName
+        || !this.quickEntInfo.cardNo
+        || !this.quickEntInfo.province
+        || !this.quickEntInfo.bankName
+        || !this.quickEntInfo.branchBankId
+        || !this.quickEntInfo.branchBankName
+        || !this.quickEntInfo.idCardNo
+        || !this.quickEntInfo.address
+        || !this.quickEntInfo.name
+        || !this.quickEntInfo.rate
+        || !this.quickEntInfo.contactPhone
+        || !this.quickEntInfo.mobilePhone
+        || !this.quickEntInfo.accountType
+      ){
+        tip.success("标星项为必填！")
+        return false
+      }else{
+        return true
+      }
+    }
+
+    // getUrlBase64(url, ext, callback) {
+    //   var canvas = document.createElement("canvas");   //创建canvas DOM元素
+    //   var ctx = canvas.getContext("2d");
+    //   var img = new Image;
+    //   img.crossOrigin = 'Anonymous';
+    //   img.src = url;
+    //   img.onload = function () {
+    //     canvas.height = 60; //指定画板的高度,自定义
+    //     canvas.width = 85; //指定画板的宽度，自定义
+    //     ctx.drawImage(img, 0, 0, 60, 85); //参数可自定义
+    //     var dataURL = canvas.toDataURL("image/" + ext);
+    //     callback.call(this, dataURL); //回掉函数获取Base64编码
+    //     canvas = null;
+    //   };
+    // }
+
+    // urlTobase64(url){
+    //   wepy.request({
+    //     url:url,
+    //     responseType: 'arraybuffer', //最关键的参数，设置返回的数据格式为arraybuffer
+    //     success:res=>{
+    //       let base64 = wx.arrayBufferToBase64(res); //把arraybuffer转成base64
+    //       base64　= 'data:image/jpeg;base64,' + base64　//不加上这串字符，在页面无法显示的哦
+    //       console.log(base64)　//打印出base64字符串，可复制到网页校验一下是否是你选择的原图片呢
+    //     }
+    //   })
+    // }
+
+    methods = {
+      bindAccountTypeChange(e){
+        let idx = e.detail.value
+        this.accountType = idx
+        this.quickEntInfo.accountType = this.accountTypeArray[idx].id
+      },
+      previousStep(){
+        this.step = 1
+      },
+      nextStep(){
+        // if (!this.checkFirstStep()) {
+        //   return false
+        // }
+        wepy.pageScrollTo({
+          scrollTop: 0,
+          duration: 300
+        })
+        this.step = 2
+      },
+      chooseImage(type) {
+        wepy.chooseImage({
+          count: this.maxFiles,
+          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
+        }).then(res => {
+          // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+          let imgSuffixArr = res.tempFilePaths[0].split('.')
+          let imgSuffix = imgSuffixArr[imgSuffixArr.length - 1]
+          // this.urlTobase64(res.tempFilePaths[0])
+          let base64 = wx.getFileSystemManager().readFileSync(res.tempFilePaths[0], 'base64')
+          if (type == 1) {
+            this.imageFile1 = `data:image/${imgSuffix};base64,${base64}`
+            this.files[0] = {
+              imgType: type,
+              imgFile: base64,
+              imgSuffix: imgSuffix
+            }
+          } else if (type == 2) {
+            this.imageFile2 = `data:image/${imgSuffix};base64,${base64}`
+            this.files[1] = {
+              imgType: type,
+              imgFile: base64,
+              imgSuffix: imgSuffix
+            }
+          }else if (type == 3) {
+            this.imageFile3 = `data:image/${imgSuffix};base64,${base64}`
+            this.files[2] = {
+              imgType: type,
+              imgFile: base64,
+              imgSuffix: imgSuffix
+            }
+          }else if (type == 4) {
+            this.imageFile4 = `data:image/${imgSuffix};base64,${base64}`
+            this.files[3] = {
+              imgType: type,
+              imgFile: base64,
+              imgSuffix: imgSuffix
+            }
+          }else if (type == 6) {
+            this.imageFile6 = `data:image/${imgSuffix};base64,${base64}`
+            this.files[4] = {
+              imgType: type,
+              imgFile: base64,
+              imgSuffix: imgSuffix
+            }
+          }
+          this.$apply()
+
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+      bindBranchBankChange(e){
+        let i = e.detail.value
+        this.index = e.detail.value
+        this.quickEntInfo.branchBankId = this.branchBankArray[i].cnapsCode
+        this.quickEntInfo.branchBankName = this.branchBankArray[i].subbranchBank
+      },
+      getVerifyCode(){
+        if (this.quickEntInfo.mobilePhone == "") {
+          tip.alert("请输入手机号码");
+          return false;
+        }
+        this.sendVerifyCode();
+        let that = this;
+        that.sendMsgDisabled = true;
+        let interval = setInterval(() => {
+          if ((that.time--) <= 0) {
+            that.time = 60;
+            that.sendMsgDisabled = false;
+            clearInterval(interval);
+            that.$apply();
+          }
+          that.$apply();
+        }, 1000);
+      },
+
+      handleInput(e){
+        let dataset = e.currentTarget.dataset
+        this[dataset.obj][dataset.item] = e.detail.value
+      },
+      submitInfo(){
+        if (!this.checkAllNeeded()) {
+          return false
+        }
+
+        let rate = parseInt(parseFloat(this.quickEntInfo.rate) * 100)
+
+        addMerchantAndPic({
+          merchantName:this.quickEntInfo.merchantName,
+          merchantShortName: this.quickEntInfo.merchantShortName,
+          name: this.quickEntInfo.name,
+          province: this.quickEntInfo.province,
+          city: this.quickEntInfo.city,
+          district: this.quickEntInfo.district,
+          address: this.quickEntInfo.address,
+          contactPhone: this.quickEntInfo.contactPhone,
+          businessLicense: this.quickEntInfo.businessLicense,
+          accountName: this.quickEntInfo.accountName,
+          accountType: this.quickEntInfo.accountType,
+          cnapsCode: this.quickEntInfo.branchBankId,
+          bankName: this.quickEntInfo.bankName,
+          idCardNo: this.quickEntInfo.idCardNo,
+          mobilePhone: this.quickEntInfo.mobilePhone,
+          rate: rate,
+          uploadFileList: this.files,
+          cardNo: this.quickEntInfo.cardNo
+        }).then(response=>{
+          wepy.redirectTo({
+            url: 'merchantmtlsucc'
+          })
+        }, error=>{
+          console.log(error)
+        })
+      },
+      handleCardNoBlur(e){
+        if (this.quickEntInfo.cardNo != '' && this.quickEntInfo.province != ''){
+          selBanks({
+            provinceCode: this.quickEntInfo.province,
+            cityCode: this.quickEntInfo.city,
+            bankCardNo: this.quickEntInfo.cardNo
+          }).then(response => {
+            if (response.result != undefined) {
+              this.quickEntInfo.bankName = response.result[0].bankName
+              this.branchBankArray = response.result
+            } else{
+              tip.alert("暂不支持此类银行卡")
+            }
+            this.$apply()
+          }, error =>{
+            this.$apply()
+          })
+        }
+        this.bankCardNo = e.detail.value
+      },
+      openBranchBankPicker(){
+        if (!this.quickEntInfo.cardNo) {
+          wepy.showToast({
+            title: '请输入银行卡号',
+            icon: 'none',
+            duration: 1500
+          })
+          return
+        }
+        if (!this.fullArea) {
+          wepy.showToast({
+            title: '请选择开户地址',
+            icon: 'none',
+            duration: 1500
+          })
+          return
+        }
+        if(!this.quickEntInfo.bankName){
+          wepy.showToast({
+            title: '暂不支持此类银行卡',
+            icon: 'none',
+            duration: 1500
+          })
+          return
+        }
+      },
+      areaPickerArray(province, city, area) {
+        this.province = province;
+        this.city = city;
+        this.area = area;
+        this.quickEntInfo.province = province.areaCode;
+        this.quickEntInfo.city = city.areaCode;
+        this.quickEntInfo.district = area.areaCode;
+        this.fullArea = this.province.name + this.city.name + this.area.name
+        if (this.quickEntInfo.cardNo != '') {
+          selBanks({
+            provinceCode: this.quickEntInfo.province,
+            cityCode: this.quickEntInfo.city,
+            bankCardNo: this.quickEntInfo.cardNo
+          }).then(response => {
+            if (response.result != undefined) {
+              this.quickEntInfo.bankName = response.result[0].bankName
+              this.branchBankArray = response.result
+            } else{
+              tip.alert("暂不支持此类银行卡")
+            }
+            this.$apply()
+          }, error =>{
+            this.$apply()
+          })
+        }
+        this.$apply();
+      },
+      openAddressPicker() {
+        this.$invoke('areaPicker', 'openAddressPicker');
+      }
+    }
+  }
+</script>

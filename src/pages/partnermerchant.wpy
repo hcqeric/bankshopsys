@@ -1,67 +1,80 @@
 <style lang="less">
-  .mm-page{
-    display: flex;
-    flex-direction: column;
+  .partnermerchant-list-box{
+    box-sizing: border-box;
+    padding: 16rpx 30rpx 0;
+    .item_content{
+      margin-top: 16rpx;
+    }
   }
 </style>
 <template>
   <view class="mm-page">
-    <view class="earning-list-box">
-      <repeat  for="{{earningTypeList}}" key="index" index="index" item="item">
-        <!--<orderItem :orderList.sync="orderList" class="swiper-item-order"></orderItem>-->
-        <earningitem class="earning-list-item" :earningInfo="item" :type="type"></earningitem>
-      </repeat>
+    <view class="partnermerchant-list-box">
+    <repeat  for="{{partnerMerchantList}}" key="index" index="index" item="item">
+    <!--<orderItem :orderList.sync="orderList" class="swiper-item-order"></orderItem>-->
+      <merchantitem class="item_content" :merchantType.sync="currentTab" :merchantInfo="item" :canGetDetail="1"></merchantitem>
+    </repeat>
     </view>
     <!--&lt;!&ndash;加载更多时动画&ndash;&gt;-->
     <!--<bottomLoadMore :show.sync="showLoading" message="正在加载"></bottomLoadMore>-->
     <!--暂无数据显示-->
     <view wx:if="{{allLoaded}}" class="page-allLoaded">
-      <text class="txt-bottom">o(╥﹏╥)o已经触碰到底线了!!!</text>
-      <text class="line"></text>
+    <text class="txt-bottom">o(╥﹏╥)o已经触碰到底线了!!!</text>
+    <text class="line"></text>
     </view>
     <placeholder :show.sync="is_empty" :topZero="is_top" message="暂无发现数据"></placeholder>
   </view>
 </template>
 <script>
   import wepy from 'wepy';
-  import EarningTypeItem from "../components/earningtypeitem"
   import Placeholder from "../components/common/placeholder"
-  import {getEarningListByType} from '../http/getData';
+  import MerchantItem from '@/components/merchantitem'
+  import {getMerchantList} from '../http/getData';
+  export default class PartnerMerchant extends wepy.page {
 
-  export default class EarningType extends wepy.page {
     config = {
-      enablePullDownRefresh: true,
+      enablePullDownRefresh: true
     }
 
     components = {
-      earningitem: EarningTypeItem,
+      merchantitem: MerchantItem,
       placeholder: Placeholder
     }
 
     data = {
-      type: '',
-      page: 1,
-      limit: '15',
-      is_empty: false,
-      is_top: true,
-      allLoaded: false,
-      isPullDownRefresh: false,
-      earningTypeList: []
+        id: '',
+        page: 1,
+        limit: '15',
+        currentTab: 1,
+        is_empty: false,
+        is_top: true,
+        allLoaded: false,
+        isPullDownRefresh: false,
+        partnerMerchantList: []
+      }
+
+    onLoad(opts){
+      let {id, name} = opts
+      this.id = id
+      wepy.setNavigationBarTitle({
+        title: `${name}的商户`
+      })
+      this.getPartnerMerchantList()
     }
 
     onPullDownRefresh () {
-
       // 显示顶部刷新图标
       wepy.showNavigationBarLoading();
-      this.earningTypeList = []
+      this.partnerMerchantList = []
       this.isPullDownRefresh = true
       this.page = 1
-      this.getEarningList()
+      this.getPartnerMerchantList()
 
     }
-    getEarningList(){
-      getEarningListByType({
-        type: this.type + '',
+
+    getPartnerMerchantList(){
+      getMerchantList({
+        userId: this.id + '',
         page: this.page + '',
         limit: this.limit
       }).then(response=>{
@@ -73,7 +86,7 @@
         }
         if (response.result.list != undefined) {
           response.result.list.map(item=>{
-            this.earningTypeList.push(item)
+            this.partnerMerchantList.push(item)
           })
         }
         this.stopPullDown()
@@ -81,7 +94,7 @@
       }, error=>{
         this.stopPullDown()
       }).catch(error =>{
-        if (this.earningTypeList.length > 0) {
+        if (this.partnerMerchantList.length > 0) {
           this.is_empty = false
         }else {
           this.is_empty = true
@@ -99,38 +112,15 @@
       }
     }
 
-    onLoad(opt){
-      this.type = opt.type
-      if (this.type == 1) {
-        wepy.setNavigationBarTitle({
-          title: '银行卡收益'
-        })
-      }else if(this.type == 2){
-        wepy.setNavigationBarTitle({
-          title: '扫码收益'
-        })
-      }else if(this.type == 3){
-        wepy.setNavigationBarTitle({
-          title: '信用卡推荐收益'
-        })
-      }else if(this.type == 4){
-        wepy.setNavigationBarTitle({
-          title: '贷款推荐收益'
-        })
-      }
-      this.getEarningList()
-    }
-
     //加载更多
     onReachBottom() {
-      console.log("加载更多");
       let that = this;
       if(this.totalCount - parseInt(this.limit) * this.page > 0){
         this.allLoaded = false
         that.page++;
-        that.getEarningList()
+        that.getPartnerMerchantList()
       }else{
-        if (this.earningTypeList.length > 5) {
+        if (this.partnerMerchantList.length > 5) {
           this.allLoaded = true
         }else {
           this.allLoaded = false

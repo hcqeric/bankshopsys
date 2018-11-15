@@ -5,6 +5,7 @@
   }
 
   .list-container{
+    box-sizing: border-box;
     padding: 0 30rpx;
   }
   .swiper-tab-list.active {
@@ -13,10 +14,14 @@
   }
   .swiper-item-box{
     box-sizing: border-box;
-
     .swiper-item-order{
       margin-top: 16rpx;
     }
+  }
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
   }
 </style>
 <template>
@@ -26,7 +31,7 @@
       <tab @currentTab.user="getCurrentTab" :tabList.sync="tabList" :currentTab.sync="currentTab"></tab>
     </view>
     <view class="list-container">
-    <scroll-view scroll-y="true" style="height:{{winHeight - 44}}px" class="swiper-item-box" @scrolltolower="loadMore">
+    <scroll-view scroll-y="true" style="height:{{winHeight - 50}}px" class="swiper-item-box" @scrolltolower="loadMore">
       <repeat for="{{orderList}}" key="index" index="index" item="item">
         <navigator class="item_content" url="/pages/orderdtl?id={{item.id}}">
           <orderItem :orderInfo="item" class="swiper-item-order"></orderItem>
@@ -84,7 +89,6 @@
         page: this.page + '',
         limit: this.limit
       }).then(response => {
-        console.log(response)
         this.totalCount = response.result.totalCount
         if (response.result.totalCount == 0){
           this.is_empty = true;
@@ -166,7 +170,7 @@
           that.page++;
           that.getMyOrder()
         }else{
-          if (this.totalCount > 0) {
+          if (this.orderList.length > 5) {
             that.allLoaded = true;
           }else{
             that.allLoaded = false;

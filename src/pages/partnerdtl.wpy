@@ -21,38 +21,38 @@
 </style>
 <template>
   <view class="mm-page">
-    <view class="partner-detail">
+    <view class="partner-detail" wx:if="{{partnerInfo}}">
       <view class="partner-detail-info">
         <view class="partner-detail-info-item">
           <text>联系人名</text>
-          <text>程先生</text>
+          <text>{{partnerInfo.nickname}}</text>
         </view>
         <view class="partner-detail-info-item">
           <text>联系电话</text>
-          <text>15899888888</text>
+          <text>{{partnerInfo.mobilePhone}}</text>
         </view>
         <view class="partner-detail-info-item">
           <text>POS费率</text>
-          <text>0.55%</text>
+          <text>{{partnerInfo.posRate}}</text>
         </view>
         <view class="partner-detail-info-item">
           <text>扫码费率</text>
-          <text>0.35%</text>
+          <text>{{partnerInfo.scanRate}}</text>
         </view>
         <view class="partner-detail-info-item">
           <text>入网时间</text>
-          <text>2018-08-21  14:01</text>
+          <text>{{partnerInfo.createTime}}</text>
         </view>
         <view class="partner-detail-info-item">
           <text>账号状态</text>
-          <text class="ftb">正常</text>
+          <text class="{{partnerInfo.status == 1 ? 'ptb' : 'ftb' }}">{{partnerInfo.status == 1 ? '正常' : '失效 '}}</text>
         </view>
       </view>
       <view class="partner-detail-enable">
         <text>启用/禁用</text>
-        <switch  checked @change="enablePartner"/>
+        <switch  checked="{{status == 1}}" @change="enablePartner"/>
       </view>
-      <view class="partner-detail-merchant">
+      <view class="partner-detail-merchant" @tap="toPartnerMerchantList">
         <text>查看合伙人商户</text>
         <image src="../images/arrow-right.png"></image>
       </view>
@@ -65,6 +65,7 @@
   import wepy from 'wepy';
   import {isEnablePartner, getInfoByUserId} from '../http/getData';
   import Placeholder from "../components/common/placeholder"
+  import tip from '../utils/tip'
   export default class PartnerDtl extends wepy.page {
     config = {
       navigationBarTitleText: '合伙人详情'
@@ -72,6 +73,9 @@
 
     data = {
       id: '',
+      userid: '',
+      status: '',
+      name:'',
       partnerInfo: '',
       is_empty: false,
       is_top:true,
@@ -83,13 +87,25 @@
     }
 
     methods = {
+      toPartnerMerchantList(){
+        wepy.navigateTo({
+          url: `partnermerchant?id=${this.userid}&name=${this.name}`
+        })
+      },
       enablePartner(e){
         console.log('switch1 发生 change 事件，携带值为', e.detail.value)
         isEnablePartner({
-          id: '',
-          status: ''
+          id: this.id,
+          status: this.status
         }).then(response=>{
-          console.log(response)
+          if (this.status == 1) {
+            this.status = 0
+            tip.alert("禁用合伙人成功")
+          }else{
+            this.status = 1
+            tip.alert("启用合伙人成功")
+          }
+          this.$apply()
         }, error=>{
           console.log(error)
         })
@@ -97,11 +113,16 @@
     }
 
     onLoad(opts){
-      this.id = opts.id
+      this.userid = opts.id
       getInfoByUserId({
-        id: this.id
+        id: this.userid
       }).then(response=>{
         this.partnerInfo = response.result
+        this.id = response.result.id
+        this.status = response.result.status
+        this.name = response.result.nickname
+        this.$apply()
+        console.log(this.partnerInfo)
       }, error=>{
         this.is_empty = true
         if (error) {

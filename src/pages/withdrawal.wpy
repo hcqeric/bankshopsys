@@ -106,7 +106,7 @@
 <script>
   import wepy from 'wepy';
   import {requestWithdraw} from '../http/getData';
-
+  import tip from '../utils/tip'
   export default class Withdrawal extends wepy.page {
     config = {
       navigationBarTitleText: '我要提现'
@@ -121,10 +121,14 @@
         this.amt = e.detail.value
       },
       withdrawalNow(){
+        if (!this.amt) {
+          tip.alert("请输入兑换金额")
+          return false
+        }
         requestWithdraw({
           amt: this.amt
         }).then(response =>{
-          wepy.navigateTo({
+          wepy.redirectTo({
             url: 'withdrawalsucc'
           })
         },error =>{

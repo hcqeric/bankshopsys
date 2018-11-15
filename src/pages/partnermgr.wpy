@@ -86,7 +86,7 @@
           monthOrder: this.partnerMgrInfo.monthOrder
         }).then(response => {
           console.log(response)
-          wepy.navigateTo({
+          wepy.redirectTo({
             url: 'partnermgrsucc'
           })
         }, error=>{

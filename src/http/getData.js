@@ -24,9 +24,9 @@ export const getPartnerList = (datas) => new Request().require({api: url.getPart
 
 export const updateIdCardNo = (datas) => new Request().require({api: url.updateIdCardNo, data: datas, openId: true}); //身份认证
 
-export const saveMerchant = (datas) => new Request().require({api: url.saveMerchant, data: datas, openId: true}); //商家快速推荐
+export const saveMerchant = (datas) => new Request().require({api: url.saveMerchant, data: datas, openId: true, loadingVisble: true}); //商家快速推荐
 
-export const getSalesmanList = () => new Request().require({api: url.getSalesmanList, methods: "GET", openId: true}); //获取客户经理列表
+export const getSalesmanList = () => new Request().require({api: url.getSalesmanList, methods: "GET", openId: true, loadingVisble: true}); //获取客户经理列表
 
 export const savePartnerMgr = (datas) => new Request().require({api: url.savePartnerMgr, data: datas, openId: true}); //合伙人管理员申请
 
@@ -55,6 +55,12 @@ export const machineIns = (datas) => new Request().require({api: url.machineIns,
 export const getMerchantInfo = (restParam) => new Request().require({api: url.getMerchantInfo, methods: "GET", restParam: restParam, openId: true}); //获取商户详情
 
 export const getInfoByUserId = (restParam) => new Request().require({api: url.getInfoByUserId, methods: "GET", restParam: restParam, openId: true}); //获取合伙人详情
+
+export const getQrCode = () => new Request().require({api: url.getQrCode, methods: "GET",  openId: true}); //获取推荐二维码
+
+export const uploadPic = (datas) => new Request().require({api: url.uploadPic, data: datas,  openId: true}); //自助入网上传图片
+
+export const addMerchantAndPic = (datas) => new Request().require({api: url.addMerchantAndPic, data: datas,  openId: true, loadingVisble: true}); //商户自助入网全
 
 export const getOrderListByType = (datas) => new Request().require({api: url.getOrderListByType, data: datas, openId: true, loadingVisble: true}); //获取订单列表
 

@@ -210,7 +210,7 @@
           branchBankId: this.updateCardInfo.branchBankId,
           branchBankName: this.updateCardInfo.branchBankName
         }).then(response=>{
-          wepy.navigateTo({
+          wepy.redirectTo({
             url: 'changesucc'
           })
           console.log(userSpecInfo)

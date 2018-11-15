@@ -97,6 +97,7 @@ export default class Search extends wepy.component {
     height: 20rpx;
     width: 20rpx;
     margin-right: 8rpx;
+    padding:10rpx;
   }
 }
 

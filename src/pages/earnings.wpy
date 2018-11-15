@@ -1,7 +1,7 @@
 <style lang="less">
   //头部
   .earning-header{
-    height: 326rpx;
+    height: 281rpx;
     box-sizing: border-box;
     background: url("http://120.79.17.7:85/china_ums/earning-bg.png") no-repeat center center;
     background-size: cover;

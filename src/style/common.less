@@ -69,13 +69,15 @@
 }
 
 .ftb{
-  color: @fontBlod;
+  color: red;
 }
 
 .ptb{
   color: @primary;
 }
-
+.btb{
+  color: @fontBlod;
+}
 .tc {
   text-align: center;
 }
@@ -198,10 +200,25 @@ view {
         width: 16rpx;
       }
     }
+    .change-info-upload{
+      text-align: center;
+      image{
+        width: 240rpx;
+        height: 268rpx;
+      }
+      image.imgType{
+        margin: 10rpx 0;
+        width: 480rpx;
+        height: 240rpx;
+      }
+    }
     .change-info-input{
       margin-top: 8rpx;
       position: relative;
       input{
+        box-sizing: border-box;
+        height: 90rpx;
+        line-height: 90rpx;
         padding: 16rpx;
         border-radius: 16rpx;
         border: 1rpx solid #999;
@@ -251,7 +268,7 @@ view {
       .vericode-btn{
         position: absolute;
         display: block;
-        top: 0;
+        top: 1rpx;
         right: 0;
         height: 88rpx;
         line-height: 88rpx;

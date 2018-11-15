@@ -48,6 +48,9 @@ export default {
   getWithdrawList: '/app/accountDetail/withdrawList',
   getWithdrawDetail: '/app/accountDetail/withdrawDetail',
   getInfoByUserId: '/app/account/getInfoByUserId/:id',
+  getQrCode: '/app/wx/getCode',
+  uploadPic: '/app/erp/uploadPic',
+  addMerchantAndPic: '/app/erp/addMerchantAndPic',
   getEarningListByType: '/app/accountDetail/listByType',
   uploadFile: '/app/file/ftpUpload/headImg/0',
   selBanks: '/app/bank/sele_banks'

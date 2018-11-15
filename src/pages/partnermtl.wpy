@@ -227,7 +227,7 @@
           let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
           userSpecInfo.accountEntity.auditStatus = 1
           wepy.setStorageSync(USER_SPECICAL_INFO, userSpecInfo)
-          wepy.navigateTo({
+          wepy.redirectTo({
             url: 'partnermtlsucc'
           })
           console.log(userSpecInfo)

@@ -29,6 +29,9 @@
           position: relative;
           display: flex;
           input{
+            box-sizing: border-box;
+            height: 90rpx;
+            line-height: 90rpx;
             padding: 16rpx;
             border-radius: 16rpx;
             border: 1rpx solid #999;
@@ -37,7 +40,7 @@
           text{
             position: absolute;
             display: block;
-            top: 0;
+            top: 1rpx;
             right: 0;
             height: 88rpx;
             line-height: 88rpx;
@@ -50,7 +53,7 @@
           button{
             position: absolute;
             display: block;
-            top: 0;
+            top: 1rpx;
             right: 0;
             height: 88rpx;
             line-height: 88rpx;
@@ -100,12 +103,20 @@
           <text @tap.stop="getVerifyCode" wx:else="{{sendMsgDisabled}}">获取验证码</text>
         </view>
       </view>
-      <view class="reg-item">
+      <view class="reg-item" wx:if="{{!recDisabled}}">
         <view class="reg-item-label">
           <i>*</i><text>推荐人手机号码</text>
         </view>
         <view class="reg-input">
           <input type="text" placeholder="请输入您的推荐人手机号码" maxlength="11" @input="recMobileInput" value="{{recMobile}}"/>
+        </view>
+      </view>
+      <view class="reg-item" wx:else="{{recDisabled}}">
+        <view class="reg-item-label">
+          <i>*</i><text>推荐人手机号码</text>
+        </view>
+        <view class="reg-input">
+          <input type="text" placeholder="请输入您的推荐人手机号码" maxlength="11" @input="recMobileInput" disabled value="{{recMobile}}"/>
         </view>
       </view>
       <view class="reg-check">
@@ -144,7 +155,8 @@
       phone: '',
       name: '',
       recMobile: '',
-      code: ''
+      code: '',
+      recDisabled: false
     }
 
     async sendVerifyCode() {
@@ -230,13 +242,12 @@
       console.log(opts)
       if (opts.mobile) {
         this.recMobile = opts.mobile
+        this.recDisabled = true
       }
       if (opts.q) {
-        tip.confirm(opts.q)
         let query = decodeURIComponent(opts.q)
-        tip.confirm(query)
         this.recMobile = getQueryString(query, 'mobile')
-        tip.confirm(this.recMobile)
+        this.recDisabled = true
       }
       this.$apply()
     }

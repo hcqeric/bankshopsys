@@ -35,31 +35,38 @@
       <image wx:if="{{merchantType == 0}}" src="../images/partner.png"></image>
       <image wx:else="{{merchantType == 1}}" src="../images/mymerchant.png"></image>
       <view class="mymerchant-info">
-        <text>喜乐购超市</text>
-        <text>13823154182</text>
+        <text>{{merchantInfo.merchantName}}</text>
+        <text>{{merchantInfo.contactMobile}}</text>
       </view>
     </view>
     <view class="mymerchant-item-right">
-      <text>2018-08-21</text>
-      <image src="../images/arrow-right.png" class="arrow"></image>
+      <text>{{mtools.getDate(merchantInfo.createTime)}}</text>
+      <image wx:if="{{canGetDetail == 0}}" src="../images/arrow-right.png" class="arrow"></image>
     </view>
-
   </view>
 </template>
 <script>
   import wepy from 'wepy';
-
+  import MyFilter from '../wxs/filter.wxs'
   export default class MerchantItem extends wepy.component {
     props = {
       merchantType: {
         default: 0
       },
-      tabList: {
+      canGetDetail: {
+        default: 0
+      },
+      merchantInfo: {
         type: Object
       }
     }
+
     data = {
 
+    }
+
+    wxs = {
+      mtools: MyFilter
     }
   }
 </script>

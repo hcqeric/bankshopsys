@@ -31,6 +31,12 @@
         margin-top: 16rpx;
       }
     }
+
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      color: transparent;
+    }
     /*.partner-list-no-content{*/
       /*position: absolute;*/
       /*top: 82rpx;*/
@@ -79,8 +85,8 @@
       <!--<orderItem :orderList.sync="orderList" class="swiper-item-order"></orderItem>-->
       <repeat  for="{{merchantList}}" key="index" index="index" item="item">
         <navigator class="item_content" url="{{currentTab == 1 ? '/pages/merchantdtl?id='+ item.id : '/pages/partnerdtl?id=' + item.userId}}">
-          <merchantitem wx:if="{{currentTab == 0}}" :merchantType.sync="currentTab"></merchantitem>
-          <partneritem wx:else="{{currentTab == 1}}" :merchantType.sync="currentTab"></partneritem>
+          <merchantitem wx:if="{{currentTab == 1}}" :merchantType.sync="currentTab" :merchantInfo="item"></merchantitem>
+          <partneritem wx:else="{{currentTab == 0}}" :merchantType.sync="currentTab" :partnerInfo="item"></partneritem>
         </navigator>
       </repeat>
 
@@ -160,7 +166,7 @@
       },
       getCurrentTab(cur, evt) {
         this.page = 1;
-        this.customManagerList = [];
+        this.merchantList = [];
         this.totalCount = 0
         this.allLoaded = false
         let that = this;
@@ -181,7 +187,7 @@
           that.page++;
           that.getList()
         }else{
-          if (this.totalCount > 0) {
+          if (this.merchantList.length > 5) {
             that.allLoaded = true;
           }else{
             that.allLoaded = false;

@@ -1,17 +1,22 @@
 <style lang="less">
-  .mm-page{
+  .my-page{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #efefef;
     image {
+      margin-top: 30rpx;
       width: 60rpx;
       height: 60rpx;
     }
   }
 </style>
 <template>
-  <view class="mm-page">
-    <view>银商</view>
+  <view class="my-page">
+    <view>乐商通</view>
     <image src="../images/loadding.gif"></image>
   </view>
 </template>
@@ -43,25 +48,24 @@
           }).then(response => {
             let userSpecInfo = response.result
             wepy.setStorageSync(USER_SPECICAL_INFO, userSpecInfo);
-            wepy.switchTab({
-              url: 'home'
-            })
+            if (userSpecInfo.userType == 3){
+              wepy.redirectTo({
+                url: 'salesmanager'
+              })
+            } else{
+              wepy.switchTab({
+                url: 'home'
+              })
+            }
           }, error =>{
-            console.log(error)
-            // tip.alert("登录信息有误，请重新登陆")
-            // wepy.removeStorageSync(USER_SPECICAL_INFO)
-            // wepy.redirectTo({
-            //   url: 'login'
-            // })
+            if (error==undefined || error.code == 500){
+              wepy.redirectTo({
+                url: 'login'
+              })
+            }
           })
-
         }
         // console.log(this.$parent.globalData.login)
-        // if (this.$parent.globalData.login) {
-        //
-        // }else{
-        //
-        // }
       }
   }
 </script>

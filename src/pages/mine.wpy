@@ -155,13 +155,13 @@
           <image src="../images/arrow-right.png"></image>
         </view>
       </view>
-      <view class="mine-content-item" @tap="toDetail(6)">
-        <span class="icon-company"></span>
-        <view class="mine-item-detail">
-          <text>公司介绍</text>
-          <image src="../images/arrow-right.png"></image>
-        </view>
-      </view>
+      <!--<view class="mine-content-item" @tap="toDetail(6)">-->
+        <!--<span class="icon-company"></span>-->
+        <!--<view class="mine-item-detail">-->
+          <!--<text>公司介绍</text>-->
+          <!--<image src="../images/arrow-right.png"></image>-->
+        <!--</view>-->
+      <!--</view>-->
     </view>
 
     <view class="mine-plain"></view>
@@ -201,7 +201,9 @@
           return false
         } else if (id == 5) {
           wepy.makePhoneCall({
-            phoneNumber: '10086'
+            phoneNumber: '075523317058'
+          }).catch(error=>{
+            console.log("取消打电话")
           })
           return false
         } else if (id == 6) {
