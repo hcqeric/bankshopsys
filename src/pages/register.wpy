@@ -127,7 +127,7 @@
               <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!isAgree}}"></icon>
               <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{isAgree}}"></icon>
             </view>
-            <view class="weui-cell__bd">阅读并同意<navigator url="testNav?title=redirect"  class="weui-agree__link" >《用户服务协议》</navigator></view>
+            <view class="weui-cell__bd">阅读并同意<navigator url="useragrment"  class="weui-agree__link" >《推广合作协议》</navigator></view>
           </label>
       </view>
 

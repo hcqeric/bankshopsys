@@ -51,6 +51,9 @@ export default {
   getQrCode: '/app/wx/getCode',
   uploadPic: '/app/erp/uploadPic',
   addMerchantAndPic: '/app/erp/addMerchantAndPic',
+  getAccountInfo: '/app/account/getInfo',
+  getProfit: '/app/accountDetail/getProfit',
+  getFileAndAll: '/app/user/getFileAndAll',
   getEarningListByType: '/app/accountDetail/listByType',
   uploadFile: '/app/file/ftpUpload/headImg/0',
   selBanks: '/app/bank/sele_banks'

@@ -1,6 +1,7 @@
 <style lang="less">
   //头部
   .earning-header{
+    position: relative;
     height: 281rpx;
     box-sizing: border-box;
     background: url("http://120.79.17.7:85/china_ums/earning-bg.png") no-repeat center center;
@@ -39,6 +40,15 @@
         bottom: 20rpx;
         right: 0;
 
+      }
+    }
+    .earning-tips{
+      position: absolute;
+      left: 70rpx;
+      bottom: 38rpx;
+      text{
+        color: #fff;
+        font-size: 24rpx;
       }
     }
   }
@@ -136,32 +146,42 @@
         </view>
       </view>
     </view>
+    <view class="earning-tips">
+      <text>(温馨提示：收益数据更新时间为T+1工作日)</text>
+    </view>
   </view>
   <view class="earnings-content">
     <view class="earnings-item" @tap="toEarningsTypeList(1)">
       <view class="earnings-info">
-        <text>pocs收款收益</text>
+        <text>借记卡收益</text>
         <text class="earnings-amount">3000.00</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
     <view class="earnings-item" @tap="toEarningsTypeList(2)">
       <view class="earnings-info">
-        <text>扫码收款收益</text>
+        <text>贷记卡收益</text>
         <text class="earnings-amount">3000.00</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
     <view class="earnings-item" @tap="toEarningsTypeList(3)">
       <view class="earnings-info">
-        <text>信用卡推荐收益</text>
+        <text>支付宝微信收益</text>
         <text class="earnings-amount">3000.00</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
     <view class="earnings-item" @tap="toEarningsTypeList(4)">
       <view class="earnings-info">
-        <text>贷款推荐收益</text>
+        <text>国外卡收益</text>
+        <text class="earnings-amount">3000.00</text>
+      </view>
+      <image src="../images/arrow-right.png"></image>
+    </view>
+    <view class="earnings-item" @tap="toEarningsTypeList(5)">
+      <view class="earnings-info">
+        <text>银行二维码收益</text>
         <text class="earnings-amount">3000.00</text>
       </view>
       <image src="../images/arrow-right.png"></image>
@@ -187,6 +207,7 @@
 </template>
 <script>
   import wepy from 'wepy';
+  import {getProfit} from '../http/getData';
 
   export default class Earnings extends wepy.page {
     config = {
@@ -214,11 +235,9 @@
     };
 
     onLoad() {
-      // getUserInfo({
-      //   userId: "1040518988993433601"
-      // }).then(response=>{
-      //   console.log(response)
-      // })
+      getProfit().then(res=>{
+        console.log(res)
+      })
     }
   }
 </script>

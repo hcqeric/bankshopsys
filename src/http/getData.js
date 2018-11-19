@@ -60,6 +60,12 @@ export const getQrCode = () => new Request().require({api: url.getQrCode, method
 
 export const uploadPic = (datas) => new Request().require({api: url.uploadPic, data: datas,  openId: true}); //自助入网上传图片
 
+export const getAccountInfo = () => new Request().require({api: url.getAccountInfo, methods: "GET",  openId: true}); //获取我要提现信息
+
+export const getProfit = () => new Request().require({api: url.getProfit, methods: "GET",  openId: true}); //收益首页接口
+
+export const getFileAndAll = () => new Request().require({api: url.getFileAndAll, methods: "GET",  openId: true}); //获取首页图和其他信息接口
+
 export const addMerchantAndPic = (datas) => new Request().require({api: url.addMerchantAndPic, data: datas,  openId: true, loadingVisble: true}); //商户自助入网全
 
 export const getOrderListByType = (datas) => new Request().require({api: url.getOrderListByType, data: datas, openId: true, loadingVisble: true}); //获取订单列表

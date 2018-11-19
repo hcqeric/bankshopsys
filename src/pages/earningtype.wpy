@@ -103,19 +103,23 @@
       this.type = opt.type
       if (this.type == 1) {
         wepy.setNavigationBarTitle({
-          title: '银行卡收益'
+          title: '借记卡收益'
         })
       }else if(this.type == 2){
         wepy.setNavigationBarTitle({
-          title: '扫码收益'
+          title: '贷记卡收益'
         })
       }else if(this.type == 3){
         wepy.setNavigationBarTitle({
-          title: '信用卡推荐收益'
+          title: '支付宝微信收益'
         })
       }else if(this.type == 4){
         wepy.setNavigationBarTitle({
-          title: '贷款推荐收益'
+          title: '国外卡收益'
+        })
+      }else if(this.type == 4){
+        wepy.setNavigationBarTitle({
+          title: '银行二维码费率收益'
         })
       }
       this.getEarningList()

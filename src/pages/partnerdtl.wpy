@@ -32,12 +32,24 @@
           <text>{{partnerInfo.mobilePhone}}</text>
         </view>
         <view class="partner-detail-info-item">
-          <text>POS费率</text>
-          <text>{{partnerInfo.posRate}}</text>
+          <text>借记卡费率</text>
+          <text>{{partnerInfo.debitCardRate}}</text>
         </view>
         <view class="partner-detail-info-item">
-          <text>扫码费率</text>
-          <text>{{partnerInfo.scanRate}}</text>
+          <text>贷记卡费率</text>
+          <text>{{partnerInfo.creditCardRate}}</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>微信支付宝扫码费率</text>
+          <text>{{partnerInfo.wxAlRate}}</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>银行二维码费率</text>
+          <text>{{partnerInfo.bankJdRate}}</text>
+        </view>
+        <view class="partner-detail-info-item">
+          <text>国外卡费率</text>
+          <text>{{partnerInfo.abroadCardRate}}</text>
         </view>
         <view class="partner-detail-info-item">
           <text>入网时间</text>

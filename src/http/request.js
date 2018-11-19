@@ -65,6 +65,7 @@ class Request {
             }
         },error => {
             tip.loaded();
+            tip.alert()
             return reject()
         }).catch(error=>{
             tip.loaded();

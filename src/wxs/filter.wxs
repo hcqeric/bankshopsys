@@ -64,14 +64,15 @@ var getDate = function(dateString){
 var getTime = function(dateString){
   return dateString.split(' ')[1]
 }
-var toFixed = function (num, fixlen = 2) {
-  return num.toFixed(fixlen);
+var toNumFixed = function(num = 0, fixlen = 2) {
+  return num.toFixed(2)
 }
+
 module.exports = {
   dateFormat: dateFormat,
   getDate: getDate,
-  toFixed: toFixed,
   getTime: getTime,
-  bankcardFormat: bankcardFormat
+  bankcardFormat: bankcardFormat,
+  toNumFixed: toNumFixed
 };
 

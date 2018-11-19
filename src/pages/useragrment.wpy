@@ -1,0 +1,57 @@
+<style lang="less">
+  .m-page{
+    box-sizing: border-box;
+    padding: 16rpx;
+    .text-bold{
+      font-size: 32rpx;
+      color: #000;
+      font-weight: bold;
+    }
+    .need-indent{
+      text-indent: 2em;
+    }
+  }
+</style>
+<template>
+  <view class="m-page">
+    <view class="text-bold">提示条款</view>
+    <view class="need-indent"><text>欢迎您签署本《推广合作协议》并使用我司（深圳市好乐付科技有限公司） 乐商通 平台参与协助推广拓展商户。</text></view>
+    <view class="need-indent">在申请加入合作伙伴的注册流程中点击同意本协议之前，请认真阅读本协议。 请务必审慎阅读、充分理解各条款内容，如对协议有任何疑问，可向我司推广经理或平台客服咨询。阅读本协议的过程中，如果不同意本协议或其中任何条款约定，应立即停止注册程序。</view>
+    <view class="text-bold">一、合作内容</view>
+    <view class="need-indent">注册成为我司的合作伙伴，负责向客户推广我司平台业务</view>
+    <view>1.我司向注册人提供产品或服务的相关资料、为注册人提供必要的培训。</view>
+    <view>2.注册人向客户大力推荐平台业务，并根据要求提供客户相关的信息资料。</view>
+    <view>3.我司应支付注册人为相关市场拓展商户的费用。注册人拓展商户的费用以实际发布政策为准。费用按 月结算 形式结算到注册人的银行账户。</view>
+    <view>4.注册人需对所有用户资料予以保密。</view>
+    <view>5.我司发现注册人拓展的客户有下列行为之一的，有权立即停止向该客户提供服务，并不向注册人支付该客户的全部合作收益，如因注册人及注册人拓展客户的下列行为给我司及产品提供方造成任何损失的，注册人应承担相应责任，赔偿我司及产品提供方直接经济损失并协助我司进行包括但不限于现场查勘、资料收集、损失补救等工作。我司有权立即停止相关服务并扣除注册人该类客户相应的服务费。</view>
+    <view class="need-indent">5.1参与诈骗、赌博等违法犯罪活动；</view>
+    <view class="need-indent">5.2无理由拒绝受理用户使用我司服务或产品；</view>
+    <view class="need-indent">5.3故意诋毁或损害我司声誉。</view>
+    <view>6.注册人应严格遵守以下要求，否则，注册人须赔偿因此而给我司造成的损失，且我司有权不向注册人支付相应客户的合作收益并单方中止/终止合作。</view>
+    <view class="need-indent">6.1注册人不得进行不当宣传，影响我司或产品提供方声誉；</view>
+    <view class="need-indent">6.2注册人应按照我司的商户拓展行业要求拓展客户，不拓展禁止拓展或有明显风险倾向的商户；</view>
+    <view class="need-indent">6.3注册人不得协助拓展客户变造/伪造商户签约申请资料、不得协助拓展客户进行违规违法行为。</view>
+    <view>7.通过平台推荐的业务，我司（深圳市好乐付科技有限公司）及产品提供方有最终审核权，我方有权拒绝不符合条件的进件。</view>
+    <view class="text-bold">二、保密条款</view>
+    <view>1.注册人有责任对通过本业务获得的所有用户资料予以保密。</view>
+    <view>2.注册人对本次合作及本协议的具体内容负有保密责任。未经我司事先书面同意，不得将双方合作协议的具体内容及其相关内容披露给任何第三方。</view>
+    <view class="text-bold">三、违约责任</view>
+    <view>1．若注册人违反本协议规定导致本协议无法履行，我司有权终止协议，由违约方承担所有的责任。</view>
+    <view>2．注册人违约造成我司不良社会影响或经济损失，则我司有权追究注册人责任，要求其消除影响，并作相应的经济赔偿。</view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+
+  export default class UserAgrment extends wepy.page {
+    config = {
+      navigationBarTitleText: '推广合作协议'
+    }
+    data= {
+      title: ''
+    }
+    onLoad(options){
+      this.title = options.title
+    }
+  }
+</script>

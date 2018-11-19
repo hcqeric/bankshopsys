@@ -79,7 +79,7 @@
     <view class="withdrawal">
       <view class="withdrawal-account">
         <text>结算账号：</text>
-        <text>621************2717</text>
+        <text>{{mtool.bankcardFormat(cardNo+'')}}</text>
       </view>
       <view class="withdrawal-amount-content">
         <view class="withdrawal-amount">
@@ -89,14 +89,14 @@
             <input type="digit" placeholder="请输入金额" placeholder-style="font-size: 40rpx" @input="inputAmt" value="{{amt}}"/>
           </view>
         </view>
-        <text class="all-withdrawal">全部提现</text>
+        <text class="all-withdrawal" @tap="allWithdrawal">全部提现</text>
       </view>
       <view class="withdrawal-amount-total">
-        <text>可提现金额：￥6000</text>
+        <text>可提现金额：￥{{availTotal}}</text>
       </view>
     </view>
     <view class="withdrawal-intro">
-    <text class="str">说明：单笔提现最低100元/笔(含100元)，最高限2万/笔。服务费：2元/笔。</text>
+    <text class="str">说明：单笔提现最低限额100元/笔(含100元)，最高限额5万/笔。服务费：1元/笔。</text>
     </view>
     <view class="confirm-btn">
       <button @tap="withdrawalNow">立即提现</button>
@@ -105,18 +105,37 @@
 </template>
 <script>
   import wepy from 'wepy';
-  import {requestWithdraw} from '../http/getData';
+  import {requestWithdraw, getAccountInfo} from '../http/getData';
   import tip from '../utils/tip'
+  import MyFilter from '../wxs/filter.wxs'
   export default class Withdrawal extends wepy.page {
     config = {
       navigationBarTitleText: '我要提现'
     }
 
     data={
-      amt: ''
+      amt: '',
+      cardNo: '',
+      availTotal: ''
     }
 
+    wxs = {
+      mtool: MyFilter
+    }
+
+
     methods={
+      allWithdrawal(){
+        requestWithdraw({
+          amt: this.availTotal
+        }).then(response =>{
+          wepy.redirectTo({
+            url: 'withdrawalsucc'
+          })
+        },error =>{
+          console.log(error)
+        })
+      },
       inputAmt(e){
         this.amt = e.detail.value
       },
@@ -136,6 +155,13 @@
         })
 
       }
+    }
+
+    onLoad(){
+      getAccountInfo().then(res=>{
+        this.cardNo = res.result.cardNo
+        this.availTotal = res.result.availTotal
+      })
     }
   }
 </script>

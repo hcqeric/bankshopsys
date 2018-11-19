@@ -99,11 +99,11 @@
             autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="#fff" circular="true">
       <block wx:for="{{imgUrls}}" wx:key="$index">
         <swiper-item>
-          <image src="{{item}}" class="slide-image"/>
+          <image src="{{item.url}}" class="slide-image"/>
         </swiper-item>
       </block>
     </swiper>
-    <view class="msg-tips" @tap="toNotice">
+    <view class="msg-tips" @tap="toNotice" wx:if="{{notice > 0}}">
       <view class="msg-tip-info">
         <image  src="../images/loudspeaker.png"></image>
         <text>你有新的消息!!!</text>
@@ -114,13 +114,14 @@
       <view class="today-figure">
         <view>
         <text>昨日交易金额(元)</text>
-        <text class="amount">10000.00</text>
+
+        <text class="amount">{{mtool.toNumFixed(transaction)}}</text>
         </view>
       </view>
       <view class="today-figure">
         <view>
         <text>昨日分润金额(元)</text>
-        <text class="amount">13.00</text>
+        <text class="amount">{{mtool.toNumFixed(profit)}}</text>
         </view>
       </view>
     </view>
@@ -154,12 +155,14 @@
 
     <!--<button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">快捷登录</button>-->
     <!--<button open-type="getUserInfo" @getuserinfo="getUserInfo">获取用户信息</button>-->
+
   </view>
 </template>
 <script>
   import wepy from 'wepy'
-  import {codeLogin} from '../http/getData';
+  import {getFileAndAll} from '../http/getData';
   import {USER_SPECICAL_INFO} from '../utils/constant';
+  import MyFilter from '../wxs/filter.wxs'
   import tip from '../utils/tip'
   export default class Home extends wepy.page {
     config = {
@@ -168,16 +171,25 @@
 
     data = {
       imgUrls: [
-        'http://120.79.17.7:85/china_ums/u32.jpg',
-        'http://120.79.17.7:85/china_ums/u251.jpg',
-        'http://120.79.17.7:85/china_ums/u253.jpg'
+        // 'http://120.79.17.7:85/china_ums/u32.jpg',
+        // 'http://120.79.17.7:85/china_ums/u251.jpg',
+        // 'http://120.79.17.7:85/china_ums/u253.jpg'
       ],
+      transaction: 0,
+      profit: 0,
+      notice: 0,
       indicatorDots: true,
       autoplay: false,
       interval: 5000,
       duration: 1000,
       userInfo:{}
     }
+
+
+    wxs = {
+      mtool: MyFilter
+    }
+
     methods ={
       toNotice(){
         wepy.navigateTo({
@@ -251,16 +263,17 @@
       }
     }
 
-    async onLoad() {
-      // let res = await wepy.login()
-      // codeLogin({
-      //   code: res.code
-      // }).then(response => {
-      //   console.log(response)
-      // })
-      // console.log(res)
-      // this.userInfo = await wepy.getUserInfo();
-      // console.log(this.userInfo)
+    onLoad() {
+      getFileAndAll().then(res=>{
+        console.log(res)
+        this.imgUrls=res.fileList
+        this.notice = res.notice
+        this.profit = parseInt(res.profit)
+        this.transaction = parseInt(res.transaction)
+        this.$apply()
+      },error=>{
+
+      })
     }
   }
 </script>

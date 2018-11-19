@@ -69,20 +69,50 @@
     <view class="change-info-item">
       <view class="change-info-item-label">
         <i>*</i>
-        <text>pos机费率</text>
+        <text>借记卡费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入商户pos机费率" @input="handleInput" data-obj="quickRecInfo"  data-item="posRateNum" value="{{quickRecInfo.posRateNum}}"/>
+        <input type="digit" placeholder="请输入借记卡费率" @input="handleInput" data-obj="quickRecInfo"  data-item="debitCardRate" value="{{quickRecInfo.debitCardRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
     <view class="change-info-item">
       <view class="change-info-item-label">
         <i>*</i>
-        <text>扫码费率</text>
+        <text>贷记卡费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入商户扫码费率" @input="handleInput" data-obj="quickRecInfo"  data-item="scanRateNum" value="{{quickRecInfo.scanRateNum}}"/>
+        <input type="digit" placeholder="请输入贷记卡费率" @input="handleInput" data-obj="quickRecInfo"  data-item="creditCardRate" value="{{quickRecInfo.creditCardRate}}"/>
+        <text class="rate-signal">%</text>
+      </view>
+    </view>
+    <view class="change-info-item">
+      <view class="change-info-item-label">
+        <i>*</i>
+        <text>微信支付宝扫码费率</text>
+      </view>
+      <view class="change-info-input">
+        <input type="digit" placeholder="请输入微信支付宝扫码费率" @input="handleInput" data-obj="quickRecInfo"  data-item="wxAlRate" value="{{quickRecInfo.wxAlRate}}"/>
+        <text class="rate-signal">%</text>
+      </view>
+    </view>
+    <view class="change-info-item">
+      <view class="change-info-item-label">
+        <i>*</i>
+        <text>银行二维码费率</text>
+      </view>
+      <view class="change-info-input">
+        <input type="digit" placeholder="请输入银行二维码费率" @input="handleInput" data-obj="quickRecInfo"  data-item="bankJdRate" value="{{quickRecInfo.bankJdRate}}"/>
+        <text class="rate-signal">%</text>
+      </view>
+    </view>
+    <view class="change-info-item">
+      <view class="change-info-item-label">
+        <i class="na"></i>
+        <text>国外卡费率</text>
+      </view>
+      <view class="change-info-input">
+        <input type="digit" placeholder="请输入国外卡费率" @input="handleInput" data-obj="quickRecInfo"  data-item="abroadCardRate" value="{{quickRecInfo.abroadCardRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
@@ -135,8 +165,11 @@
         city: '',
         district: '',
         salesmanId: '',
-        posRateNum: '',
-        scanRateNum: '',
+        debitCardRate: '',
+        creditCardRate: '',
+        bankJdRate: '',
+        abroadCardRate: '',
+        wxAlRate: '',
         contact: '',
         contactMobile: '',
         address: ''
@@ -148,11 +181,12 @@
     }
 
     checkAllNeeded(){
-      console.log(this.quickRecInfo)
       if (!this.quickRecInfo.merchantName
         || !this.quickRecInfo.salesmanId
-        || !this.quickRecInfo.posRateNum
-        || !this.quickRecInfo.scanRateNum
+        || !this.quickRecInfo.debitCardRate
+        || !this.quickRecInfo.creditCardRate
+        || !this.quickRecInfo.bankJdRate
+        || !this.quickRecInfo.wxAlRate
         || !this.quickRecInfo.contact
         || !this.quickRecInfo.province
         || !this.quickRecInfo.contactMobile
@@ -168,7 +202,6 @@
     onLoad(){
       getSalesmanList().then(response=>{
         this.salesMgrArr = response.result
-        console.log(response)
       })
     }
 
@@ -205,8 +238,11 @@
           city: this.quickRecInfo.city+'',
           district: this.quickRecInfo.district+'',
           salesmanId: this.quickRecInfo.salesmanId,
-          posRateNum: this.quickRecInfo.posRateNum,
-          scanRateNum: this.quickRecInfo.scanRateNum,
+          debitCardRate: this.quickRecInfo.debitCardRate,
+          creditCardRate: this.quickRecInfo.creditCardRate,
+          bankJdRate: this.quickRecInfo.bankJdRate,
+          wxAlRate: this.quickRecInfo.wxAlRate,
+          abroadCardRate: this.quickRecInfo.abroadCardRate,
           contact: this.quickRecInfo.contact,
           contactMobile: this.quickRecInfo.contactMobile,
           address: this.quickRecInfo.address
