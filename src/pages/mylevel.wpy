@@ -47,11 +47,11 @@
 <template>
   <view class="m-page">
   <view class="my-level">
-    <image wx:if="{{level == 1}}" src="../images/level1.png"></image>
-    <image wx:if="{{level == 2}}" src="../images/level2.png"></image>
-    <image wx:if="{{level == 3}}" src="../images/level3.png"></image>
-    <image wx:if="{{level == 4}}" src="../images/level4.png"></image>
-    <image wx:if="{{level == 5}}" src="../images/level5.png"></image>
+    <image wx:if="{{level == 1}}" src="https://img.lst.halopay.cn/level1.png"></image>
+    <image wx:if="{{level == 2}}" src="https://img.lst.halopay.cn/level2.png"></image>
+    <image wx:if="{{level == 3}}" src="https://img.lst.halopay.cn/level3.png"></image>
+    <image wx:if="{{level == 4}}" src="https://img.lst.halopay.cn/level4.png"></image>
+    <image wx:if="{{level == 5}}" src="https://img.lst.halopay.cn/level5.png"></image>
     <text>当前等级：{{gradeName}}</text>
   </view>
   <view class="level-rules">
