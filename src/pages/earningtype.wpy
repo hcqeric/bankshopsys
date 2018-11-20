@@ -109,15 +109,15 @@
         wepy.setNavigationBarTitle({
           title: '贷记卡收益'
         })
-      }else if(this.type == 3){
+      }else if(this.type == 6){
         wepy.setNavigationBarTitle({
           title: '支付宝微信收益'
         })
-      }else if(this.type == 4){
+      }else if(this.type == 5){
         wepy.setNavigationBarTitle({
           title: '国外卡收益'
         })
-      }else if(this.type == 4){
+      }else if(this.type == 7){
         wepy.setNavigationBarTitle({
           title: '银行二维码费率收益'
         })

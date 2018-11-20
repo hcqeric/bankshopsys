@@ -55,6 +55,7 @@ export default {
   getProfit: '/app/accountDetail/getProfit',
   getFileAndAll: '/app/user/getFileAndAll',
   getEarningListByType: '/app/accountDetail/listByType',
+  getGradeList: '/app/grade/list',
   uploadFile: '/app/file/ftpUpload/headImg/0',
   selBanks: '/app/bank/sele_banks'
 }

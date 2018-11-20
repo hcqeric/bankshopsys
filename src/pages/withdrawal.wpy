@@ -92,7 +92,7 @@
         <text class="all-withdrawal" @tap="allWithdrawal">全部提现</text>
       </view>
       <view class="withdrawal-amount-total">
-        <text>可提现金额：￥{{availTotal}}</text>
+        <text>可提现金额：￥{{availTotal/100}}</text>
       </view>
     </view>
     <view class="withdrawal-intro">
@@ -129,7 +129,7 @@
         tip.confirm("您确定要全部提现吗？").then(response=>{
           if (response == 'confirm') {
             requestWithdraw({
-              amt: this.availTotal
+              amt: this.availTotal * 100
             }).then(response =>{
               wepy.redirectTo({
                 url: 'withdrawalsucc'
@@ -151,7 +151,7 @@
           return false
         }
         requestWithdraw({
-          amt: this.amt
+          amt: this.amt * 100
         }).then(response =>{
           wepy.redirectTo({
             url: 'withdrawalsucc'

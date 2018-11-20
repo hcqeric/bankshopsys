@@ -57,7 +57,7 @@
     <view class="withdrawal-item-content">
       <view class="withdrawal-item-info money">
         <text>{{withdrawalInfo.bankName}}</text>
-        <text>￥{{withdrawalInfo.amt}}</text>
+        <text>￥{{withdrawalInfo.amt/100}}</text>
       </view>
       <view class="withdrawal-item-info time">
         <text class="txt-time">{{withdrawalInfo.time}}</text>

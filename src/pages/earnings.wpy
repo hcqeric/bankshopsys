@@ -136,13 +136,13 @@
       <view class="today-figure">
         <view>
           <text>总收益(元)</text>
-          <text class="amount">{{mtool.toNumFixed(totalProfit)}}</text>
+          <text class="amount">{{mtool.toNumFixed(totalProfit/100)}}</text>
         </view>
       </view>
       <view class="today-figure">
         <view>
           <text>昨日收益(元)</text>
-          <text class="amount">{{mtool.toNumFixed(historyProfit)}}</text>
+          <text class="amount">{{mtool.toNumFixed(historyProfit/100)}}</text>
         </view>
       </view>
     </view>
@@ -154,35 +154,35 @@
     <view class="earnings-item" @tap="toEarningsTypeList(1)">
       <view class="earnings-info">
         <text>借记卡收益</text>
-        <text class="earnings-amount">{{mtool.toNumFixed(debitCardRate)}}</text>
+        <text class="earnings-amount">{{mtool.toNumFixed(debitCardRate/100)}}</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
     <view class="earnings-item" @tap="toEarningsTypeList(2)">
       <view class="earnings-info">
         <text>贷记卡收益</text>
-        <text class="earnings-amount">{{mtool.toNumFixed(creditCardRate)}}</text>
+        <text class="earnings-amount">{{mtool.toNumFixed(creditCardRate/100)}}</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
-    <view class="earnings-item" @tap="toEarningsTypeList(3)">
+    <view class="earnings-item" @tap="toEarningsTypeList(6)">
       <view class="earnings-info">
         <text>支付宝微信收益</text>
-        <text class="earnings-amount">{{mtool.toNumFixed(wxAlRate)}}</text>
-      </view>
-      <image src="../images/arrow-right.png"></image>
-    </view>
-    <view class="earnings-item" @tap="toEarningsTypeList(4)">
-      <view class="earnings-info">
-        <text>国外卡收益</text>
-        <text class="earnings-amount">{{mtool.toNumFixed(abroadCardRate)}}</text>
+        <text class="earnings-amount">{{mtool.toNumFixed(wxAlRate/100)}}</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
     <view class="earnings-item" @tap="toEarningsTypeList(5)">
       <view class="earnings-info">
+        <text>国外卡收益</text>
+        <text class="earnings-amount">{{mtool.toNumFixed(abroadCardRate/100)}}</text>
+      </view>
+      <image src="../images/arrow-right.png"></image>
+    </view>
+    <view class="earnings-item" @tap="toEarningsTypeList(7)">
+      <view class="earnings-info">
         <text>银行二维码收益</text>
-        <text class="earnings-amount">{{mtool.toNumFixed(bankJdRate)}}</text>
+        <text class="earnings-amount">{{mtool.toNumFixed(bankJdRate/100)}}</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
@@ -192,7 +192,7 @@
     <view class="earnings-total">
       <view class="earnings-total-amount">
         <text>账户总金额：</text>
-        <text class="ftb">{{mtool.toNumFixed(totalAmount)}}</text>
+        <text class="ftb">{{mtool.toNumFixed(totalAmount/100)}}</text>
       </view>
       <view class="earnings-record" @tap="toWithdrawalRecord">
         <text>提现记录</text>
@@ -252,7 +252,7 @@
     onLoad() {
       getProfit().then(res=>{
         this.totalProfit = res.result.total
-        this.totalAmount = res.result.total
+        this.totalAmount = res.result.availTotal
         this.historyProfit = res.result.history
         this.debitCardRate = res.result.debitCardRate.amt
         this.creditCardRate = res.result.creditCardRate.amt
