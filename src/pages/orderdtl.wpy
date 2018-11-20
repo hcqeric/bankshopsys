@@ -57,23 +57,23 @@
         </view>
         <view class="orderdtl-detail-info-item">
           <text>借记卡费率</text>
-          <text>{{merchantDtlInfo.debitCardRate}}%</text>
+          <text>{{mtool.toNumFixed(merchantDtlInfo.debitCardRate*100)}}%</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>贷记卡费率</text>
-          <text>{{merchantDtlInfo.creditCardRate}}%</text>
+          <text>{{mtool.toNumFixed(merchantDtlInfo.creditCardRate*100)}}%</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>微信支付宝扫码费率</text>
-          <text>{{merchantDtlInfo.wxAlRate}}%</text>
+          <text>{{mtool.toNumFixed(merchantDtlInfo.wxAlRate*100)}}%</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>银行二维码费率</text>
-          <text>{{merchantDtlInfo.bankJdRate}}%</text>
+          <text>{{mtool.toNumFixed(merchantDtlInfo.bankJdRate*100)}}%</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>国外卡费率</text>
-          <text>{{merchantDtlInfo.abroadCardRate}}%</text>
+          <text>{{mtool.toNumFixed(merchantDtlInfo.abroadCardRate*100)}}%</text>
         </view>
         <view class="orderdtl-detail-info-item">
           <text>发展人</text>
@@ -109,6 +109,7 @@
 <script>
   import wepy from 'wepy';
   import {getMerchantInfo} from '../http/getData';
+  import MyFilter from '../wxs/filter.wxs'
   export default class OrderDtl extends wepy.page {
     config = {
       navigationBarTitleText: '订单详情'
@@ -117,6 +118,10 @@
     data = {
       id: '',
       merchantDtlInfo: ''
+    }
+
+    wxs = {
+      mtool: MyFilter
     }
 
     onLoad(opts){

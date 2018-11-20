@@ -136,13 +136,13 @@
       <view class="today-figure">
         <view>
           <text>总收益(元)</text>
-          <text class="amount">10000.00</text>
+          <text class="amount">{{mtool.toNumFixed(totalProfit)}}</text>
         </view>
       </view>
       <view class="today-figure">
         <view>
           <text>昨日收益(元)</text>
-          <text class="amount">13.00</text>
+          <text class="amount">{{mtool.toNumFixed(historyProfit)}}</text>
         </view>
       </view>
     </view>
@@ -154,35 +154,35 @@
     <view class="earnings-item" @tap="toEarningsTypeList(1)">
       <view class="earnings-info">
         <text>借记卡收益</text>
-        <text class="earnings-amount">3000.00</text>
+        <text class="earnings-amount">{{mtool.toNumFixed(debitCardRate)}}</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
     <view class="earnings-item" @tap="toEarningsTypeList(2)">
       <view class="earnings-info">
         <text>贷记卡收益</text>
-        <text class="earnings-amount">3000.00</text>
+        <text class="earnings-amount">{{mtool.toNumFixed(creditCardRate)}}</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
     <view class="earnings-item" @tap="toEarningsTypeList(3)">
       <view class="earnings-info">
         <text>支付宝微信收益</text>
-        <text class="earnings-amount">3000.00</text>
+        <text class="earnings-amount">{{mtool.toNumFixed(wxAlRate)}}</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
     <view class="earnings-item" @tap="toEarningsTypeList(4)">
       <view class="earnings-info">
         <text>国外卡收益</text>
-        <text class="earnings-amount">3000.00</text>
+        <text class="earnings-amount">{{mtool.toNumFixed(abroadCardRate)}}</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
     <view class="earnings-item" @tap="toEarningsTypeList(5)">
       <view class="earnings-info">
         <text>银行二维码收益</text>
-        <text class="earnings-amount">3000.00</text>
+        <text class="earnings-amount">{{mtool.toNumFixed(bankJdRate)}}</text>
       </view>
       <image src="../images/arrow-right.png"></image>
     </view>
@@ -192,7 +192,7 @@
     <view class="earnings-total">
       <view class="earnings-total-amount">
         <text>账户总金额：</text>
-        <text class="ftb">10000.00</text>
+        <text class="ftb">{{mtool.toNumFixed(totalAmount)}}</text>
       </view>
       <view class="earnings-record" @tap="toWithdrawalRecord">
         <text>提现记录</text>
@@ -208,13 +208,28 @@
 <script>
   import wepy from 'wepy';
   import {getProfit} from '../http/getData';
-
+  import MyFilter from '../wxs/filter.wxs'
   export default class Earnings extends wepy.page {
     config = {
       navigationBarTitleText: '收益',
       navigationBarBackgroundColor: "#1bb6ff",
       navigationBarTextStyle: "white"
     };
+
+    wxs = {
+      mtool: MyFilter
+    }
+
+    data = {
+      totalProfit: 0,
+      totalAmount: 0,
+      historyProfit: 0,
+      debitCardRate: 0,
+      creditCardRate: 0,
+      wxAlRate: 0,
+      bankJdRate: 0,
+      abroadCardRate: 0,
+    }
 
     methods = {
       toEarningsTypeList(type){
@@ -236,7 +251,17 @@
 
     onLoad() {
       getProfit().then(res=>{
-        console.log(res)
+        this.totalProfit = res.result.total
+        this.totalAmount = res.result.total
+        this.historyProfit = res.result.history
+        this.debitCardRate = res.result.debitCardRate.amt
+        this.creditCardRate = res.result.creditCardRate.amt
+        this.wxAlRate = res.result.wxAlRate.amt
+        this.bankJdRate = res.result.bankJdRate.amt
+        this.abroadCardRate = res.result.abroadCardRate.amt
+        this.$apply()
+      },error=>{
+
       })
     }
   }

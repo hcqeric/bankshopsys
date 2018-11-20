@@ -117,8 +117,6 @@
       let sysinfo = wepy.getSystemInfoSync()
       this.winHeight = sysinfo.windowHeight
       this.getMyOrder();
-      // //设置滚动高度
-      this.$apply();
     }
     computed = {
 

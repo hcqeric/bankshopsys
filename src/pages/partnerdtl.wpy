@@ -33,23 +33,23 @@
         </view>
         <view class="partner-detail-info-item">
           <text>借记卡费率</text>
-          <text>{{partnerInfo.debitCardRate}}</text>
+          <text>{{mtool.toNumFixed(partnerInfo.debitCardRate*100)}}%</text>
         </view>
         <view class="partner-detail-info-item">
           <text>贷记卡费率</text>
-          <text>{{partnerInfo.creditCardRate}}</text>
+          <text>{{mtool.toNumFixed(partnerInfo.creditCardRate*100)}}%</text>
         </view>
         <view class="partner-detail-info-item">
           <text>微信支付宝扫码费率</text>
-          <text>{{partnerInfo.wxAlRate}}</text>
+          <text>{{mtool.toNumFixed(partnerInfo.wxAlRate*100)}}%</text>
         </view>
         <view class="partner-detail-info-item">
           <text>银行二维码费率</text>
-          <text>{{partnerInfo.bankJdRate}}</text>
+          <text>{{mtool.toNumFixed(partnerInfo.bankJdRate*100)}}%</text>
         </view>
         <view class="partner-detail-info-item">
           <text>国外卡费率</text>
-          <text>{{partnerInfo.abroadCardRate}}</text>
+          <text>{{mtool.toNumFixed(partnerInfo.abroadCardRate*100)}}%</text>
         </view>
         <view class="partner-detail-info-item">
           <text>入网时间</text>
@@ -77,6 +77,7 @@
   import wepy from 'wepy';
   import {isEnablePartner, getInfoByUserId} from '../http/getData';
   import Placeholder from "../components/common/placeholder"
+  import MyFilter from '../wxs/filter.wxs'
   import tip from '../utils/tip'
   export default class PartnerDtl extends wepy.page {
     config = {
@@ -92,6 +93,10 @@
       is_empty: false,
       is_top:true,
       message: '暂无发现数据'
+    }
+
+    wxs = {
+      mtool: MyFilter
     }
 
     components={

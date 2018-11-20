@@ -72,7 +72,7 @@
         <text>借记卡费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入借记卡费率" @input="handleInput" data-obj="quickRecInfo"  data-item="debitCardRate" value="{{quickRecInfo.debitCardRate}}"/>
+        <input type="digit" placeholder="请输入借记卡费率(不低于0.45%)" @input="handleInput" data-obj="quickRecInfo"  data-item="debitCardRate" value="{{quickRecInfo.debitCardRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
@@ -82,7 +82,7 @@
         <text>贷记卡费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入贷记卡费率" @input="handleInput" data-obj="quickRecInfo"  data-item="creditCardRate" value="{{quickRecInfo.creditCardRate}}"/>
+        <input type="digit" placeholder="请输入贷记卡费率(不低于0.52%)" @input="handleInput" data-obj="quickRecInfo"  data-item="creditCardRate" value="{{quickRecInfo.creditCardRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
@@ -92,7 +92,7 @@
         <text>微信支付宝扫码费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入微信支付宝扫码费率" @input="handleInput" data-obj="quickRecInfo"  data-item="wxAlRate" value="{{quickRecInfo.wxAlRate}}"/>
+        <input type="digit" placeholder="请输入微信支付宝扫码费率(不低于0.25%)" @input="handleInput" data-obj="quickRecInfo"  data-item="wxAlRate" value="{{quickRecInfo.wxAlRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
@@ -102,17 +102,17 @@
         <text>银行二维码费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入银行二维码费率" @input="handleInput" data-obj="quickRecInfo"  data-item="bankJdRate" value="{{quickRecInfo.bankJdRate}}"/>
+        <input type="digit" placeholder="请输入银行二维码费率(不低于0.6%)" @input="handleInput" data-obj="quickRecInfo"  data-item="bankJdRate" value="{{quickRecInfo.bankJdRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
     <view class="change-info-item">
       <view class="change-info-item-label">
-        <i class="na"></i>
+        <i>*</i>
         <text>国外卡费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入国外卡费率" @input="handleInput" data-obj="quickRecInfo"  data-item="abroadCardRate" value="{{quickRecInfo.abroadCardRate}}"/>
+        <input type="digit" placeholder="请输入国外卡费率(不低于2.5%)" @input="handleInput" data-obj="quickRecInfo"  data-item="abroadCardRate" value="{{quickRecInfo.abroadCardRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
@@ -187,12 +187,26 @@
         || !this.quickRecInfo.creditCardRate
         || !this.quickRecInfo.bankJdRate
         || !this.quickRecInfo.wxAlRate
+        || !this.quickRecInfo.abroadCardRate
         || !this.quickRecInfo.contact
         || !this.quickRecInfo.province
         || !this.quickRecInfo.contactMobile
         || !this.quickRecInfo.address
       ){
         tip.success("标星项为必填！")
+        return false
+      }else{
+        return true
+      }
+    }
+
+    checkRateValid(){
+      if (this.quickRecInfo.debitCardRate < 0.45
+        || this.quickRecInfo.creditCardRate < 0.52
+        || this.quickRecInfo.wxAlRate < 0.25
+        || this.quickRecInfo.abroadCardRate < 2.5
+        || this.quickRecInfo.bankJdRate < 0.6){
+        tip.alert("签约费率不得低于输入框所提示的百分比")
         return false
       }else{
         return true
@@ -232,17 +246,32 @@
         if (!this.checkAllNeeded()) {
           return false
         }
+
+        if (!this.checkRateValid()) {
+          return false
+        }
+        let debitCardRate = this.quickRecInfo.debitCardRate / 100
+        let creditCardRate = this.quickRecInfo.creditCardRate / 100
+        let bankJdRate = this.quickRecInfo.bankJdRate / 100
+        let wxAlRate = this.quickRecInfo.wxAlRate / 100
+        let abroadCardRate
+        if (this.quickRecInfo.abroadCardRate) {
+          abroadCardRate = this.quickRecInfo.abroadCardRate / 100
+        }else{
+          abroadCardRate = ''
+        }
+
         saveMerchant({
           merchantName: this.quickRecInfo.merchantName,
           province: this.quickRecInfo.province+'',
           city: this.quickRecInfo.city+'',
           district: this.quickRecInfo.district+'',
           salesmanId: this.quickRecInfo.salesmanId,
-          debitCardRate: this.quickRecInfo.debitCardRate,
-          creditCardRate: this.quickRecInfo.creditCardRate,
-          bankJdRate: this.quickRecInfo.bankJdRate,
-          wxAlRate: this.quickRecInfo.wxAlRate,
-          abroadCardRate: this.quickRecInfo.abroadCardRate,
+          debitCardRate: debitCardRate,
+          creditCardRate: creditCardRate,
+          bankJdRate: bankJdRate,
+          wxAlRate: wxAlRate,
+          abroadCardRate: abroadCardRate,
           contact: this.quickRecInfo.contact,
           contactMobile: this.quickRecInfo.contactMobile,
           address: this.quickRecInfo.address

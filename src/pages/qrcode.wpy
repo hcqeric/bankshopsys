@@ -4,16 +4,15 @@
       position: relative;
       height: 100vh;
       width: 100vw;
-      background-image: url("http://120.79.17.7:85/china_ums/qrcode-bg.png");
+      background-image: url("http://120.79.17.7:85/china_ums/qrcode-background.png");
       background-size: cover;
       display: flex;
       flex-direction: column;
       align-items: center;
       image{
-        margin-top: 50rpx;
-        width: 282rpx;
-        height: 282rpx;
-        margin-left: -6rpx;
+        margin-top: 360rpx;
+        width: 360rpx;
+        height: 360rpx;
       }
       text{
         color: red;
@@ -22,7 +21,8 @@
       .qr-btn{
         box-sizing: border-box;
         position: absolute;
-        bottom: 5vh;
+        top: 1040rpx;
+        padding-bottom: 20rpx;
         left: 0;
         display: flex;
         flex-direction: row;
@@ -33,14 +33,16 @@
           height: 92rpx;
           line-height: 92rpx;
           border-radius: 46rpx;
-          background: #fff;
+          background: #3b73e6;
           border: 1rpx solid #ddd;
-        }
-        .qr-fun.qr-save{
-          background: #7cbef4;
           color: #fff;
           border: none;
         }
+        /*.qr-fun.qr-save{*/
+          /*!*background: #7cbef4;*!*/
+          /*color: #fff;*/
+          /*border: none;*/
+        /*}*/
       }
     }
   }
@@ -49,10 +51,10 @@
   <view class="m-page">
     <view class="qrcode-content">
         <image class="qrcode" src="{{qrcodePath}}"></image>
-        <text>合伙人：{{nickname}}</text>
+        <!--<text>合伙人：{{nickname}}</text>-->
         <view class="qr-btn">
-          <button @tap="saveImage" class="qr-fun qr-save">保存图片</button>
-          <button open-type="share" class="qr-fun">我要分享</button>
+          <button open-type="share" class="qr-fun">分享链接</button>
+          <button @tap="saveImage" class="qr-fun qr-save">保存二维码</button>
         </view>
     </view>
   </view>
@@ -66,7 +68,7 @@
   export default class QRCode extends wepy.page {
     config = {
       navigationBarTitleText: '专属二维码',
-      navigationBarBackgroundColor: "#7cbef4",
+      navigationBarBackgroundColor: "#3b73e6",
       navigationBarTextStyle: "white"
     }
     data = {

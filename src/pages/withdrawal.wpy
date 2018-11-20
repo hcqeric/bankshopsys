@@ -126,14 +126,20 @@
 
     methods={
       allWithdrawal(){
-        requestWithdraw({
-          amt: this.availTotal
-        }).then(response =>{
-          wepy.redirectTo({
-            url: 'withdrawalsucc'
-          })
-        },error =>{
-          console.log(error)
+        tip.confirm("您确定要全部提现吗？").then(response=>{
+          if (response == 'confirm') {
+            requestWithdraw({
+              amt: this.availTotal
+            }).then(response =>{
+              wepy.redirectTo({
+                url: 'withdrawalsucc'
+              })
+            },error =>{
+
+            })
+          }
+        }).catch(error =>{
+          // console.log(error)
         })
       },
       inputAmt(e){
@@ -161,6 +167,9 @@
       getAccountInfo().then(res=>{
         this.cardNo = res.result.cardNo
         this.availTotal = res.result.availTotal
+        this.$apply()
+      },error=>{
+
       })
     }
   }

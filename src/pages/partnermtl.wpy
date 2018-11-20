@@ -34,7 +34,7 @@
           <i>*</i><text>身份证号码</text>
         </view>
         <view class="change-info-input">
-          <input type="text" placeholder="请输入身份证号码" @input="handleInput" data-obj="partnerInfo"  data-item="idCardNo" value="{{partnerInfo.idCardNo}}"/>
+          <input type="idcard" placeholder="请输入身份证号码" maxlength="24" @input="handleInput" data-obj="partnerInfo"  data-item="idCardNo" value="{{partnerInfo.idCardNo}}"/>
         </view>
       </view>
       <view class="change-info-item">

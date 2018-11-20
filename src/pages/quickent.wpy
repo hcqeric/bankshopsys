@@ -70,14 +70,54 @@
       <view class="change-info-item">
           <view class="change-info-item-label">
             <i>*</i>
-            <text>签约费率</text>
+            <text>借记卡费率</text>
           </view>
           <view class="change-info-input">
-            <input type="digit" placeholder="请输入商户签约费率" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="rate" value="{{quickEntInfo.rate}}"/>
+            <input type="digit" placeholder="请输入借记卡费率(不低于0.45%)" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="debitCardRate" value="{{quickEntInfo.debitCardRate}}"/>
             <text class="rate-signal">%</text>
           </view>
         </view>
-    </view>
+        <view class="change-info-item">
+          <view class="change-info-item-label">
+            <i>*</i>
+            <text>贷记卡费率</text>
+          </view>
+          <view class="change-info-input">
+            <input type="digit" placeholder="请输入贷记卡费率(不低于0.52%)" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="creditCardRate" value="{{quickEntInfo.creditCardRate}}"/>
+            <text class="rate-signal">%</text>
+          </view>
+        </view>
+        <view class="change-info-item">
+          <view class="change-info-item-label">
+            <i>*</i>
+            <text>微信支付宝扫码费率</text>
+          </view>
+          <view class="change-info-input">
+            <input type="digit" placeholder="请输入微信支付宝扫码费率(不低于0.25%)" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="wxAlRate" value="{{quickEntInfo.wxAlRate}}"/>
+            <text class="rate-signal">%</text>
+          </view>
+        </view>
+        <view class="change-info-item">
+          <view class="change-info-item-label">
+            <i>*</i>
+            <text>国外卡费率</text>
+          </view>
+          <view class="change-info-input">
+            <input type="digit" placeholder="请输入国外卡费率(不低于2.5%)" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="abroadCardRate" value="{{quickEntInfo.abroadCardRate}}"/>
+            <text class="rate-signal">%</text>
+          </view>
+        </view>
+        <view class="change-info-item">
+          <view class="change-info-item-label">
+            <i>*</i>
+            <text>银行二维码费率</text>
+          </view>
+          <view class="change-info-input">
+            <input type="digit" placeholder="请输入银行二维码费率(不低于0.6%)" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="bankJdRate" value="{{quickEntInfo.bankJdRate}}"/>
+            <text class="rate-signal">%</text>
+          </view>
+        </view>
+      </view>
       <view class="changecard-info">
       <view class="change-info-item">
         <view class="change-info-item-label">
@@ -153,7 +193,7 @@
           <i>*</i><text>身份证号</text>
         </view>
         <view class="change-info-input">
-          <input type="text" placeholder="请输入身份证号" @input="handleInput" data-obj="quickEntInfo"  data-item="idCardNo" value="{{quickEntInfo.idCardNo}}"/>
+          <input type="idcard" placeholder="请输入身份证号" maxlength="24" @input="handleInput" data-obj="quickEntInfo"  data-item="idCardNo" value="{{quickEntInfo.idCardNo}}"/>
         </view>
       </view>
       <view class="change-info-item">
@@ -272,7 +312,11 @@
         businessLicense: '',
         mobilePhone: '',
         accountType: '',
-        rate: ''
+        debitCardRate: '',
+        creditCardRate: '',
+        bankJdRate: '',
+        abroadCardRate: '',
+        wxAlRate: '',
       },
       accountType: 0,
       accountTypeArray: [
@@ -313,7 +357,6 @@
     }
 
     checkAllNeeded(){
-      console.log(this.files)
       if ( !this.quickEntInfo.businessLicense
         || !this.imageFile1
         || !this.imageFile2
@@ -340,7 +383,11 @@
         || !this.quickEntInfo.idCardNo
         || !this.quickEntInfo.address
         || !this.quickEntInfo.name
-        || !this.quickEntInfo.rate
+        || !this.quickEntInfo.debitCardRate
+        || !this.quickEntInfo.creditCardRate
+        || !this.quickEntInfo.bankJdRate
+        || !this.quickEntInfo.wxAlRate
+        || !this.quickEntInfo.abroadCardRate
         || !this.quickEntInfo.contactPhone
         || !this.quickEntInfo.mobilePhone
         || !this.quickEntInfo.accountType
@@ -351,7 +398,18 @@
         return true
       }
     }
-
+    checkRateValid(){
+      if (this.quickEntInfo.debitCardRate < 0.45
+        || this.quickEntInfo.creditCardRate < 0.52
+        || this.quickEntInfo.wxAlRate < 0.25
+        || this.quickEntInfo.abroadCardRate < 2.5
+        || this.quickEntInfo.bankJdRate < 0.6){
+        tip.alert("签约费率不得低于输入框所提示的百分比")
+        return false
+      }else{
+        return true
+      }
+    }
     // getUrlBase64(url, ext, callback) {
     //   var canvas = document.createElement("canvas");   //创建canvas DOM元素
     //   var ctx = canvas.getContext("2d");
@@ -485,8 +543,21 @@
         if (!this.checkAllNeeded()) {
           return false
         }
+        if (!this.checkRateValid()) {
+          return false
+        }
 
-        let rate = parseInt(parseFloat(this.quickEntInfo.rate) * 100)
+        let debitCardRate = this.quickEntInfo.debitCardRate / 100
+        let creditCardRate = this.quickEntInfo.creditCardRate / 100
+        let bankJdRate = this.quickEntInfo.bankJdRate / 100
+        let wxAlRate = this.quickEntInfo.wxAlRate / 100
+        let abroadCardRate
+        if (this.quickEntInfo.abroadCardRate) {
+          abroadCardRate = this.quickEntInfo.abroadCardRate / 100
+        }else{
+          abroadCardRate = ''
+        }
+
 
         addMerchantAndPic({
           merchantName:this.quickEntInfo.merchantName,
@@ -504,7 +575,11 @@
           bankName: this.quickEntInfo.bankName,
           idCardNo: this.quickEntInfo.idCardNo,
           mobilePhone: this.quickEntInfo.mobilePhone,
-          rate: rate,
+          debitCardRate: debitCardRate,
+          creditCardRate: creditCardRate,
+          bankJdRate: bankJdRate,
+          wxAlRate: wxAlRate,
+          abroadCardRate: abroadCardRate,
           uploadFileList: this.files,
           cardNo: this.quickEntInfo.cardNo
         }).then(response=>{

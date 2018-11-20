@@ -265,7 +265,6 @@
 
     onLoad() {
       getFileAndAll().then(res=>{
-        console.log(res)
         this.imgUrls=res.fileList
         this.notice = res.notice
         this.profit = parseInt(res.profit)
