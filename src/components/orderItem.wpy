@@ -58,7 +58,7 @@
     </view>
     <text wx:if="{{orderInfo.auditStatus == 3}}" class="order-type-button">申请退回</text>
     <text wx:if="{{orderInfo.activeStatus == 0 && orderInfo.auditStatus <= 2}}" class="order-type-button goahead">待跟进</text>
-    <text wx:if="{{orderInfo.activeStatus == 1 && orderInfo.auditStatus == 2}}"class="order-type-button done">已完成</text>
+    <text wx:if="{{orderInfo.activeStatus == 1 && orderInfo.auditStatus == 2}}" class="order-type-button done">已完成</text>
   </view>
 </template>
 <script>
