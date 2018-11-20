@@ -209,6 +209,9 @@
   import wepy from 'wepy';
   import {getProfit} from '../http/getData';
   import MyFilter from '../wxs/filter.wxs'
+  import tip from '../utils/tip'
+  import {USER_SPECICAL_INFO} from '../utils/constant';
+
   export default class Earnings extends wepy.page {
     config = {
       navigationBarTitleText: '收益',
@@ -238,6 +241,35 @@
         })
       },
       toWithdrawal() {
+        let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
+        if (userSpecInfo.userType == 1){
+          if(userSpecInfo.accountEntity.auditStatus == 1){
+            tip.alert("您的资料正在审核中...")
+            return false
+          }else if(userSpecInfo.accountEntity.auditStatus == 0){
+            tip.confirm("您当前还不是合伙人，请先完善合伙人资料").then(response=>{
+              if (response == 'confirm') {
+                wepy.navigateTo({
+                  url: 'partnermtl'
+                })
+              }
+            }).catch(error =>{
+              // console.log(error)
+            })
+            return false
+          }else if(userSpecInfo.accountEntity.auditStatus == 3){
+            tip.confirm("您提交的资料未通过审核，请重新认证").then(response=>{
+              if (response == 'confirm') {
+                wepy.navigateTo({
+                  url: 'partnermtl'
+                })
+              }
+            }).catch(error =>{
+              // console.log(error)
+            })
+            return false
+          }
+        }
         wepy.navigateTo({
           url: 'withdrawal'
         })
