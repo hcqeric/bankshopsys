@@ -112,7 +112,7 @@
 
     }
 
-    onLoad(opts) {
+    onShow(opts) {
       this.orderList = [];
       let sysinfo = wepy.getSystemInfoSync()
       this.winHeight = sysinfo.windowHeight

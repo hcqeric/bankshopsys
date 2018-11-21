@@ -281,7 +281,7 @@
       }
     };
 
-    onLoad() {
+    onShow() {
       getProfit().then(res=>{
         this.totalProfit = res.result.total
         this.totalAmount = res.result.availTotal

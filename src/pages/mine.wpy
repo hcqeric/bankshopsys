@@ -257,7 +257,7 @@
       }
     }
 
-    onLoad(){
+    onShow(){
       getUserInfo().then(response=>{
         this.userInfo.nickName = response.result.nickname
         this.userInfo.avatarUrl = response.result.logoUrl
