@@ -7,7 +7,7 @@
         box-sizing: border-box;
         margin-top: 16rpx;
         padding: 30rpx;
-        background: url("http://120.79.17.7:85/china_ums/bank-bg1.png") no-repeat center center;
+        background: url("http://qimg.halopay.cn/china_ums/bank-bg1.png") no-repeat center center;
         background-size: cover;
         color: #fff;
         display: flex;
@@ -32,11 +32,11 @@
         }
       }
       .bankcard-item.bg-yel{
-        background: url("http://120.79.17.7:85/china_ums/bank-bg2.png") no-repeat center center;
+        background: url("http://qimg.halopay.cn/china_ums/bank-bg2.png") no-repeat center center;
         background-size: cover;
       }
       .bankcard-item.bg-blue{
-        background: url("http://120.79.17.7:85/china_ums/bank-bg3.png") no-repeat center center;
+        background: url("http://qimg.halopay.cn/china_ums/bank-bg3.png") no-repeat center center;
         background-size: cover;
       }
     }

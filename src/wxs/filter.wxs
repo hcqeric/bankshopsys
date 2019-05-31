@@ -58,6 +58,14 @@ var bankcardFormat = function(value, showlength){
   return value.replace(value.substring(showlength, length - showlength), replaceString)
 }
 
+var tradeDate = function(datestr) {
+  return datestr.substring(0, 4) + '/' + datestr.substring(4, 6) + '/' + datestr.substring(6, 8)
+}
+var updateDate = function(datestr) {
+  console.log(datestr)
+  var arr = datestr.split('/')
+  return arr[0] + '/' + arr[1]
+}
 var getDate = function(dateString){
   return dateString.split(' ')[0]
 }
@@ -69,6 +77,8 @@ var toNumFixed = function(num = 0, fixlen = 2) {
 }
 
 module.exports = {
+  updateTradeTime: updateDate,
+  tradeDate:tradeDate,
   dateFormat: dateFormat,
   getDate: getDate,
   getTime: getTime,

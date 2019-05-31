@@ -60,19 +60,19 @@
       <view>1.直属商户交易量单位为“万元”</view>
     </view>
     <view id="panel" class="flex-column">
-    <view class="flex-cell flex-row">
-      <text class="flex-cell flex-row first-row first-column">等级</text>
-      <text class="flex-cell flex-row  first-column">有效合伙人</text>
-      <text class="flex-cell flex-row  first-column">直属商户交易量</text>
-    </view>
-      <repeat  for="{{levelList}}" key="index" index="index" item="item">
-    <view class="flex-row flex-cell">
-      <text class="flex-cell flex-row first-row">{{item.name}}</text>
-      <text class="flex-cell flex-row">{{'≥'}}{{item.partnerNum}}</text>
-      <text class="flex-cell flex-row">{{'≥'}}{{item.mercTranSum/1000000}}</text>
-    </view>
+      <view class="flex-cell flex-row">
+        <text class="flex-cell flex-row first-row first-column">等级</text>
+        <text class="flex-cell flex-row  first-column">有效合伙人</text>
+        <text class="flex-cell flex-row  first-column">直属商户交易量</text>
+      </view>
+      <repeat for="{{levelList}}" key="index" index="index" item="item">
+        <view class="flex-row flex-cell">
+          <text class="flex-cell flex-row first-row">{{item.name}}</text>
+          <text class="flex-cell flex-row">{{'≥'}}{{item.partnerNum}}</text>
+          <text class="flex-cell flex-row">{{'≥'}}{{item.mercTranSum/1000000}}</text>
+        </view>
       </repeat>
-  </view>
+    </view>
   </view>
   </view>
 </template>

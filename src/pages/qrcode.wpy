@@ -4,7 +4,7 @@
       position: relative;
       height: 100vh;
       width: 100vw;
-      background-image: url("http://120.79.17.7:85/china_ums/qrcode-background.png");
+      background-image: url("http://qimg.halopay.cn/china_ums/qrcode-background.png");
       background-repeat: no-repeat;
       background-size: 100% auto;
       display: flex;
@@ -118,7 +118,8 @@
 
     onShareAppMessage(opts){
       return {
-        path: 'pages/register?mobile='+this.mobilePhone
+        path: 'pages/register?mobile='+this.mobilePhone,
+        imageUrl: this.qrcodePath
       }
     }
   }

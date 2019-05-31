@@ -105,7 +105,7 @@
       </view>
       <view class="reg-item" wx:if="{{!recDisabled}}">
         <view class="reg-item-label">
-          <i>*</i><text>推荐人手机号码</text>
+          <i class="na"></i><text>推荐人手机号码</text>
         </view>
         <view class="reg-input">
           <input type="text" placeholder="请输入您的推荐人手机号码" maxlength="11" @input="recMobileInput" value="{{recMobile}}"/>
@@ -113,7 +113,7 @@
       </view>
       <view class="reg-item" wx:else="{{recDisabled}}">
         <view class="reg-item-label">
-          <i>*</i><text>推荐人手机号码</text>
+          <i class="na"></i><text>推荐人手机号码</text>
         </view>
         <view class="reg-input">
           <input type="text" placeholder="请输入您的推荐人手机号码" maxlength="11" @input="recMobileInput" disabled value="{{recMobile}}"/>
@@ -205,8 +205,8 @@
       },
 
       async doReg(){
-
-        if (!this.phone || !this.name || !this.code || !this.recMobile) {
+      // || !this.recMobile  推荐人非必填
+        if (!this.phone || !this.name || !this.code ) {
           tip.success("标星项为必填！")
           return false
         }
@@ -215,7 +215,7 @@
           return false
         }
         let res = await wepy.login()
-        console.log(res)
+
         doRegister({
           selected: '0',
           nickname: this.name,
@@ -225,7 +225,6 @@
           code: res.code
         }).then(response=>{
           let userSpecInfo = response.result
-          console.log(response.result)
           wepy.setStorageSync(USER_SPECICAL_INFO, userSpecInfo);
           wepy.switchTab({
             url: 'home'

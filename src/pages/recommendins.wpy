@@ -26,11 +26,11 @@
         }
       }
       .item-rec{
-        background: url("http://120.79.17.7:85/china_ums/quick-rec.png");
+        background: url("http://qimg.halopay.cn/china_ums/quick-rec.png");
         background-size: cover;
       }
       .item-ent{
-        background: url("http://120.79.17.7:85/china_ums/quick-ent.png");
+        background: url("http://qimg.halopay.cn/china_ums/quick-ent.png");
         background-size: cover;
       }
     }

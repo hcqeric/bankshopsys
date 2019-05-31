@@ -6,7 +6,7 @@
 <template>
   <view class="m-page">
     <view class="success-card">
-      <image src="http://120.79.17.7:85/china_ums/machineins-bg.png" mode="widthFix"></image>
+      <image src="http://qimg.halopay.cn/china_ums/machineins-bg.png" mode="widthFix"></image>
       <text>商户装机完成</text>
       <text></text>
     </view>

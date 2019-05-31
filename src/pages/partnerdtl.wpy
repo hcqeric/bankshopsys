@@ -9,7 +9,7 @@
       left: 0;
       width: 100vw;
       height: 194rpx;
-      background-image: url("http://120.79.17.7:85/china_ums/partner-detail.png");
+      background-image: url("http://qimg.halopay.cn/china_ums/partner-detail.png");
       background-repeat: no-repeat;
       background-size: cover;
       z-index: 0;
@@ -48,7 +48,7 @@
           <text>{{mtool.toNumFixed(partnerInfo.bankJdRate*100)}}%</text>
         </view>
         <view class="partner-detail-info-item">
-          <text>国外卡费率</text>
+          <text>境外卡费率</text>
           <text>{{mtool.toNumFixed(partnerInfo.abroadCardRate*100)}}%</text>
         </view>
         <view class="partner-detail-info-item">

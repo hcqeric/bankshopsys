@@ -1,8 +1,8 @@
 // 开发地址
- const url = 'https://gapi4.halopay.cn';
+//  const url = 'https://gapi4.halopay.cn';
 
 //线上地址
-// const url = 'http://120.79.16.221:9091/';
+const url = 'https://lst.halopay.cn';
 
 //鑫哥本地IP
 // const url = 'http://192.168.0.136:8080';
@@ -55,6 +55,7 @@ export default {
   getProfit: '/app/accountDetail/getProfit',
   getFileAndAll: '/app/user/getFileAndAll',
   getEarningListByType: '/app/accountDetail/listByType',
+  getTotalProfitList: '/app/mercorder/list',
   getGradeList: '/app/grade/list',
   uploadFile: '/app/file/ftpUpload/headImg/0',
   selBanks: '/app/bank/sele_banks'

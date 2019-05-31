@@ -26,6 +26,20 @@
   <view class="changecard-info">
     <view class="change-info-item">
       <view class="change-info-item-label">
+        <i>*</i><text>服务类型</text>
+      </view>
+      <view class="change-info-input">
+        <!--<input type="text" placeholder="请选择客户经理" disabled="true" />-->
+        <picker class="branch-bank-picker"  @change="bindServiceTypeChange" value="{{typeId}}" range="{{serviceTypeArr}}"  range-key="typename" >
+          <view class="picker {{quickRecInfo.serviceTypeId != ''? 'selected' : ''}}" >
+            {{quickRecInfo.serviceTypeId == '' ? '请选择服务类型' : serviceTypeArr[typeId].typename}}
+          </view>
+        </picker>
+        <image src="../images/arrow-down.png"></image>
+      </view>
+    </view>
+    <view class="change-info-item">
+      <view class="change-info-item-label">
         <i>*</i><text>商户名称</text>
       </view>
       <view class="change-info-input">
@@ -72,7 +86,7 @@
         <text>借记卡费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入借记卡费率(不低于0.45%)" @input="handleInput" data-obj="quickRecInfo"  data-item="debitCardRate" value="{{quickRecInfo.debitCardRate}}"/>
+        <input type="digit" placeholder="{{debitCardRate}}" @input="handleInput" data-obj="quickRecInfo"  data-item="debitCardRate" value="{{quickRecInfo.debitCardRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
@@ -82,7 +96,7 @@
         <text>贷记卡费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入贷记卡费率(不低于0.52%)" @input="handleInput" data-obj="quickRecInfo"  data-item="creditCardRate" value="{{quickRecInfo.creditCardRate}}"/>
+        <input type="digit" placeholder="{{creditCardRate}}" @input="handleInput" data-obj="quickRecInfo"  data-item="creditCardRate" value="{{quickRecInfo.creditCardRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
@@ -92,7 +106,7 @@
         <text>微信支付宝扫码费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入微信支付宝扫码费率(不低于0.25%)" @input="handleInput" data-obj="quickRecInfo"  data-item="wxAlRate" value="{{quickRecInfo.wxAlRate}}"/>
+        <input type="digit" placeholder="{{wxAlRate}}" @input="handleInput" data-obj="quickRecInfo"  data-item="wxAlRate" value="{{quickRecInfo.wxAlRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
@@ -102,17 +116,17 @@
         <text>银行二维码费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入银行二维码费率(不低于0.6%)" @input="handleInput" data-obj="quickRecInfo"  data-item="bankJdRate" value="{{quickRecInfo.bankJdRate}}"/>
+        <input type="digit" placeholder="{{bankJdRate}}" @input="handleInput" data-obj="quickRecInfo"  data-item="bankJdRate" value="{{quickRecInfo.bankJdRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
     <view class="change-info-item">
       <view class="change-info-item-label">
         <i>*</i>
-        <text>国外卡费率</text>
+        <text>境外卡费率</text>
       </view>
       <view class="change-info-input">
-        <input type="digit" placeholder="请输入国外卡费率(不低于2.5%)" @input="handleInput" data-obj="quickRecInfo"  data-item="abroadCardRate" value="{{quickRecInfo.abroadCardRate}}"/>
+        <input type="digit" placeholder="{{abroadCardRate}}" @input="handleInput" data-obj="quickRecInfo"  data-item="abroadCardRate" value="{{quickRecInfo.abroadCardRate}}"/>
         <text class="rate-signal">%</text>
       </view>
     </view>
@@ -149,6 +163,7 @@
   import wepy from 'wepy';
   import {saveMerchant, getSalesmanList} from '../http/getData';
   import tip from '../utils/tip'
+  import {USER_SPECICAL_INFO} from '../utils/constant';
   import AreaPicker from "../components/common/wepy-area-picker";
   export default class QuickRec extends wepy.page {
     config = {
@@ -156,7 +171,22 @@
     }
 
     data={
+      serviceTypeArr: [
+        {
+          typeId: 0,
+          typename: '推荐'
+        },
+        {
+          typeId: 1,
+          typename: '推荐+服务'
+        },
+        {
+          typeId: 2,
+          typename: '推荐+服务+布机'
+        },
+      ],
       salesMgrArr: [],
+      typeId: 0,
       index: 0,
       fullArea: '',
       quickRecInfo:{
@@ -172,8 +202,14 @@
         wxAlRate: '',
         contact: '',
         contactMobile: '',
-        address: ''
-      }
+        address: '',
+        serviceTypeId: ''
+      },
+      debitCardRate: '',
+      creditCardRate: '',
+      bankJdRate: '',
+      abroadCardRate: '',
+      wxAlRate: '',
     }
 
     components = {
@@ -191,6 +227,7 @@
         || !this.quickRecInfo.contact
         || !this.quickRecInfo.province
         || !this.quickRecInfo.contactMobile
+        || !this.quickRecInfo.serviceTypeId
         || !this.quickRecInfo.address
       ){
         tip.success("标星项为必填！")
@@ -225,6 +262,13 @@
         this.index = i
         this.quickRecInfo.salesmanId = this.salesMgrArr[i].userId
       },
+      bindServiceTypeChange(e){
+        let i = e.detail.value
+        this.typeId = i
+        console.log(this.typeId)
+        this.quickRecInfo.serviceTypeId = this.typeId
+
+      },
       handleInput(e){
         let dataset = e.currentTarget.dataset
         this[dataset.obj][dataset.item] = e.detail.value
@@ -247,19 +291,14 @@
           return false
         }
 
-        if (!this.checkRateValid()) {
-          return false
-        }
-        let debitCardRate = this.quickRecInfo.debitCardRate / 100
-        let creditCardRate = this.quickRecInfo.creditCardRate / 100
-        let bankJdRate = this.quickRecInfo.bankJdRate / 100
-        let wxAlRate = this.quickRecInfo.wxAlRate / 100
-        let abroadCardRate
-        if (this.quickRecInfo.abroadCardRate) {
-          abroadCardRate = this.quickRecInfo.abroadCardRate / 100
-        }else{
-          abroadCardRate = ''
-        }
+        // if (!this.checkRateValid()) {
+        //   return false
+        // }
+        let debitCardRate = this.quickRecInfo.debitCardRate * 100 / 10000
+        let creditCardRate = this.quickRecInfo.creditCardRate * 100 / 10000
+        let bankJdRate = this.quickRecInfo.bankJdRate * 100 / 10000
+        let wxAlRate = this.quickRecInfo.wxAlRate * 100 / 10000
+        let abroadCardRate = this.quickRecInfo.abroadCardRate * 100 / 10000
 
         saveMerchant({
           merchantName: this.quickRecInfo.merchantName,
@@ -274,6 +313,7 @@
           abroadCardRate: abroadCardRate,
           contact: this.quickRecInfo.contact,
           contactMobile: this.quickRecInfo.contactMobile,
+          serviceTypeId: this.quickRecInfo.serviceTypeId,
           address: this.quickRecInfo.address
         }).then(response=>{
           wepy.redirectTo({
@@ -283,6 +323,16 @@
 
         })
       }
+    }
+
+    onShow(){
+      let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
+      let accountInfo = userSpecInfo.accountEntity
+      this.debitCardRate = `推荐签约费率${(accountInfo.debitCardRate*100).toFixed(2)}%`
+      this.creditCardRate = `推荐签约费率${(accountInfo.creditCardRate*100).toFixed(2)}%`
+      this.bankJdRate = `推荐签约费率${(accountInfo.bankJdRate*100).toFixed(2)}%`
+      this.abroadCardRate = `推荐签约费率${(accountInfo.abroadCardRate*100).toFixed(2)}%`
+      this.wxAlRate = `推荐签约费率${(accountInfo.wxAlRate*100).toFixed(2)}%`
     }
   }
 </script>

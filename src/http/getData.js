@@ -72,6 +72,8 @@ export const getOrderListByType = (datas) => new Request().require({api: url.get
 
 export const getEarningListByType = (datas) => new Request().require({api: url.getEarningListByType, data: datas, openId: true, loadingVisble: true}); //获取不同类型的收益
 
+export const getTotalProfitList = (datas) => new Request().require({api: url.getTotalProfitList, data: datas, openId: true, loadingVisble: true}); //当前合伙人历史总收益详情列表
+
 export const getGradeList = () => new Request().require({api: url.getGradeList, methods: "GET", openId: true, loadingVisble: true}); //获取等级列表接口
 
 export const uploadFile = (datas) => new Request().require({api: url.uploadFile, data: datas}); //上传图片

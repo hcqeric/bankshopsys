@@ -34,33 +34,43 @@
       width: 30rpx;
     }
   }
-  .today-bonus{
-    display: flex;
+  .bonus-update{
     background: #fff;
-    padding: 30rpx 0;
-    align-items: center;
-    justify-content: center;
-    .today-figure{
-      flex: 1;
+    padding: 20rpx 0;
+    .today-bonus{
       display: flex;
+      padding: 10rpx 0;
+      align-items: center;
       justify-content: center;
-      view{
+      .today-figure{
+        flex: 1;
         display: flex;
-        flex-direction: column;
-        font-size: 24rpx;
-        text{
-          padding: 4rpx 0;
-        }
-        .amount{
-          font-size: 56rpx;
-          color: #fe5e48;
+        justify-content: center;
+        view{
+          display: flex;
+          flex-direction: column;
+          font-size: 24rpx;
+          text{
+            padding: 4rpx 0;
+          }
+          .amount{
+            font-size:50rpx;
+            color:#fe5e48;
+            line-height:1;
+
+          }
         }
       }
+      .today-figure:first-of-type{
+        border-right: 1px solid #e1e1e1;
+      }
     }
-    .today-figure:first-of-type{
-      border-right: 1px solid #e1e1e1;
+    .bonus-update-tip{
+      font-size: 24rpx;
+      margin-left: 100rpx;
     }
   }
+
   .home-func-blocks{
     box-sizing: border-box;
     display: flex;
@@ -110,21 +120,25 @@
       </view>
       <!--<image src="../images/arrow-right.png"></image>-->
     </view>
-    <view class="today-bonus">
-      <view class="today-figure">
-        <view>
-        <text>昨日交易金额(元)</text>
-        <text class="amount">{{mtool.toNumFixed(transaction/100)}}</text>
+    <view class="bonus-update">
+      <view class="today-bonus">
+        <view class="today-figure">
+          <view>
+          <text wx:if="{{updateTime}}">{{updateTime}}</text>
+          <text>日交易金额(元)</text>
+          <text class="amount">{{mtool.toNumFixed(transaction/100)}}</text>
+          </view>
+        </view>
+        <view class="today-figure">
+          <view>
+            <text wx:if="{{updateTime}}">{{mtool.updateTradeTime(updateTime)}}</text>
+          <text>当月累计分润金额(元)</text>
+          <text class="amount">{{mtool.toNumFixed(profit/100)}}</text>
+          </view>
         </view>
       </view>
-      <view class="today-figure">
-        <view>
-        <text>昨日分润金额(元)</text>
-        <text class="amount">{{mtool.toNumFixed(profit/100)}}</text>
-        </view>
-      </view>
+      <text class="bonus-update-tip">(温馨提示：日交易金额更新时间为T+1,16:00)</text>
     </view>
-
     <view class="home-func-blocks">
       <view class="func-block">
         <view @tap="toDetail(1)">
@@ -177,6 +191,7 @@
       transaction: 0,
       profit: 0,
       notice: 0,
+      updateTime: '',
       indicatorDots: true,
       autoplay: false,
       interval: 5000,
@@ -264,10 +279,12 @@
 
     onLoad() {
       getFileAndAll().then(res=>{
+        console.log(res)
         this.imgUrls=res.fileList
         this.notice = res.notice
         this.profit = parseInt(res.profit)
         this.transaction = parseInt(res.transaction)
+        this.updateTime = res.time
         this.$apply()
       },error=>{
 

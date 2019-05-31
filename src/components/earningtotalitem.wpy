@@ -1,0 +1,118 @@
+<style lang="less">
+  .earning-total-item{
+    margin-top: 16rpx;
+    background: #fff;
+    padding: 32rpx 32rpx;
+    .earning-total-item-merchant{
+      color: #000;
+      margin-left: 16rpx;
+      padding-bottom: 8rpx;
+    }
+    .earning-item{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .earning-item-left{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-shrink: 0;
+        .icon-bank{
+          width: 61rpx;
+          height: 43rpx;
+        }
+        .icon-scan{
+          width: 49rpx;
+          height: 49rpx;
+        }
+        .icon-credit{
+          width: 58rpx;
+          height: 46rpx;
+        }
+        .icon-aliwx{
+          width: 35rpx;
+          height: 53rpx;
+        }
+        .icon-loans{
+          width: 47rpx;
+          height: 51rpx;
+        }
+        .earning-merchant{
+          margin-left: 16rpx;
+          display: flex;
+          flex-direction: column;
+          .txt-small{
+            font-size: 24rpx;
+          }
+
+        }
+      }
+      .earning-item-right{
+        display: flex;
+        flex-direction: column;
+        .txt-bold{
+          font-size: 40rpx;
+          line-height: 42rpx;
+          height: 42rpx;
+        }
+        .txt-small{
+          font-size: 24rpx;
+        }
+        .earning-total-item-amount{
+          font-size: 24rpx;
+          color: #fe5e48;
+        }
+      }
+    }
+    /*.earning-total-item-amount{*/
+      /*text-align: right;*/
+      /*margin-right: 16rpx;*/
+      /*color: #fe5e48;*/
+    /*}*/
+  }
+</style>
+<template>
+  <view class="earning-total-item">
+    <!--<text class="earning-total-item-merchant">{{earningInfo.mercName}}</text>-->
+  <view class="earning-item">
+    <view class="earning-item-left">
+      <!--<image class="icon-bank" wx:if="{{type == 1}}" src="../images/type-bank-icon.png"></image>-->
+      <!--<image class="icon-loans" wx:if="{{type == 2}}" src="../images/type-loans-icon.png"></image>-->
+      <!--<image class="icon-credit" wx:if="{{type == 5}}" src="../images/type-credit-icon.png"></image>-->
+      <!--<image class="icon-aliwx" wx:if="{{type == 6}}" src="../images/type-aliwx-icon.png"></image>-->
+      <!--<image class="icon-scan" wx:if="{{type == 7}}" src="../images/type-scan-icon.png"></image>-->
+      <view class="earning-merchant">
+        <text class="txt-small">商户名称：{{earningInfo.mercName}}</text>
+        <text class="txt-small">交易类型：{{earningInfo.tranType}}</text>
+        <text class="txt-small">交易日期：{{mtool.tradeDate(earningInfo.tradeDate)}}</text>
+      </view>
+    </view>
+    <view class="earning-item-right">
+        <text class="txt-small">￥:{{mtool.toNumFixed(earningInfo.tranSum/100)}}</text>
+        <text class="txt-small">{{earningInfo.tranNum}}笔交易</text>
+        <!--<text class="txt-small">{{earningInfo.tradeDate}}</text>-->
+        <text class="earning-total-item-amount">收益：{{mtool.toNumFixed(earningInfo.partnerGains/100)}}</text>
+    </view>
+  </view>
+    <!--<view class="earning-total-item-amount">收益：{{mtool.toNumFixed(earningInfo.partnerGains/100)}}</view>-->
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import mtool from '../wxs/filter.wxs';
+  export default class EarningTypeItem extends wepy.component {
+    wxs = {
+      mtool: mtool
+    }
+    props = {
+      earningInfo: {
+        type: Object
+      },
+      type: {
+        type: Number,
+        default: 1
+      }
+    }
+  }
+</script>

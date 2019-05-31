@@ -11,7 +11,7 @@
         padding: 0 32rpx;
         justify-content: center;
         height: 215rpx;
-        background: url("http://120.79.17.7:85/china_ums/withdrawal-bg.png") no-repeat center center;
+        background: url("http://qimg.halopay.cn/china_ums/withdrawal-bg.png") no-repeat center center;
         background-size: cover;
         color: #fff;
         text{
@@ -39,7 +39,9 @@
             text{
               font-size: 48rpx;
             }
-            input{
+            input.amt{
+              height: 54rpx;
+              line-height: 54rpx;
               font-size: 50rpx;
               width: 440rpx;
             }
@@ -86,13 +88,13 @@
           <text>提现金额(元)：</text>
           <view class="input-amount">
             <text>￥</text>
-            <input type="digit" placeholder="请输入金额" placeholder-style="font-size: 40rpx" @input="inputAmt" value="{{amt}}"/>
+            <input class="amt" type="digit" placeholder="请输入金额" placeholder-style="font-size: 40rpx" @input="inputAmt" value="{{amt}}"/>
           </view>
         </view>
         <text class="all-withdrawal" @tap="allWithdrawal">全部提现</text>
       </view>
       <view class="withdrawal-amount-total">
-        <text>可提现金额：￥{{availTotal/100}}</text>
+        <text>可提现金额：￥{{mtool.toNumFixed(availTotal/100)}}</text>
       </view>
     </view>
     <view class="withdrawal-intro">
@@ -126,10 +128,11 @@
 
     methods={
       allWithdrawal(){
+        this.amt = (this.availTotal/100).toFixed(2)
         tip.confirm("您确定要全部提现吗？").then(response=>{
           if (response == 'confirm') {
             requestWithdraw({
-              amt: this.availTotal * 100
+              amt: this.availTotal
             }).then(response =>{
               wepy.redirectTo({
                 url: 'withdrawalsucc'
@@ -151,7 +154,7 @@
           return false
         }
         requestWithdraw({
-          amt: this.amt * 100
+          amt: this.amt * 1000 / 10
         }).then(response =>{
           wepy.redirectTo({
             url: 'withdrawalsucc'

@@ -6,7 +6,7 @@
       z-index: 99;
       padding: 16rpx;
       height: 96vh;
-      background-image: url("http://120.79.17.7:85/china_ums/orderdtl-bg.png");
+      background-image: url("http://qimg.halopay.cn/china_ums/orderdtl-bg.png");
       background-repeat: no-repeat;
       background-size: 100% auto;
       .orderdtl-detail-title{
@@ -35,6 +35,10 @@
         }
       }
     }
+  }
+  .confirm-btn.requickent{
+    padding-left:0;
+    padding-right:0;
   }
 </style>
 <template>
@@ -72,7 +76,7 @@
           <text>{{mtool.toNumFixed(merchantDtlInfo.bankJdRate*100)}}%</text>
         </view>
         <view class="orderdtl-detail-info-item">
-          <text>国外卡费率</text>
+          <text>境外卡费率</text>
           <text>{{mtool.toNumFixed(merchantDtlInfo.abroadCardRate*100)}}%</text>
         </view>
         <view class="orderdtl-detail-info-item">
@@ -102,6 +106,9 @@
           <text>商户地址</text>
           <text>{{merchantDtlInfo.address}}</text>
         </view>
+        <view class="confirm-btn requickent" wx:if="{{merchantDtlInfo.type == 1 && merchantDtlInfo.auditStatus == 3}}">
+          <button  @tap="toQuickEnt">重新入网</button>
+        </view>
       </view>
     </view>
   </view>
@@ -122,6 +129,14 @@
 
     wxs = {
       mtool: MyFilter
+    }
+
+    methods = {
+      toQuickEnt(){
+        wepy.navigateTo({
+          url: 'quickent'
+        })
+      }
     }
 
     onLoad(opts){

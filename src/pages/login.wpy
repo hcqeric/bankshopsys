@@ -3,8 +3,8 @@
     .page-logo{
       padding: 80rpx 0;
       image{
-        width: 240rpx;
-        height: 240rpx;
+        width: 288rpx;
+        height: 286rpx;
       }
     }
     .login-info{

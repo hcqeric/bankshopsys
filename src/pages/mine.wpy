@@ -68,6 +68,10 @@
           background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjFERDMzMjgxRDVENjExRThCNDkyRUQxMUQwMjdENkEzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjFERDMzMjgyRDVENjExRThCNDkyRUQxMUQwMjdENkEzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MUREMzMyN0ZENUQ2MTFFOEI0OTJFRDExRDAyN0Q2QTMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MUREMzMyODBENUQ2MTFFOEI0OTJFRDExRDAyN0Q2QTMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5o4gXaAAADYklEQVR42syYS0hUURjH752mfOWrJ6EUUpFlYUWLkOxBFL2MChSDjIKgd0ZBDxIhKKiFES6sTVG4qAwXhVGbIHPVwgqKItzkQhOjsjQNp6L/F/+hL5k73nPPIH7wm3vumXPufPOd/3ce1y2qiziu4zguPuQacv+VXZZDqhzjvhD3lbhuB+2oKsG1LaSf4Th/P2Ld15eFnVgWcoLZGLAVNIOXYDdIBnPAYScBFjZsnw32gINghkebjJF0bB44AipAqjMCFs8xGeaNHJo1AZ+/GSwGDeCNrWMZ1MwhMCvG97/BCfAJ5IBzHs9eDe6xXAWugGrwxY9jWvwyRDWgA1z2cEqsl+1ugPNgwKPdgiHJIn+0Dezzk3S6gfzIMTDecLh6DdpOZORaQbFfx/J8Pjydf2AXOAomBNDeQvAU3Kpo+JmbiOki+mdqEpR85ZIgcE5G6xIm2x9+J9jTTIS94CvrfoFK1p8ydKSJ/YTHStvi2Cs4mOM3YhdU+QAoBH2gVtVXG8xtjUwasSxmbtQk2XaAi6ZLkpsA8Q9nKSYR66Lg5yvxS5S+gTQwyeCHdzJSYmU2S9JJD/GfDRiRVcRogo1lZXzQWvCRdRGwifWlho5dV87dtonYXVXuBJNBP3ig6vsMJuUW8ETNZeVBI6YFP86jzfcEJJBxxO4wUiLYuazLBDe5GMuCP9XAseOccsTW2zhWGie7glgBsRb/BrAILAXdrBsEK1m/ztCxq+wn1NtE7KEqfwBTuM1pDij+ZzwjiD3njjhQxPT3SQkWv2sTsSYOoczw+Ur8jVyK0gzFL5uCFSwX2zjmlTnbAop/NrEW/3JuIAuosaj4l7B+maFjtewnXLOJWIsqy5BOo/hbWfeeQ5ru07EX7CP22iZi+vtkD9H2G+5+EyL+R5z5s3n8jx7v7oPPXBFMxF9FeThDNonGjnkddEsCij/P76FnuKHMZchlZ9nOugGejFxqzsTOsJ8b3UIHdayDVzm99KisjJ6mu9QhxY91qnKXjWNJSqhZ6lTtqvpBA8f06jHWRmNvubdPVa+dZF18x2xM4ebRr8nw7Wd55nCO5XGZyfQQq9cM7mXTwZYh7y4ctZwVxumbj7Ol9O12i+oiEYxH2OJV5//3LPt91RlPY2FnFFpIZdtosp4/AgwAzsqWMvwQBNAAAAAASUVORK5CYII=') no-repeat center center;
           background-size: auto 40rpx;
         }
+        .icon-out{
+          background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAEs0lEQVRoQ9WaW2wUVRjH//+Z2U3RJxUfVKLcxGhMQIMmvigkKjGBMltToxZ2LbxovEQuD5IYQ0JMfAAj0URfuOyUKkLsjg0G4iUBn4wYBXwglnJ5EH3QBEgoNDuz8zdT3O3Mdtvdbbdldx/nfOf7/r9zvnN25juHmOCXyuoOsWAD6gC0AOAcArdO1KcBbVcFXSQ4GIiub5lffdPFS+P5ZaWGjl7dp0LhHUjrQSQaIGoqLvIAd9Mw3+9bwz/LHY0BSGX91YD2g2ibStSG9xWGAb6Yy1hfR33HAFJO/i2AOxsevIEOJb3tZpIljSWAVNZfKaqfwJhZkTQA8EuBp2jo3wbqGeNKAWcb1EMQlghYQeKWqJEABQHt/les/vD5iNj2L3S3kffPlBsDOgcZG8unbToBor47enRXEPi7SDxXFvO6J+v+QxleHAFIOfl9ALvKjA5abVbm4Au8PlOCK8bZKsOe5+0mmYnNhLTPzSTXcpWjeRb8c/HOOn2pkHj0aDeHb6r4YvARCP8wiWejenxY85nKehtB7IitbENP9K1J/tQU4v8X0e7kl5rg8ZgmYRNTjvctgGdKDdKpXCa5uFx8e48eMOWnpAZurwYE4Ji7NnG0lsGyHe84gaVFWwnf03byZwguLD0EdrjpxOaoQ3uP5tL0BwGYtQSq10Zgt5u29lbrZzveNgLvjmrVIO2sNxTdfSS96WaSn0SdpbL+OlC7qgWYbHs4km4mMZoF4ziys/k3SH4cGeyhMIXCaRzNIDDtpq2eGICTfxXgp5MVWLWf8GMuk3iqml2qx09DysbW6+QAtF/iH9UC1txOXqglhRoGUAi4uvhPWLPIBhg2FYDdqyVuF0/Uw9VUACnHuyzTWlYPRLMBSMJlWNbyWiGaDiBMn3ogmhKgHoimBShBBNYjbjcvjLewpx2g/D+lnh3mBoROIEgsd7t5uVLfpgeoBtESABNBtAwAoJMqJJaVp1KLAFQWH85MCwCML35GAOrZdSrsWFdUsJbc1G10CgBXankvmvYUmiRATeKbNYVqFt+MAK39Ot3yHzT1rJeibcMWcXh+0NIf9ZMZvQn7TKWsYjve1fi5l17LpZOfxepCTVLYSjn51wGWim4Chmhn84MkFxQFS9jmZhLvRQE69mlOEPi/EZjd8NG/4XBLLp34oJpv2/G2E9g0qlVnw9LidySejnQ+nksnHi93tsrRvYb8lwjMqhao5vawuBvwZzdtHgEZqxBW/KBx8r8DfDgy2D/QdrxNBLZHOxSgx/rTyV9qFjIDhu17vSdNA8eioQRs5vO9mh8U/LOxhrDYet5aga0MZkBb1RDL9qjtNtP7FeCDMZ2BtXDkiMl28r0EX45DKOueT6y72RCdBzTLH/bDgm5nfPT1uZtOdo0ArMzqHgv+wJgTQeGwYVjr+9by76rDNA0G7Xv9doPBTpJzyzLkmg9rUemQL2wMjU1DsUPk8LmEaySOADgJ8LSof6ZBa8klxTsBLZbUSXJRxVjiqlzGOhS2lR90bwD44XQKnKpvQRvcdPKjop+xVw0cvwNSb0teNShShXu+hcKWlrzsEZ3izgO63RsupGb8uo30F8ABkK5nmn0TXbf5D2ILwxUETfubAAAAAElFTkSuQmCC') no-repeat center center;
+          background-size: auto 40rpx;
+        }
         .mine-item-detail{
           position: relative;
           padding: 24rpx 0;
@@ -77,6 +81,31 @@
           flex-direction: row;
           align-items: center;
           justify-content: space-between;
+          .mine-item-id{
+            display: flex;
+            align-items: center;
+            text{
+              margin-right: 8rpx;
+            }
+            .audited{
+              position: relative;
+              color: #579add;
+            }
+            .unaudited{
+              position: relative;
+              color: #fe5e48;
+            }
+            .unaudited:after{
+              position: absolute;
+              content: '';
+              height: 12rpx;
+              width: 12rpx;
+              background: #fe5e48;
+              border-radius: 50%;
+              right: -6rpx;
+              top: -6rpx;
+            }
+          }
           image{
             height: 30rpx;
             width: 30rpx;
@@ -128,6 +157,17 @@
         <span class="icon-idcard"></span>
         <view class="mine-item-detail">
           <text>身份认证</text>
+          <view class="mine-item-id">
+            <text wx-if="{{auditStatus != 2}}" class="unaudited">未认证</text>
+            <text wx-if="{{auditStatus == 2}}" class="audited">已认证</text>
+            <image wx-if="{{auditStatus != 2}}" src="../images/arrow-right.png"></image>
+          </view>
+        </view>
+      </view>
+      <view wx-if="{{userType ==  1}}" class="mine-content-item" @tap="toDetail(11)">
+        <span class="icon-idcard"></span>
+        <view class="mine-item-detail">
+          <text>升级管理员</text>
           <image src="../images/arrow-right.png"></image>
         </view>
       </view>
@@ -155,6 +195,13 @@
           <image src="../images/arrow-right.png"></image>
         </view>
       </view>
+      <view class="mine-content-item" @tap="signOut">
+        <span class="icon-out"></span>
+        <view class="mine-item-detail">
+          <text>换账号登录</text>
+          <image src="../images/arrow-right.png"></image>
+        </view>
+      </view>
       <!--<view class="mine-content-item" @tap="toDetail(6)">-->
         <!--<span class="icon-company"></span>-->
         <!--<view class="mine-item-detail">-->
@@ -179,12 +226,26 @@
 
     data = {
       userInfo: {
-        avatarUrl: 'http://120.79.17.7:85/china_ums/avatar-default.png',
+        avatarUrl: 'http://qimg.halopay.cn/china_ums/avatar-default.png',
         nickName: ''
       },
+      userType: 0,
+      auditStatus: 0
     }
 
     methods = {
+      signOut(){
+        tip.confirm("您确定要切换账号吗").then(response=>{
+          if (response == 'confirm') {
+            wepy.removeStorageSync(USER_SPECICAL_INFO)
+            wepy.redirectTo({
+              url: 'login'
+            })
+          }
+        }).catch(error =>{
+          // console.log(error)
+        })
+      },
       toInfo(){
         wepy.navigateTo({
           url: 'userinfo'
@@ -246,12 +307,17 @@
             url: 'mylevel'
           })
         } else if (id == 2) {
-          wepy.navigateTo({
-            url: 'partnermgr'
-          })
+          // wepy.navigateTo({
+          //   url: 'partnermgr'
+          // })
+          return false
         } else if (id == 3){
           wepy.navigateTo({
             url: 'mybankcard'
+          })
+        }else if(id == 11){
+          wepy.navigateTo({
+            url: 'partnermgr'
           })
         }
       }
@@ -265,6 +331,13 @@
       },error=>{
         console.log(error)
       })
+      let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
+      let uType = userSpecInfo.userType
+      this.auditStatus = userSpecInfo.accountEntity.auditStatus
+      if (uType == 1 && this.auditStatus == 2) {
+        this.userType = 1
+      }
+      this.$apply();
     }
   }
 </script>

@@ -32,8 +32,22 @@
 </style>
 <template>
   <view class="mm-page">
-    <view class="step-one"  hidden="{{step==2}}">
+    <view class="step-one"  hidden="{{step!=1}}">
       <view class="changecard-info">
+        <view class="change-info-item">
+          <view class="change-info-item-label">
+            <i>*</i><text>服务类型</text>
+          </view>
+          <view class="change-info-input">
+            <!--<input type="text" placeholder="请选择客户经理" disabled="true" />-->
+            <picker class="branch-bank-picker"  @change="bindServiceTypeChange" value="{{typeId}}" range="{{serviceTypeArr}}"  range-key="typename" >
+              <view class="picker {{quickEntInfo.serviceTypeId != ''? 'selected' : ''}}" >
+                {{quickEntInfo.serviceTypeId == '' ? '请选择服务类型' : serviceTypeArr[typeId].typename}}
+              </view>
+            </picker>
+            <image src="../images/arrow-down.png"></image>
+          </view>
+        </view>
       <view class="change-info-item">
         <view class="change-info-item-label">
           <i>*</i><text>商户名称</text>
@@ -73,7 +87,7 @@
             <text>借记卡费率</text>
           </view>
           <view class="change-info-input">
-            <input type="digit" placeholder="请输入借记卡费率(不低于0.45%)" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="debitCardRate" value="{{quickEntInfo.debitCardRate}}"/>
+            <input type="digit" placeholder="{{debitCardRate}}" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="debitCardRate" value="{{quickEntInfo.debitCardRate}}"/>
             <text class="rate-signal">%</text>
           </view>
         </view>
@@ -83,7 +97,7 @@
             <text>贷记卡费率</text>
           </view>
           <view class="change-info-input">
-            <input type="digit" placeholder="请输入贷记卡费率(不低于0.52%)" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="creditCardRate" value="{{quickEntInfo.creditCardRate}}"/>
+            <input type="digit" placeholder="{{creditCardRate}}" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="creditCardRate" value="{{quickEntInfo.creditCardRate}}"/>
             <text class="rate-signal">%</text>
           </view>
         </view>
@@ -93,17 +107,17 @@
             <text>微信支付宝扫码费率</text>
           </view>
           <view class="change-info-input">
-            <input type="digit" placeholder="请输入微信支付宝扫码费率(不低于0.25%)" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="wxAlRate" value="{{quickEntInfo.wxAlRate}}"/>
+            <input type="digit" placeholder="{{wxAlRate}}" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="wxAlRate" value="{{quickEntInfo.wxAlRate}}"/>
             <text class="rate-signal">%</text>
           </view>
         </view>
         <view class="change-info-item">
           <view class="change-info-item-label">
             <i>*</i>
-            <text>国外卡费率</text>
+            <text>境外卡费率</text>
           </view>
           <view class="change-info-input">
-            <input type="digit" placeholder="请输入国外卡费率(不低于2.5%)" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="abroadCardRate" value="{{quickEntInfo.abroadCardRate}}"/>
+            <input type="digit" placeholder="{{abroadCardRate}}" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="abroadCardRate" value="{{quickEntInfo.abroadCardRate}}"/>
             <text class="rate-signal">%</text>
           </view>
         </view>
@@ -113,12 +127,25 @@
             <text>银行二维码费率</text>
           </view>
           <view class="change-info-input">
-            <input type="digit" placeholder="请输入银行二维码费率(不低于0.6%)" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="bankJdRate" value="{{quickEntInfo.bankJdRate}}"/>
+            <input type="digit" placeholder="{{bankJdRate}}" @input="handleInput" maxlength="4" data-obj="quickEntInfo"  data-item="bankJdRate" value="{{quickEntInfo.bankJdRate}}"/>
             <text class="rate-signal">%</text>
           </view>
         </view>
       </view>
       <view class="changecard-info">
+        <view class="change-info-item">
+          <view class="change-info-item-label">
+            <i>*</i><text>账户类型</text>
+          </view>
+          <view class="change-info-input">
+            <picker class="branch-bank-picker" @change="bindAccountTypeChange" value="{{accountType}}" range="{{accountTypeArray}}" range-key="name" >
+              <view class="picker {{quickEntInfo.accountType != ''? 'selected' : ''}}">
+                {{quickEntInfo.accountType === '' ? "请选择账户类型" : accountTypeArray[accountType].name}}
+              </view>
+            </picker>
+            <image src="../images/arrow-down.png"></image>
+          </view>
+        </view>
       <view class="change-info-item">
         <view class="change-info-item-label">
           <i>*</i><text>银行卡号</text>
@@ -141,7 +168,10 @@
         <view class="change-info-item-label">
           <i>*</i><text>银行名称</text>
         </view>
-        <view class="change-info-input">
+        <view class="change-info-input"  wx:if="{{quickEntInfo.accountType == 2}}">
+          <input type="text" placeholder="请输入开户银行名称" @input="handleInput" data-obj="quickEntInfo"  data-item="bankName" value="{{quickEntInfo.bankName}}"/>
+        </view>
+        <view class="change-info-input"  wx:if="{{quickEntInfo.accountType < 2}}">
           <input type="text" placeholder="-- 请选择支行 --" @tap="openBranchBankPicker"  disabled="true"  value="{{quickEntInfo.bankName}}"/>
         </view>
       </view>
@@ -149,7 +179,10 @@
         <view class="change-info-item-label">
           <i>*</i><text>银行支行名称</text>
         </view>
-        <view class="change-info-input">
+        <view class="change-info-input" wx:if="{{quickEntInfo.accountType == 2}}">
+          <input type="text" value="{{quickEntInfo.branchBankId}}" placeholder="请输入开户银行支行名称" @input="handleInput" data-obj="quickEntInfo"  data-item="branchBankId"/>
+        </view>
+        <view class="change-info-input" wx:if="{{quickEntInfo.accountType < 2}}">
           <input wx:if="{{branchBankArray.length <= 0}}" @tap="openBranchBankPicker" type="text" placeholder="请选择银行支行名称" disabled="true"/>
           <picker wx:else="{{branchBankArray.length > 0}}" class="branch-bank-picker"  @change="bindBranchBankChange" value="{{index}}" range="{{branchBankArray}}"  range-key="subbranchBank" >
             <view class="picker {{quickEntInfo.branchBankName != ''? 'selected' : ''}}" >
@@ -159,19 +192,6 @@
           <image src="../images/arrow-down.png"></image>
         </view>
       </view>
-      <view class="change-info-item">
-          <view class="change-info-item-label">
-            <i>*</i><text>账户类型</text>
-          </view>
-          <view class="change-info-input">
-            <picker class="branch-bank-picker" @change="bindAccountTypeChange" value="{{accountType}}" range="{{accountTypeArray}}" range-key="name" >
-              <view class="picker {{quickEntInfo.accountType != ''? 'selected' : ''}}">
-                {{quickEntInfo.accountType === '' ? "请选择账户类型" : accountTypeArray[accountType].name}}
-              </view>
-            </picker>
-            <image src="../images/arrow-down.png"></image>
-          </view>
-        </view>
       <view class="change-info-item">
         <view class="change-info-item-label">
           <i>*</i><text>开户人姓名</text>
@@ -209,7 +229,7 @@
       </view>
     </view>
     </view>
-    <view class="step-two" hidden="{{step==1}}">
+    <view class="step-two" hidden="{{step!=2}}">
       <view class="userinfo-content-item">
         <view class="changecard-info">
           <view class="change-info-item">
@@ -253,7 +273,7 @@
               <i>*</i><text>营业执照号码</text>
             </view>
             <view class="change-info-input">
-              <input type="number" placeholder="请输入营业执照号码" @input="handleInput" data-obj="quickEntInfo"  data-item="businessLicense" value="{{quickEntInfo.businessLicense}}" />
+              <input type="text" placeholder="请输入营业执照号码" @input="handleInput" data-obj="quickEntInfo"  data-item="businessLicense" value="{{quickEntInfo.businessLicense}}" />
             </view>
           </view>
           <view class="change-info-item">
@@ -263,6 +283,43 @@
             <view class="change-info-upload" @tap="chooseImage(6)">
               <image class="imgType" wx:if="{{imageFile6}}" src="{{imageFile6}}"></image>
               <image wx:if="{{!imageFile6}}" src="../images/pic1.png"></image>
+            </view>
+          </view>
+        </view>
+        <view class="confirm-double-btn">
+          <button @tap="previousStep">上一步</button>
+          <button @tap="nextStep">下一步</button>
+        </view>
+      </view>
+    </view>
+    <view class="step-three" hidden="{{step!=3}}">
+      <view class="userinfo-content-item">
+        <view class="changecard-info">
+          <view class="change-info-item">
+            <view class="change-info-item-label">
+              <i>*</i><text>门头照</text>
+            </view>
+            <view class="change-info-upload" @tap="chooseImage(7)">
+              <image class="imgType" wx:if="{{imageFile7}}" src="{{imageFile7}}" lazy-load="true" ></image>
+              <image wx:if="{{!imageFile7}}" src="../images/pic2.png"></image>
+            </view>
+          </view>
+          <view class="change-info-item">
+            <view class="change-info-item-label">
+              <i>*</i><text>店内环境</text>
+            </view>
+            <view class="change-info-upload" @tap="chooseImage(8)">
+              <image class="imgType" wx:if="{{imageFile8}}" src="{{imageFile8}}"></image>
+              <image wx:if="{{!imageFile8}}" src="../images/pic2.png"></image>
+            </view>
+          </view>
+          <view class="change-info-item">
+            <view class="change-info-item-label">
+              <i>*</i><text>收银台照片</text>
+            </view>
+            <view class="change-info-upload" @tap="chooseImage(9)">
+              <image class="imgType" wx:if="{{imageFile9}}" src="{{imageFile9}}"></image>
+              <image wx:if="{{!imageFile9}}" src="../images/pic2.png"></image>
             </view>
           </view>
         </view>
@@ -278,6 +335,7 @@
   import wepy from 'wepy';
   import AreaPicker from "../components/common/wepy-area-picker";
   import {selBanks, getVeriCodeNoType, updateCardNo, addMerchantAndPic} from '../http/getData';
+  import {USER_SPECICAL_INFO} from '../utils/constant';
   import tip from '../utils/tip'
   export default class QuickEnt extends wepy.page {
     config = {
@@ -290,6 +348,21 @@
     }
 
     data = {
+      serviceTypeArr: [
+        {
+          typeId: 0,
+          typename: '推荐'
+        },
+        {
+          typeId: 1,
+          typename: '推荐+服务'
+        },
+        {
+          typeId: 2,
+          typename: '推荐+服务+布机'
+        },
+      ],
+      typeId: 0,
       step: 1,
       sendMsgDisabled: false,
       index: 0,
@@ -317,6 +390,7 @@
         bankJdRate: '',
         abroadCardRate: '',
         wxAlRate: '',
+        serviceTypeId: ''
       },
       accountType: 0,
       accountTypeArray: [
@@ -334,13 +408,21 @@
       imageFile3: '',
       imageFile4: '',
       imageFile6: '',
-      files:['','','','',''],
+      imageFile7: '',
+      imageFile8: '',
+      imageFile9: '',
+      files:['','','','','','','',''],
       maxFiles: 1,
       time: 60,
       province: '',
       city: '',
       area: '',
       fullArea: '',
+      debitCardRate: '',
+      creditCardRate: '',
+      bankJdRate: '',
+      abroadCardRate: '',
+      wxAlRate: '',
       rateUnit: '‰'
     }
 
@@ -356,13 +438,25 @@
       }
     }
 
-    checkAllNeeded(){
+    checkSecondStep(){
       if ( !this.quickEntInfo.businessLicense
         || !this.imageFile1
         || !this.imageFile2
         || !this.imageFile3
         || !this.imageFile4
         || !this.imageFile6
+      ){
+        tip.success("标星项为必填！")
+        return false
+      }else{
+        return true
+      }
+    }
+
+    checkAllNeeded(){
+      if ( !this.imageFile7
+        || !this.imageFile8
+        || !this.imageFile9
       ){
         tip.success("标星项为必填！")
         return false
@@ -379,7 +473,6 @@
         || !this.quickEntInfo.province
         || !this.quickEntInfo.bankName
         || !this.quickEntInfo.branchBankId
-        || !this.quickEntInfo.branchBankName
         || !this.quickEntInfo.idCardNo
         || !this.quickEntInfo.address
         || !this.quickEntInfo.name
@@ -391,6 +484,7 @@
         || !this.quickEntInfo.contactPhone
         || !this.quickEntInfo.mobilePhone
         || !this.quickEntInfo.accountType
+        || !this.quickEntInfo.serviceTypeId
       ){
         tip.success("标星项为必填！")
         return false
@@ -444,68 +538,170 @@
         this.accountType = idx
         this.quickEntInfo.accountType = this.accountTypeArray[idx].id
       },
+      bindServiceTypeChange(e){
+        let i = e.detail.value
+        this.typeId = i
+        this.quickEntInfo.serviceTypeId = this.typeId
+      },
       previousStep(){
-        this.step = 1
+        this.step -= 1
       },
       nextStep(){
-        // if (!this.checkFirstStep()) {
-        //   return false
-        // }
+        if (this.step == 1 && !this.checkFirstStep()) {
+            return false
+        }
+        if (this.step == 2 && !this.checkSecondStep()) {
+          return false
+        }
         wepy.pageScrollTo({
           scrollTop: 0,
           duration: 300
         })
-        this.step = 2
+        this.step += 1
       },
       chooseImage(type) {
         wepy.chooseImage({
           count: this.maxFiles,
-          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album', 'camera'] // 可以指定来源是相册还是相机，默认二者都有
         }).then(res => {
           // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
           let imgSuffixArr = res.tempFilePaths[0].split('.')
           let imgSuffix = imgSuffixArr[imgSuffixArr.length - 1]
+          let filePath = res.tempFilePaths[0]
           // this.urlTobase64(res.tempFilePaths[0])
-          let base64 = wx.getFileSystemManager().readFileSync(res.tempFilePaths[0], 'base64')
           if (type == 1) {
-            this.imageFile1 = `data:image/${imgSuffix};base64,${base64}`
-            this.files[0] = {
-              imgType: type,
-              imgFile: base64,
-              imgSuffix: imgSuffix
-            }
+            this.imageFile1 = filePath
+            // this.imageFile1 = `data:image/${imgSuffix};base64,${base64}`
+            // this.files[0] = {
+            //   imgType: type,
+            //   imgFile: base64,
+            //   imgSuffix: imgSuffix
+            // }
           } else if (type == 2) {
-            this.imageFile2 = `data:image/${imgSuffix};base64,${base64}`
-            this.files[1] = {
-              imgType: type,
-              imgFile: base64,
-              imgSuffix: imgSuffix
-            }
+            this.imageFile2 = filePath
+            // this.imageFile2 = `data:image/${imgSuffix};base64,${base64}`
+            // this.files[1] = {
+            //   imgType: type,
+            //   imgFile: base64,
+            //   imgSuffix: imgSuffix
+            // }
           }else if (type == 3) {
-            this.imageFile3 = `data:image/${imgSuffix};base64,${base64}`
-            this.files[2] = {
-              imgType: type,
-              imgFile: base64,
-              imgSuffix: imgSuffix
-            }
+            this.imageFile3 = filePath
+            // this.imageFile3 = `data:image/${imgSuffix};base64,${base64}`
+            // this.files[2] = {
+            //   imgType: type,
+            //   imgFile: base64,
+            //   imgSuffix: imgSuffix
+            // }
           }else if (type == 4) {
-            this.imageFile4 = `data:image/${imgSuffix};base64,${base64}`
-            this.files[3] = {
-              imgType: type,
-              imgFile: base64,
-              imgSuffix: imgSuffix
-            }
+            this.imageFile4 = filePath
+            // this.imageFile4 = `data:image/${imgSuffix};base64,${base64}`
+            // this.files[3] = {
+            //   imgType: type,
+            //   imgFile: base64,
+            //   imgSuffix: imgSuffix
+            // }
           }else if (type == 6) {
-            this.imageFile6 = `data:image/${imgSuffix};base64,${base64}`
-            this.files[4] = {
-              imgType: type,
-              imgFile: base64,
-              imgSuffix: imgSuffix
-            }
+            this.imageFile6 = filePath
+            // this.imageFile6 = `data:image/${imgSuffix};base64,${base64}`
+            // this.files[4] = {
+            //   imgType: type,
+            //   imgFile: base64,
+            //   imgSuffix: imgSuffix
+            // }
+          }else if (type == 7) {
+            this.imageFile7 = filePath
+            // this.imageFile7 = `data:image/${imgSuffix};base64,${base64}`
+            // this.files[5] = {
+            //   imgType: 6,
+            //   imgFile: base64,
+            //   imgSuffix: imgSuffix
+            // }
+          }else if (type == 8) {
+            this.imageFile8 = filePath
+            // this.imageFile8 = `data:image/${imgSuffix};base64,${base64}`
+            // this.files[6] = {
+            //   imgType: 6,
+            //   imgFile: base64,
+            //   imgSuffix: imgSuffix
+            // }
+          }else if (type == 9) {
+            this.imageFile9 = filePath
+            // this.imageFile9 = `data:image/${imgSuffix};base64,${base64}`
+            // this.files[7] = {
+            //   imgType: 6,
+            //   imgFile: base64,
+            //   imgSuffix: imgSuffix
+            // }
           }
           this.$apply()
-
+          wx.getFileSystemManager().readFile({
+            filePath: filePath,
+            encoding: 'base64',
+            success: res=>{
+              let base64 = res.data
+              if (type == 1) {
+                // this.imageFile1 = `data:image/${imgSuffix};base64,${base64}`
+                this.files[0] = {
+                  imgType: type,
+                  imgFile: base64,
+                  imgSuffix: imgSuffix
+                }
+              } else if (type == 2) {
+                // this.imageFile2 = `data:image/${imgSuffix};base64,${base64}`
+                this.files[1] = {
+                  imgType: type,
+                  imgFile: base64,
+                  imgSuffix: imgSuffix
+                }
+              }else if (type == 3) {
+                // this.imageFile3 = `data:image/${imgSuffix};base64,${base64}`
+                this.files[2] = {
+                  imgType: type,
+                  imgFile: base64,
+                  imgSuffix: imgSuffix
+                }
+              }else if (type == 4) {
+                // this.imageFile4 = `data:image/${imgSuffix};base64,${base64}`
+                this.files[3] = {
+                  imgType: type,
+                  imgFile: base64,
+                  imgSuffix: imgSuffix
+                }
+              }else if (type == 6) {
+                // this.imageFile6 = `data:image/${imgSuffix};base64,${base64}`
+                this.files[4] = {
+                  imgType: type,
+                  imgFile: base64,
+                  imgSuffix: imgSuffix
+                }
+              }else if (type == 7) {
+                // this.imageFile7 = `data:image/${imgSuffix};base64,${base64}`
+                this.files[5] = {
+                  imgType: 6,
+                  imgFile: base64,
+                  imgSuffix: imgSuffix
+                }
+              }else if (type == 8) {
+                // this.imageFile8 = `data:image/${imgSuffix};base64,${base64}`
+                this.files[6] = {
+                  imgType: 6,
+                  imgFile: base64,
+                  imgSuffix: imgSuffix
+                }
+              }else if (type == 9) {
+                // this.imageFile9 = `data:image/${imgSuffix};base64,${base64}`
+                this.files[7] = {
+                  imgType: 6,
+                  imgFile: base64,
+                  imgSuffix: imgSuffix
+                }
+              }
+              this.$apply()
+            }
+          })
+          // let base64 = wx.getFileSystemManager().readFileSync(res.tempFilePaths[0], 'base64')
         }).catch(error => {
           console.log(error)
         })
@@ -543,21 +739,19 @@
         if (!this.checkAllNeeded()) {
           return false
         }
-        if (!this.checkRateValid()) {
-          return false
-        }
+        // if (!this.checkRateValid()) {
+        //   return false
+        // }
 
-        let debitCardRate = this.quickEntInfo.debitCardRate / 100
-        let creditCardRate = this.quickEntInfo.creditCardRate / 100
-        let bankJdRate = this.quickEntInfo.bankJdRate / 100
-        let wxAlRate = this.quickEntInfo.wxAlRate / 100
-        let abroadCardRate
-        if (this.quickEntInfo.abroadCardRate) {
-          abroadCardRate = this.quickEntInfo.abroadCardRate / 100
-        }else{
-          abroadCardRate = ''
-        }
+        let debitCardRate = this.quickEntInfo.debitCardRate * 100 / 10000
+        let creditCardRate = this.quickEntInfo.creditCardRate * 100 / 10000
+        let bankJdRate = this.quickEntInfo.bankJdRate * 100 / 10000
+        let wxAlRate = this.quickEntInfo.wxAlRate * 100 / 10000
+        let abroadCardRate = this.quickEntInfo.abroadCardRate * 100 / 10000
 
+        if (this.quickEntInfo.accountType == 2) {
+          this.quickEntInfo.branchBankId = "123456"
+        }
 
         addMerchantAndPic({
           merchantName:this.quickEntInfo.merchantName,
@@ -581,7 +775,8 @@
           wxAlRate: wxAlRate,
           abroadCardRate: abroadCardRate,
           uploadFileList: this.files,
-          cardNo: this.quickEntInfo.cardNo
+          cardNo: this.quickEntInfo.cardNo,
+          serviceTypeId: this.quickEntInfo.serviceTypeId
         }).then(response=>{
           wepy.redirectTo({
             url: 'merchantmtlsucc'
@@ -644,7 +839,7 @@
         this.quickEntInfo.city = city.areaCode;
         this.quickEntInfo.district = area.areaCode;
         this.fullArea = this.province.name + this.city.name + this.area.name
-        if (this.quickEntInfo.cardNo != '') {
+        if (this.quickEntInfo.cardNo != '' && this.quickEntInfo.accountType != 2) {
           selBanks({
             provinceCode: this.quickEntInfo.province,
             cityCode: this.quickEntInfo.city,
@@ -666,6 +861,16 @@
       openAddressPicker() {
         this.$invoke('areaPicker', 'openAddressPicker');
       }
+    }
+
+    onShow(){
+      let userSpecInfo = wepy.getStorageSync(USER_SPECICAL_INFO)
+      let accountInfo = userSpecInfo.accountEntity
+      this.debitCardRate = `推荐签约费率${(accountInfo.debitCardRate*100).toFixed(2)}%`
+      this.creditCardRate = `推荐签约费率${(accountInfo.creditCardRate*100).toFixed(2)}%`
+      this.bankJdRate = `推荐签约费率${(accountInfo.bankJdRate*100).toFixed(2)}%`
+      this.abroadCardRate = `推荐签约费率${(accountInfo.abroadCardRate*100).toFixed(2)}%`
+      this.wxAlRate = `推荐签约费率${(accountInfo.wxAlRate*100).toFixed(2)}%`
     }
   }
 </script>

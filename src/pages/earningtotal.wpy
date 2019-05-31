@@ -24,22 +24,23 @@
 </template>
 <script>
   import wepy from 'wepy';
-  import EarningTypeItem from "../components/earningtypeitem"
+  import EarningTotalItem from "../components/earningtotalitem"
   import Placeholder from "../components/common/placeholder"
-  import {getEarningListByType} from '../http/getData';
+  import {getTotalProfitList} from '../http/getData';
 
-  export default class EarningType extends wepy.page {
+  export default class EarningTotal extends wepy.page {
     config = {
+      navigationBarTitleText: '总收益',
       enablePullDownRefresh: true,
     }
 
     components = {
-      earningitem: EarningTypeItem,
+      earningitem: EarningTotalItem,
       placeholder: Placeholder
     }
 
     data = {
-      type: '',
+      type: '1',
       page: 1,
       limit: '15',
       is_empty: false,
@@ -60,19 +61,18 @@
 
     }
     getEarningList(){
-      getEarningListByType({
-        type: this.type + '',
+      getTotalProfitList({
         page: this.page + '',
         limit: this.limit
       }).then(response=>{
-        this.totalCount = response.result.totalCount
-        if (response.result.totalCount == 0){
+        this.totalCount = response.page.totalCount
+        if (response.page.totalCount == 0){
           this.is_empty = true;
         }else{
           this.is_empty = false;
         }
-        if (response.result.list != undefined) {
-          response.result.list.map(item=>{
+        if (response.page.list != undefined) {
+          response.page.list.map(item=>{
             this.earningTypeList.push(item)
           })
         }
@@ -100,28 +100,6 @@
     }
 
     onLoad(opt){
-      this.type = opt.type
-      if (this.type == 1) {
-        wepy.setNavigationBarTitle({
-          title: '借记卡收益'
-        })
-      }else if(this.type == 2){
-        wepy.setNavigationBarTitle({
-          title: '贷记卡收益'
-        })
-      }else if(this.type == 6){
-        wepy.setNavigationBarTitle({
-          title: '支付宝微信收益'
-        })
-      }else if(this.type == 5){
-        wepy.setNavigationBarTitle({
-          title: '境外卡收益'
-        })
-      }else if(this.type == 7){
-        wepy.setNavigationBarTitle({
-          title: '银行二维码费率收益'
-        })
-      }
       this.getEarningList()
     }
 
@@ -134,7 +112,7 @@
         that.page++;
         that.getEarningList()
       }else{
-        if (this.earningTypeList.length > 5) {
+        if (this.earningTypeList.length >= 5) {
           this.allLoaded = true
         }else {
           this.allLoaded = false

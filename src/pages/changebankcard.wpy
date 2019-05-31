@@ -31,6 +31,14 @@
       </view>
       <view class="change-info-item">
         <view class="change-info-item-label">
+          <i>*</i><text>身份证号码</text>
+        </view>
+        <view class="change-info-input">
+          <input type="idcard" placeholder="请输入身份证号码" maxlength="24" @input="handleInput" data-obj="updateCardInfo"  data-item="idCardNo" value="{{updateCardInfo.idCardNo}}"/>
+        </view>
+      </view>
+      <view class="change-info-item">
+        <view class="change-info-item-label">
           <i>*</i><text>银行卡号</text>
         </view>
         <view class="change-info-input">
@@ -155,6 +163,7 @@
         || !this.updateCardInfo.province
         || !this.updateCardInfo.branchBankId
         || !this.updateCardInfo.branchBankName
+        || !this.updateCardInfo.idCardNo
       ){
         tip.success("标星项为必填！")
         return false
@@ -208,12 +217,12 @@
           city: this.updateCardInfo.city,
           district: this.updateCardInfo.district,
           branchBankId: this.updateCardInfo.branchBankId,
-          branchBankName: this.updateCardInfo.branchBankName
+          branchBankName: this.updateCardInfo.branchBankName,
+          idCardNo: this.updateCardInfo.idCardNo
         }).then(response=>{
           wepy.redirectTo({
             url: 'changesucc'
           })
-          console.log(userSpecInfo)
         }, error=>{
           console.log(error)
         })
@@ -236,7 +245,6 @@
             this.$apply()
           })
         }
-        console.log(e.detail)
         this.bankCardNo = e.detail.value
       },
       openBranchBankPicker(){

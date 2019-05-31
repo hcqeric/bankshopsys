@@ -4,7 +4,7 @@
     position: relative;
     height: 281rpx;
     box-sizing: border-box;
-    background: url("http://120.79.17.7:85/china_ums/earning-bg.png") no-repeat center center;
+    background: url("http://qimg.halopay.cn/china_ums/earning-bg.png") no-repeat center center;
     background-size: cover;
     .today-bonus{
       display: flex;
@@ -98,7 +98,7 @@
     .earnings-total{
       position: relative;
       height: 255rpx;
-      background: url("http://120.79.17.7:85/china_ums/earning-record-bg.png") no-repeat center center;
+      background: url("http://qimg.halopay.cn/china_ums/earning-record-bg.png") no-repeat center center;
       background-size: cover;
       .earnings-total-amount{
         padding: 16rpx;
@@ -133,7 +133,7 @@
 <view class="mm-page">
   <view class="earning-header">
     <view class="today-bonus">
-      <view class="today-figure">
+      <view class="today-figure" @tap="toTotalDetail">
         <view>
           <text>总收益(元)</text>
           <text class="amount">{{mtool.toNumFixed(totalProfit/100)}}</text>
@@ -174,7 +174,7 @@
     </view>
     <view class="earnings-item" @tap="toEarningsTypeList(5)">
       <view class="earnings-info">
-        <text>国外卡收益</text>
+        <text>境外卡收益</text>
         <text class="earnings-amount">{{mtool.toNumFixed(abroadCardRate/100)}}</text>
       </view>
       <image src="../images/arrow-right.png"></image>
@@ -235,6 +235,11 @@
     }
 
     methods = {
+      toTotalDetail(){
+        wepy.navigateTo({
+          url: 'earningtotal'
+        })
+      },
       toEarningsTypeList(type){
         wepy.navigateTo({
           url: 'earningtype?type='+ type

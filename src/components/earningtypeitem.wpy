@@ -24,6 +24,10 @@
         width: 58rpx;
         height: 46rpx;
       }
+      .icon-aliwx{
+        width: 35rpx;
+        height: 53rpx;
+      }
       .icon-loans{
         width: 47rpx;
         height: 51rpx;
@@ -55,17 +59,18 @@
   <view class="earning-item">
     <view class="earning-item-left">
       <image class="icon-bank" wx:if="{{type == 1}}" src="../images/type-bank-icon.png"></image>
-      <image class="icon-scan" wx:if="{{type == 2}}" src="../images/type-scan-icon.png"></image>
-      <image class="icon-credit" wx:if="{{type == 3}}" src="../images/type-credit-icon.png"></image>
-      <image class="icon-loans" wx:if="{{type == 4}}" src="../images/type-loans-icon.png"></image>
+      <image class="icon-loans" wx:if="{{type == 2}}" src="../images/type-loans-icon.png"></image>
+      <image class="icon-credit" wx:if="{{type == 5}}" src="../images/type-credit-icon.png"></image>
+      <image class="icon-aliwx" wx:if="{{type == 6}}" src="../images/type-aliwx-icon.png"></image>
+      <image class="icon-scan" wx:if="{{type == 7}}" src="../images/type-scan-icon.png"></image>
       <view class="earning-merchant">
-        <text>永乐超市</text>
-        <text class="txt-small">客户经理：张三</text>
+        <text>{{earningInfo.merchantName}}</text>
+        <text class="txt-small">客户经理：{{earningInfo.salesmanName}}</text>
       </view>
     </view>
     <view class="earning-item-right">
-        <text class="txt-bold">+200.00</text>
-        <text class="txt-small">2018-9-12</text>
+        <text class="txt-bold">+{{mtool.toNumFixed(earningInfo.amt/100)}}</text>
+        <text class="txt-small">{{mtools.getDate(earningInfo.time)}}</text>
     </view>
   </view>
 </template>
